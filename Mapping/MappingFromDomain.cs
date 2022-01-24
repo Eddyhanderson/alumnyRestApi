@@ -1,0 +1,223 @@
+﻿using alumni.Contracts.V1.Responses;
+using alumni.Domain;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace alumni.Mapping
+{
+    public class MappingFromDomain : Profile
+    {
+        public MappingFromDomain()
+        {
+            CreateMap<Academy, AcademyResponse>();
+
+            CreateMap<Answer, AnswerResponse>()
+                .ForMember(ar => ar.UserFirstName, m => m.MapFrom(a => a.Post.User.FirstName))
+                .ForMember(ar => ar.UserLastName, m => m.MapFrom(a => a.Post.User.LastName))
+                .ForMember(ar => ar.UserPhoto, m => m.MapFrom(a => a.Post.User.PictureProfilePath))
+                .ForMember(ar => ar.CreateAt, m => m.MapFrom(a => a.Post.CreateAt))
+                .ForMember(ar => ar.UserId, m => m.MapFrom(a => a.Post.UserId))
+                .ForMember(ar => ar.UserId, m => m.MapFrom(a => a.Post.UserId))
+                .ForMember(ar => ar.CommentableId, m => m.MapFrom(a => a.Post.CommentableId));
+
+            CreateMap<AcademicLevel, AcademicLevelResponse>();
+
+            CreateMap<Admin, AdminResponse>();            
+
+            CreateMap<Article, ArticleResponse>();
+
+            CreateMap<AuthResult, AuthResultResponse>();
+
+            CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
+
+            CreateMap<BadgeInformation, BadgeInformationResponse>();
+
+            CreateMap<Comment, CommentResponse>()
+                .ForMember(cr => cr.UserFirstName, m => m.MapFrom(c => c.Post.User.FirstName))
+                .ForMember(cr => cr.UserLastName, m => m.MapFrom(c => c.Post.User.LastName))
+                .ForMember(cr => cr.UserPhoto, m => m.MapFrom(c => c.Post.User.PictureProfilePath))
+                .ForMember(cr => cr.CreateAt, m => m.MapFrom(c => c.Post.CreateAt));
+
+            CreateMap<Commentable, CommentableResponse>();
+
+            CreateMap<Course, CourseResponse>()
+                .ForMember(cr => cr.ProfilePhotoPath, m => m.MapFrom(c => c.BadgeInformation.ProfilePhotoPath));
+
+            CreateMap<Discipline, DisciplineResponse>();
+
+            CreateMap<DisciplineTopic, DisciplineTopicResponse>();                
+
+            CreateMap<Lesson, LessonResponse>()
+                .ForMember(lr => lr.DisciplineTopicName, m => m.MapFrom(l => l.Topic.DisciplineTopic.Name))
+                .ForMember(lr => lr.DiscpilineId, m => m.MapFrom(l => l.TeacherPlace.DisciplineId))
+                .ForMember(lr => lr.DisciplineName, m => m.MapFrom(l => l.TeacherPlace.Discipline.Name))
+                .ForMember(lr => lr.DisciplineTopicName, m => m.MapFrom(l => l.Topic.DisciplineTopic.Name))
+                .ForMember(lr => lr.TeacherPlaceName, m => m.MapFrom(l => l.TeacherPlace.Name))               
+                .ForMember(lr => lr.TeacherId, m => m.MapFrom(l => l.TeacherPlace.TeacherId))
+                .ForMember(lr => lr.Date, m => m.MapFrom(l => l.Post.CreateAt))
+                .ForMember(lr => lr.SchoolName, m => m.MapFrom(l => l.TeacherPlace.School.ShortName))
+                .ForMember(lr => lr.TeacherPlacePhotoPath, m => m.MapFrom(l => l.TeacherPlace.ProfilePhotoPath))
+                .ForMember(lr => lr.ManifestPath, m => m.MapFrom(l => l.Video.ManifestPath))
+                .ForMember(lr => lr.SchoolId, m => m.MapFrom(l => l.TeacherPlace.School.Id))
+                .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
+                    // For just send the duration with hour, only when grather than 0
+                    l.Video.Duration.Substring(0,2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
+                ));
+
+            CreateMap<Manager, ManagerResponse>();
+
+            CreateMap<Notification, NotificationResponse>();
+
+            CreateMap<Post, PostResponse>()
+                .ForMember(pr => pr.UserFirstName, m => m.MapFrom(p => p.User.FirstName))
+                .ForMember(pr => pr.UserLastName, m => m.MapFrom(p => p.User.LastName))
+                .ForMember(pr => pr.UserPictureProfilePath, m => m.MapFrom(p => p.User.PictureProfilePath));
+
+            CreateMap<Question, QuestionResponse>()
+                .ForMember(qr => qr.LessonBackgroundPhotoPath, m => m.MapFrom(q => q.Lesson.BackgroundPhotoPath))
+                .ForMember(qr => qr.LessonSequence, m => m.MapFrom(q => q.Lesson.Sequence))
+                .ForMember(qr => qr.LessonTitle, m => m.MapFrom(q => q.Lesson.Title))
+                .ForMember(qr => qr.LessonType, m => m.MapFrom(q => q.Lesson.LessonType))
+                .ForMember(qr => qr.StudantFirstName, m => m.MapFrom(q => q.Studant.User.FirstName))
+                .ForMember(qr => qr.StudantLastName, m => m.MapFrom(q => q.Studant.User.LastName))
+                .ForMember(qr => qr.StudantPhoto, m => m.MapFrom(q => q.Studant.User.PictureProfilePath))
+                .ForMember(qr => qr.CreateAt, m => m.MapFrom(q => q.Post.CreateAt))
+                .ForMember(qr => qr.CommentableId, m => m.MapFrom(q => q.Post.CommentableId));                
+
+            CreateMap<RegisterInCourseRequest, RegisterInCourseRequestResponse>();
+
+            CreateMap<RegisterInSchoolRequest, RegisterInSchoolRequestResponse>();
+
+            CreateMap<SchoolCourses, SchoolCoursesResponse>();
+
+            CreateMap<School, SchoolResponse>()
+                .ForMember(sr => sr.ProfilePhotoPath, m => { m.MapFrom(s => s.BadgeInformation.ProfilePhotoPath); });
+
+            CreateMap<Studant, StudantResponse>()
+                .ForMember(sr => sr.FirstName, m =>
+                {
+                    m.MapFrom(vr => vr.User.FirstName);
+                })
+                .ForMember(sr => sr.LastName, m =>
+                {
+                    m.MapFrom(vr => vr.User.LastName);
+                })
+                .ForMember(sr => sr.PictureProfilePath, m =>
+                {
+                    m.MapFrom(vr => vr.User.PictureProfilePath);
+                })
+                .ForMember(sr => sr.AcademicLevelName, m =>
+                {
+                    m.MapFrom(vr => vr.AcademicLevel.Name);
+                })
+                .ForMember(sr => sr.AcademyName, m =>
+                {
+                    m.MapFrom(vr => vr.Academy.Name);
+                })
+                .ForMember(sr => sr.CourseName, m =>
+                {
+                    m.MapFrom(vr => vr.Course.Name);
+                });
+
+            CreateMap<Teacher, TeacherResponse>()
+                .ForMember(tr => tr.FirstName, m =>
+                {
+                    m.MapFrom(vr => vr.User.FirstName);
+                })
+                .ForMember(tr => tr.LastName, m =>
+                {
+                    m.MapFrom(vr => vr.User.LastName);
+                })
+                .ForMember(tr => tr.PictureProfilePath, m =>
+                {
+                    m.MapFrom(vr => vr.User.PictureProfilePath);
+                })
+                .ForMember(tr => tr.AcademicLevelName, m =>
+                {
+                    m.MapFrom(vr => vr.AcademicLevel.Name);
+                })
+                .ForMember(tr => tr.AcademyName, m =>
+                {
+                    m.MapFrom(vr => vr.Academy.Name);
+                })
+                .ForMember(tr => tr.CourseName, m =>
+                {
+                    m.MapFrom(vr => vr.Course.Name);
+                });
+
+            CreateMap<TeacherSchools, TeacherSchoolsResponse>();
+
+            CreateMap<TeacherPlace, TeacherPlaceResponse>()
+                .ForMember(tpr => tpr.SchoolName, m =>
+                { 
+                    m.MapFrom(tp => tp.School.Name);
+                })
+                .ForMember(tpr => tpr.SchoolPictureProfilePath, m =>
+                { 
+                    m.MapFrom(tp => tp.School.BadgeInformation.ProfilePhotoPath);
+                }).ForMember(tpr => tpr.SchoolShortName, m =>
+                {
+                    m.MapFrom(tp => tp.School.ShortName);
+                })
+                .ForMember(tpr => tpr.CourseName, m =>
+                {
+                    m.MapFrom(tp => tp.Course.Name);
+                })
+                .ForMember(tpr => tpr.DisciplineName, m =>
+                {
+                    m.MapFrom(tp => tp.Discipline.Name);
+                })
+                .ForMember(tpr => tpr.TeacherFirstName, m =>
+                {
+                    m.MapFrom(tp => tp.Teacher.User.FirstName);
+                })
+                .ForMember(tpr => tpr.TeacherPictureProfilePath, m =>
+                {
+                    m.MapFrom(tp => tp.Teacher.User.PictureProfilePath);
+                })
+                .ForMember(tpr => tpr.TeacherLastName, m =>
+                {
+                    m.MapFrom(tp => tp.Teacher.User.LastName);
+                });
+
+            CreateMap<TeacherPlaceStudants, TeacherPlaceStudantsResponse>();
+
+            CreateMap<TeacherPlaceMaterial, TeacherPlaceMaterialResponse>();
+
+            CreateMap<TeacherPlaceMessage, TeacherPlaceMessageResponse>();
+
+            CreateMap<Topic, TopicResponse>()
+            .ForMember(tr => tr.DisciplineTopicName, m =>
+            {
+                m.MapFrom(t => t.DisciplineTopic.Name);
+            })
+            .ForMember(tr => tr.CommentableId, m =>
+            {
+                m.MapFrom(t => t.Post.CommentableId);
+            })
+            .ForMember(tr => tr.CreationAt, m =>
+            {
+                m.MapFrom(t => t.Post.CreateAt);
+            })
+            .ForMember(tr => tr.TeacherPlaceName, m =>
+            {
+                m.MapFrom(t => t.TeacherPlace.Name);
+            })
+            .ForMember(tr => tr.TeacherPlaceProfilePhoto, m =>
+            {
+                m.MapFrom(t => t.TeacherPlace.ProfilePhotoPath);
+            })            
+            .ForMember(tr => tr.DisciplineName, m =>
+            {
+                m.MapFrom(t => t.TeacherPlace.Discipline.Name);
+            });
+
+            CreateMap<User, UserResponse>();
+
+            CreateMap<Video, VideoResponse>();
+        }
+    }
+}

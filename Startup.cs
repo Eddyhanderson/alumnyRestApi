@@ -36,10 +36,15 @@ namespace alumni
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }            
+            }
 
+            app.UseCors((builder) =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyHeader();
+            });
             app.UseHttpsRedirection();
-            app.UseStaticFiles(new StaticFileOptions { 
+            app.UseStaticFiles(new StaticFileOptions
+            {
                 ServeUnknownFileTypes = true
             });
             if (!env.IsDevelopment())
@@ -52,7 +57,7 @@ namespace alumni
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {                
+            {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
@@ -60,7 +65,7 @@ namespace alumni
                 endpoints.MapHub<VideoUploadHub>("/video/upload/watch");
             });
 
-            app.UseSpa(spa =>
+            /*app.UseSpa(spa =>
             {                
 
                 spa.Options.SourcePath = "ClientApp";                
@@ -70,7 +75,7 @@ namespace alumni
                     //spa.UseAngularCliServer(npmScript: "start");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
-            });
+            });*/
         }
     }
 }

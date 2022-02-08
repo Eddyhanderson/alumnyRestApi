@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace alumni.Data
 {
-    public class DataContext:IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options)
-            :base(options){}
+            : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,7 +22,7 @@ namespace alumni.Data
 
             CompositeKeyBuilder(builder);
         }
-
+        public DbSet<AuthConfigTokens> RefreshTokens { get; set; }
         public DbSet<Academy> Academies { get; set; }
 
         public DbSet<Admin> Admins { get; set; }
@@ -45,8 +45,6 @@ namespace alumni.Data
 
         public DbSet<Course> Courses { get; set; }
 
-        public DbSet<SchoolCourses> SchoolCourses { get; set; }
-
         public DbSet<Discipline> Disciplines { get; set; }
 
         public DbSet<DisciplineTopic> DisciplineTopics { get; set; }
@@ -55,11 +53,14 @@ namespace alumni.Data
 
         public DbSet<Manager> Managers { get; set; }
 
+        public DbSet<Organ> Organ { get; set; }
+
         public DbSet<Post> Posts { get; set; }
+        public DbSet<SchoolCourses> SchoolCourses { get; set; }
 
         public DbSet<Question> Questions { get; set; }
 
-        public DbSet<AuthConfigTokens> RefreshTokens { get; set; }
+
 
         public DbSet<School> Schools { get; set; }
 
@@ -80,7 +81,7 @@ namespace alumni.Data
         public DbSet<Topic> Topics { get; set; }
 
         public DbSet<Video> Videos { get; set; }
-        
+
         private void CompositeKeyBuilder(ModelBuilder builder)
         {
             // TeacherPlaceStudants Entity composite keys
@@ -93,9 +94,8 @@ namespace alumni.Data
 
             // School courses composit keys
             builder.Entity<SchoolCourses>().HasKey(sc => sc.SchoolId);
-            builder.Entity<SchoolCourses>().HasKey(sc => sc.CourseId);            
-            
+            builder.Entity<SchoolCourses>().HasKey(sc => sc.CourseId);
+
         }
     }
 }
- 

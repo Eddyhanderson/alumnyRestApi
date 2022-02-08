@@ -13,6 +13,16 @@ namespace alumni.Contracts.V1
         public const string Version = "v1";
         public const string Base = Root + "/" + Version;
 
+        public static class OrganRoutes
+        {
+            public const string OrganRoute = Base + "/organ";
+
+            public const string Create = OrganRoute + "/create";
+
+            public const string GetAll = OrganRoute + "/getAll";
+
+            public const string Get = OrganRoute + "/get/{id}";
+        }
         public static class AcademyRoutes
         {
             public const string AcademyRoute = Base + "/academy";

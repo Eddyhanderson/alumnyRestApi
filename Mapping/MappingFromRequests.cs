@@ -45,6 +45,8 @@ namespace alumni.Mapping
 
             CreateMap<NotificationRequest, Notification>();
 
+            CreateMap<OrganRequest, Organ>();
+
             CreateMap<PostRequest, Post>();
 
             CreateMap<QuestionRequest, Question>();

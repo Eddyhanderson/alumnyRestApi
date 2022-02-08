@@ -71,6 +71,8 @@ namespace alumni.Mapping
 
             CreateMap<Notification, NotificationResponse>();
 
+            CreateMap<Organ, OrganResponse>();
+
             CreateMap<Post, PostResponse>()
                 .ForMember(pr => pr.UserFirstName, m => m.MapFrom(p => p.User.FirstName))
                 .ForMember(pr => pr.UserLastName, m => m.MapFrom(p => p.User.LastName))

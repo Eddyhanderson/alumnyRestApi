@@ -14,22 +14,29 @@ namespace alumni.Services
     {
         private readonly DataContext dataContext;
 
-        public ManagerService(DataContext dataContext)
+        private readonly IUserService userService;
+
+        public ManagerService(DataContext dataContext, IUserService userService)
         {
             this.dataContext = dataContext;
+            this.userService = userService;
         }
-                                                                            
-        public async Task<CreationResult<Manager>> CreateAsync(Manager manager)
+
+        public async Task<AuthResult> CreateAsync(Manager manager, User user, AuthData auth)
         {
-            if (manager == null) return FailCreation();
+            if (manager == null) return AuthFail();            
+
+            var authResult = await this.userService.RegistrationAsync(user, auth);
+
+            if(authResult is null || !authResult.Authenticated)
+                return AuthFail();
 
             var newManager = new Manager
             {
                 Id = Guid.NewGuid().ToString(),
-                UserId = manager.UserId,
-                /*SchoolId = manager.SchoolId,
-                Situation = Constants.SituationsObjects.NormalSituation,
-                DateSituation = DateTime.UtcNow*/
+                UserId = authResult.User.Id,
+                FirstName = manager.FirstName,
+                LastName = manager.LastName
             };
 
             try
@@ -38,17 +45,13 @@ namespace alumni.Services
 
                 var result = await dataContext.SaveChangesAsync();
 
-                return new CreationResult<Manager>
-                {
-                    Data = newManager,
-                    Succeded = true
-                };
+                return authResult;
             }
             catch (DbUpdateException e)
             {
                 Console.WriteLine(e.Message);
 
-                return FailCreation();
+                return AuthFail();
             }
 
         }
@@ -68,8 +71,7 @@ namespace alumni.Services
         {
             if (userId == null) return null;
 
-            var manager = await dataContext.Managers/*.
-                Include(m => m.School).ThenInclude(s => s.BadgeInformation)*/
+            var manager = await dataContext.Managers                
                 .SingleOrDefaultAsync(m => m.UserId == userId);
 
             return manager;
@@ -82,6 +84,11 @@ namespace alumni.Services
                 Succeded = false,
                 Errors = new string[] { Constants.ModelMessages.FailModelCreated }
             };
+        }
+    
+        private AuthResult AuthFail()
+        {
+            return new AuthResult { Errors = new[] { Constants.ServerMessages.TokenNotCreated } };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using alumni.Data;
 using alumni.Domain;
+using alumni.Domain;
 using alumni.IServices;
 using alumni.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -73,47 +74,39 @@ namespace alumni.Services
             return await CreateTokenAsync(user);
         }
 
-        public async Task<AuthResult> RegistrationAsync(RegistrationDomain registration)
+        public async Task<AuthResult> RegistrationAsync(User user, AuthData auth)
         {
-            if (registration == null) return null;
+            if (user == null) return null;
 
-            var userVerify = await userManager.FindByEmailAsync(registration.Email);
+            var userExists = await userManager.FindByEmailAsync(user.Email) != null;
 
-            if (userVerify != null)
-            {
-                var roles = await userManager.GetRolesAsync(userVerify);
+            if (userExists)
+                return new AuthResult { Authenticated = false, Errors = new[] { Constants.ServerMessages.EmailAlreadyExists } };
 
-                var sameRole = roles.Where(r => r.ToUpper() == registration.Role.ToUpper());
-
-                if(sameRole != null) return new AuthResult { Authenticated = false, Errors = new[] { Constants.ServerMessages.EmailAlreadyExists } };
-            }
-            
-            var user = new User
+            var newUser = new User
             {
                 Id = Guid.NewGuid().ToString(),
                 Situation = Constants.SituationsObjects.NormalSituation,
-                Email = registration.Email,
-                PhoneNumber = registration.PhoneNumber,
-                /*FirstName = registration.FirstName,
-                LastName = registration.LastName,
-                UserName = registration.Email,
-                Birth = registration.Birth,
-                Genre = registration.Genre,
-                CreationAt = DateTime.UtcNow*/
+                EmailConfirmed = true,
+                PhoneNumber = user.PhoneNumber,                
+                Email = user.Email,
+                UserName = user.Email,
+                DateSituation = DateTime.Now,
+                Picture = user.Picture
             };
 
-            var stt = await userManager.CreateAsync(user);
+            var stt = await userManager.CreateAsync(newUser);
 
             if (!stt.Succeeded)
                 return new AuthResult { Errors = stt.Errors.Select(e => e.Description) };
 
-            var sttA = await userManager.AddPasswordAsync(user, registration.Password);
+            var sttA = await userManager.AddPasswordAsync(newUser, auth.Password);
             if (!sttA.Succeeded) return AuthFail();
 
-            var sttB = await userManager.AddToRoleAsync(user, registration.Role);
+            var sttB = await userManager.AddToRoleAsync(newUser, auth.Role);
             if (!sttB.Succeeded) return AuthFail();
 
-            return await CreateTokenAsync(user);
+            return await CreateTokenAsync(newUser);
         }
 
         public async Task<string> GetRoleAsync(string id)
@@ -261,7 +254,7 @@ namespace alumni.Services
 
         public async Task<Studant> GetStudantAsync(string userId)
         {
-            return  await dataContext.Studants
+            return await dataContext.Studants
                            /*.Include(s => s.AcademicLevel)*/
                            /*.Include(s => s.Academy)*/
                            /*.Include(s => s.Course)*/

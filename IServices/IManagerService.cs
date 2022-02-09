@@ -8,7 +8,7 @@ namespace alumni.IServices
 {
     public interface IManagerService
     {
-        Task<CreationResult<Manager>> CreateAsync(Manager manager);
+        Task<AuthResult> CreateAsync(Manager manager, User user, AuthData auth);
 
         Task<Manager> GetAsync(string id);
 

@@ -85,15 +85,17 @@ namespace alumni.Controllers
         {
             if (registrationRequest == null) return BadRequest();
 
-            var registration = mapper.Map<RegistrationDomain>(registrationRequest);
+            var registration = mapper.Map<AuthData>(registrationRequest);
 
-            var auth = await userService.RegistrationAsync(registration);
+            /*var auth = await userService.RegistrationAsync(registration);
 
             var authResponse = mapper.Map<AuthResultResponse>(auth);
 
             authResponse.User.Role = registration.Role;
 
-            return Ok(authResponse);
+            return Ok(authResponse);*/
+
+            return Ok();
         }
 
         [HttpGet(ApiRoutes.UserRoutes.Get)]

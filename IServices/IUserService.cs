@@ -8,7 +8,7 @@ namespace alumni.IServices
 {
     public interface IUserService
     {
-        Task<AuthResult> RegistrationAsync(RegistrationDomain registration);
+        Task<AuthResult> RegistrationAsync(User user,  AuthData auth);
 
         Task<AuthResult> LoginAsync(LoginDomain login);
 

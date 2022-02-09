@@ -13,7 +13,7 @@ namespace Alumni.Helpers
 
             public const string TeacherRole = "Teacher";
 
-            public const string AdminRole = "Admin";
+            public const string AdminRole = "Manager";
 
             public const string IdClaimType = "Id";
 

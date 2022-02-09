@@ -11,7 +11,7 @@ namespace alumni.Domain
 {
     public class User : IdentityUser
     {
-        public string PictureProfilePath { get; set; }
+        public string Picture { get; set; }
 
         [Required]
         public string Situation { get; set; }

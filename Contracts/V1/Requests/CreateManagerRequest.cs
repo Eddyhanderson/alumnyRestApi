@@ -25,6 +25,9 @@ namespace alumni.Contracts.V1.Requests
         [Phone]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public string Password { get; set; }
+
+        public string Picture { get; set; }
     }
 }

@@ -17,10 +17,10 @@ namespace alumni.Mapping
 
             CreateMap<AdminRequest, Admin>();
 
-            CreateMap<AnswerRequest, Answer>();
+            CreateMap<AnswerRequest, Answer>();*/
 
             CreateMap<LoginRequest, LoginDomain>();
-
+        /*
             CreateMap<RegistrationRequest, RegistrationDomain>();
 
             CreateMap<PaginationQuery, PaginationFilter>();

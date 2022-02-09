@@ -7,12 +7,13 @@ using alumni.Contracts.V1.Requests;
 using alumni.Contracts.V1.Responses;
 using alumni.Domain;
 using alumni.IServices;
+using Alumni.Helpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace alumni.Controllers
-{    
+{
     [ApiController]
     public class ManagerController : Controller
     {
@@ -32,30 +33,23 @@ namespace alumni.Controllers
         {
             if (managerRequest == null) return BadRequest();
 
-            string route = ApiRoutes.ManagerRoutes.Get;
-
             var manager = mapper.Map<Manager>(managerRequest);
+
             var user = mapper.Map<User>(managerRequest);
 
-            var creationResult = await managerService.CreateAsync(manager);
-
-            if (!creationResult.Succeded) return Conflict();
-
-            var parameter = new Dictionary<string, string>
-                    {
-                        {"{Id}",creationResult.Data.Id }
-                    };
-
-            var creationResponse = new CreationResponse<ManagerResponse>
+            var auth = new AuthData
             {
-                Data = mapper.Map<ManagerResponse>(creationResult.Data),
-                Errors = creationResult.Errors,
-                Messages = creationResult.Messages,
-                GetUri = uriService.GetModelUri(parameter, route),
-                Succeded = creationResult.Succeded
+                Password = managerRequest.Password,
+                Role = Constants.UserContansts.AdminRole
             };
 
-            return Created(creationResponse.GetUri, creationResponse);
+            var authResult = await managerService.CreateAsync(manager, user, auth);
+
+            var authResponse = mapper.Map<AuthResultResponse>(authResult);
+
+            if (!authResponse.Authenticated) return Unauthorized(authResponse);            
+
+            return Ok(authResponse);
         }
 
         [HttpGet(ApiRoutes.ManagerRoutes.Get)]

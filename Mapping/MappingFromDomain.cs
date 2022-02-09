@@ -27,10 +27,11 @@ namespace alumni.Mapping
 
             CreateMap<Article, ArticleResponse>();
 
+            */
             CreateMap<AuthResult, AuthResultResponse>();
-
+            
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
-
+            /*
             CreateMap<BadgeInformation, BadgeInformationResponse>();
 
             CreateMap<Comment, CommentResponse>()
@@ -62,9 +63,10 @@ namespace alumni.Mapping
                     // For just send the duration with hour, only when grather than 0
                     l.Video.Duration.Substring(0,2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
                 ));
-        
+        */
             CreateMap<Manager, ManagerResponse>();
 
+            /*
             CreateMap<Notification, NotificationResponse>();
 
             CreateMap<Organ, OrganResponse>();
@@ -156,9 +158,10 @@ namespace alumni.Mapping
             {
                 m.MapFrom(t => t.TeacherPlace.Discipline.Name);
             });
-
+            */
             CreateMap<User, UserResponse>();
 
+            /*
             CreateMap<Video, VideoResponse>();*/
         }
     }

@@ -81,7 +81,7 @@ namespace alumni.Controllers
 
         [AllowAnonymous]
         [HttpPost(ApiRoutes.UserRoutes.Registration)]
-        public async Task<IActionResult> Registration([FromBody] RegistrationRequest registrationRequest)
+        public async Task<IActionResult> Registration([FromBody] CreateUserRequest registrationRequest)
         {
             if (registrationRequest == null) return BadRequest();
 

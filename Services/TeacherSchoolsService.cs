@@ -108,7 +108,7 @@ namespace alumni.Services
 
             if (query.TeacherId != null)
                 teacherSchools = teacherSchools
-                    .Include(ts => ts.School).ThenInclude(s => s.BadgeInformation)
+                    /*.Include(ts => ts.School).ThenInclude(s => s.BadgeInformation)*/
                     .Where(ts => ts.TeacherId == query.TeacherId);
             else if (query.SchoolId != null)
                 teacherSchools = teacherSchools
@@ -132,10 +132,10 @@ namespace alumni.Services
             {
                 var sv = filter.SearchValue;
 
-                teacherSchool = teacherSchool
+                /*teacherSchool = teacherSchool
                     .Where(tp => tp.Teacher.User.FirstName.Contains(sv) ||
                     tp.Teacher.User.LastName.Contains(sv) ||
-                    tp.School.Name.Contains(sv));
+                    tp.School.Name.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 || filter.PageSize > 0)

@@ -13,7 +13,7 @@ namespace alumni.Mapping
     {
         public MappingFromRequests()
         {
-            CreateMap<AcademyRequest, Academy>();
+            /*CreateMap<AcademyRequest, Academy>();
 
             CreateMap<AdminRequest, Admin>();
 
@@ -39,10 +39,12 @@ namespace alumni.Mapping
 
             CreateMap<DisciplineTopicRequest, DisciplineTopic>();
 
-            CreateMap<LessonRequest, Lesson>();
+            CreateMap<LessonRequest, Lesson>();*/
 
-            CreateMap<ManagerRequest, Manager>();
+            CreateMap<CreateManagerRequest, Manager>();
+            CreateMap<CreateManagerRequest, User>();
 
+            /*
             CreateMap<NotificationRequest, Notification>();
 
             CreateMap<OrganRequest, Organ>();
@@ -56,6 +58,8 @@ namespace alumni.Mapping
             CreateMap<SchoolCoursesRequest, SchoolCourses>();
 
             CreateMap<StudantRequest, Studant>();
+
+            CreateMap<SchoolIdentityCreation, SchoolIdentity>();            
 
             CreateMap<TeacherRequest, Teacher>();
 
@@ -73,7 +77,7 @@ namespace alumni.Mapping
 
             CreateMap<UserRequest, User>();
 
-            CreateMap<VideoRequest, Video>();
+            CreateMap<VideoRequest, Video>();*/
         }
     }
 }

@@ -27,9 +27,9 @@ namespace alumni.Services
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = manager.UserId,
-                SchoolId = manager.SchoolId,
+                /*SchoolId = manager.SchoolId,
                 Situation = Constants.SituationsObjects.NormalSituation,
-                DateSituation = DateTime.UtcNow
+                DateSituation = DateTime.UtcNow*/
             };
 
             try
@@ -57,8 +57,8 @@ namespace alumni.Services
         {
             if (id == null) return null;
 
-            var manager = await dataContext.Managers.
-                Include(m => m.School).ThenInclude(s => s.BadgeInformation)
+            var manager = await dataContext.Managers/*.
+                Include(m => m.School).ThenInclude(s => s.BadgeInformation)*/
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             return manager;
@@ -68,8 +68,8 @@ namespace alumni.Services
         {
             if (userId == null) return null;
 
-            var manager = await dataContext.Managers.
-                Include(m => m.School).ThenInclude(s => s.BadgeInformation)
+            var manager = await dataContext.Managers/*.
+                Include(m => m.School).ThenInclude(s => s.BadgeInformation)*/
                 .SingleOrDefaultAsync(m => m.UserId == userId);
 
             return manager;

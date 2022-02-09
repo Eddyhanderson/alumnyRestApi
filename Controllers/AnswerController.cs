@@ -165,9 +165,9 @@ namespace alumni.Controllers
                 {
                     var studant = await userService.GetStudantAsync(user.Id);
 
-                    answer.UserCourse = studant.Course.Name;
+                    /*answer.UserCourse = studant.Course.Name;
                     answer.UserAcademy = studant.Academy.Name;
-                    answer.UserAcademicLevel = studant.AcademicLevel.Name;
+                    answer.UserAcademicLevel = studant.AcademicLevel.Name;*/
                     answer.UserRole = Constants.UserContansts.StudantRole;                    
                 }
             }

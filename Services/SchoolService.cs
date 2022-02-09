@@ -29,14 +29,14 @@ namespace alumni.Services
         {
             if (school == null) return FailCreation();
 
-            var exists = await dataContext.Schools
-                .AnyAsync(s => s.Nif == school.Nif);
+            /*var exists = await dataContext.Schools
+                .AnyAsync(s => s.Nif == school.Nif);*/
 
-            if (exists) return FailCreation();
+            /*if (exists) return FailCreation();*/
 
             try
             {
-                if (school.BadgeInformationId == null)
+                /*if (school.BadgeInformationId == null)
                 {
 
                     var stt = await badgeInformationService.CreateAsync(school.BadgeInformation);
@@ -53,15 +53,15 @@ namespace alumni.Services
                     BadgeInformationId = school.BadgeInformationId,
                     Name = school.Name,
                     Nif = school.Nif
-                };
+                };*/
 
-                await dataContext.Schools.AddAsync(newSchool);
+                /*await dataContext.Schools.AddAsync(newSchool);*/
 
                 await dataContext.SaveChangesAsync();
 
                 return new CreationResult<School>
                 {
-                    Data = newSchool,
+                    /*Data = newSchool,*/
                     Succeded = true
                 };
             }
@@ -79,16 +79,16 @@ namespace alumni.Services
 
             return await dataContext                
                 .Schools
-                .Include(s => s.BadgeInformation)
+                /*.Include(s => s.BadgeInformation)*/
                 .SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<IEnumerable<School>> GetSchoolsAsync(PaginationFilter filter = null, SchoolQuery schoolQuery = null)
         {
 
-            var schools = dataContext.Schools
+            /*var schools = dataContext.Schools
                 .Include(s => s.BadgeInformation)
-                .Where(s => s.BadgeInformation.Situation == Constants.SituationsObjects.NormalSituation);
+                .Where(s => s.BadgeInformation.Situation == Constants.SituationsObjects.NormalSituation);*/
 
             if(schoolQuery?.TeacherId != null)
             {                
@@ -98,28 +98,29 @@ namespace alumni.Services
                     ts.Situation.ToUpper() == Constants.SituationsObjects.NormalSituation.ToUpper())
                     .Select(ts => ts.SchoolId);
 
-                schools = schoolQuery.Subscribed ? schools.Where(s => teacherSchoolIds.Contains(s.Id)) 
-                    : schools.Where(s => !teacherSchoolIds.Contains(s.Id));
+                /*schools = schoolQuery.Subscribed ? schools.Where(s => teacherSchoolIds.Contains(s.Id)) 
+                    : schools.Where(s => !teacherSchoolIds.Contains(s.Id));*/
             }
 
 
-            if (filter == null) return await schools.ToListAsync();            
+            /*if (filter == null) return await schools.ToListAsync();   */         
 
             if (filter.SearchValue != null)
             {
                 var sv = filter.SearchValue;
 
-                schools = schools.Where(s => s.Name.Contains(sv));
+                /*schools = schools.Where(s => s.Name.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 && filter.PageSize > 0)
             {
                 var skip = (filter.PageNumber - 1) * filter.PageSize;
 
-                schools = schools.Skip(skip).Take(filter.PageSize);
+                /*schools = schools.Skip(skip).Take(filter.PageSize);*/
             }
 
-            return await schools.ToListAsync();
+            /*return await schools.ToListAsync();*/
+            return new List<School>();
         }
 
         private CreationResult<School> FailCreation()

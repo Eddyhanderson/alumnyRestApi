@@ -92,9 +92,9 @@ namespace alumni.Services
             {
                 var sv = filter.SearchValue;
 
-                teachers = teachers.Include(t => t.User)
+                /*teachers = teachers.Include(t => t.User)
                     .Where(t => t.User.FirstName.Contains(sv) || t.User.LastName.Contains(sv)
-                    || t.TeacherCode.Contains(sv));
+                    || t.TeacherCode.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 || filter.PageSize > 0)
@@ -149,13 +149,14 @@ namespace alumni.Services
         {
             var user = await userService.GetUserAsync(teacher.UserId);
 
-            var prefix = string.Concat(user.FirstName[0], user.LastName[0]);
+            /*var prefix = string.Concat(user.FirstName[0], user.LastName[0]);*/
 
             var seq = await dataContext.Teachers.CountAsync() + 1;
 
             var year = DateTime.Today.Year;
 
-            return string.Concat(prefix, year, seq);
+            /*return string.Concat(prefix, year, seq);*/
+            return "";
         }
     }
 }

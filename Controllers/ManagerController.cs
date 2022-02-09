@@ -28,13 +28,14 @@ namespace alumni.Controllers
         }
 
         [HttpPost(ApiRoutes.ManagerRoutes.Create)]
-        public async Task<IActionResult> Create([FromBody] ManagerRequest managerRequest)
+        public async Task<IActionResult> Create([FromBody] CreateManagerRequest managerRequest)
         {
             if (managerRequest == null) return BadRequest();
 
             string route = ApiRoutes.ManagerRoutes.Get;
 
             var manager = mapper.Map<Manager>(managerRequest);
+            var user = mapper.Map<User>(managerRequest);
 
             var creationResult = await managerService.CreateAsync(manager);
 

@@ -92,7 +92,7 @@ namespace alumni.Services
             var teacherPlace =  await dataContext.TeacherPlaces
                                 .Include(tp => tp.Teacher).ThenInclude(t => t.User)
                                 .Include(tp => tp.Course)
-                                .Include(tp => tp.School).ThenInclude(s => s.BadgeInformation)
+                                /*.Include(tp => tp.School).ThenInclude(s => s.BadgeInformation)*/
                                 .Include(tp => tp.Discipline)
                 .SingleOrDefaultAsync(s => s.Id == id && s.Situation == Constants.SituationsObjects.NormalSituation);
 
@@ -106,7 +106,7 @@ namespace alumni.Services
             var teacherPlaces = from tp in dataContext.TeacherPlaces
                                  .Include(tp => tp.Teacher).ThenInclude(t => t.User)
                                  .Include(tp => tp.Course)
-                                 .Include(tp => tp.School).ThenInclude(s => s.BadgeInformation)
+                                 /*.Include(tp => tp.School).ThenInclude(s => s.BadgeInformation)*/
                                  .Include(tp => tp.Discipline)
                                 select tp;
 

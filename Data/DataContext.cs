@@ -58,9 +58,8 @@ namespace alumni.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<SchoolCourses> SchoolCourses { get; set; }
 
+        public DbSet<SchoolIdentity> SchoolIdentities { get; set; }
         public DbSet<Question> Questions { get; set; }
-
-
 
         public DbSet<School> Schools { get; set; }
 

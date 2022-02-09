@@ -63,7 +63,7 @@ namespace alumni.Services
 
             if (param.CourseId != null)
                 schoolCourses = schoolCourses
-                    .Include(sc => sc.School).ThenInclude(s => s.BadgeInformation)
+                /*    .Include(sc => sc.School).ThenInclude(s => s.BadgeInformation)*/
                     .Where(sc => sc.CourseId == param.CourseId);
 
 
@@ -72,9 +72,9 @@ namespace alumni.Services
                     .Include(sc => sc.Course).ThenInclude(c => c.BadgeInformation)
                     .Where(sc => sc.SchoolId == param.SchoolId);
 
-            if (searchMode)
+            /*if (searchMode)
                 schoolCourses = schoolCourses.Where(sc => sc.Course.Name.Contains(filter.SearchValue) ||
-                                                sc.School.Name.Contains(filter.SearchValue));
+                                                sc.School.Name.Contains(filter.SearchValue));*/
 
 
             if (filter.PageNumber < 1 || filter.PageSize < 1)

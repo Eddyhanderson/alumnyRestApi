@@ -32,10 +32,10 @@ namespace alumni.Services
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = studant.UserId,
-                CourseId = studant.CourseId,
+                /*CourseId = studant.CourseId,*/
                 StudantCode = await GenerateStudantCodeAsync(studant),
-                AcademyId = studant.AcademyId,
-                AcademicLevelId = studant.AcademicLevelId
+                /*AcademyId = studant.AcademyId,
+                AcademicLevelId = studant.AcademicLevelId*/
             };
 
             await dataContext.Studants.AddAsync(newStudant);
@@ -61,9 +61,9 @@ namespace alumni.Services
         public async Task<PageResult<Studant>> GetStudantsAsync(PaginationFilter filter = null)
         {
             var studants = dataContext.Studants
-                           .Include(s => s.AcademicLevel)
-                           .Include(s => s.Academy)
-                           .Include(s => s.Course)
+                           /*.Include(s => s.AcademicLevel)*/
+                           /*.Include(s => s.Academy)*/
+                           /*.Include(s => s.Course)*/
                            .Include(s => s.User)
                            .Where(s => s.User.Situation == Constants.SituationsObjects.NormalSituation);
 
@@ -77,8 +77,8 @@ namespace alumni.Services
 
                 studants = studants.Include(s => s.User);
 
-                studants = studants.Where(s => s.User.FirstName.Contains(sv)
-                || s.User.LastName.Contains(sv) || s.StudantCode.Contains(sv));
+                /*studants = studants.Where(s => s.User.FirstName.Contains(sv)
+                || s.User.LastName.Contains(sv) || s.StudantCode.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 || filter.PageSize > 0)
@@ -103,9 +103,9 @@ namespace alumni.Services
 
             var studant = await dataContext.Studants
                     .Include(s => s.User)
-                    .Include(s => s.AcademicLevel)
-                    .Include(s => s.Academy)
-                    .Include(s => s.Course)
+                    /*.Include(s => s.AcademicLevel)*/
+                    /*.Include(s => s.Academy)*/
+                    /*.Include(s => s.Course)*/
                     .SingleOrDefaultAsync(s => s.Id == id);
 
             return studant;
@@ -115,13 +115,14 @@ namespace alumni.Services
         {
             var user = await userService.GetUserAsync(studant.UserId);
 
-            var prefix = string.Concat(user.FirstName[0], user.LastName[0]);
+            /*var prefix = string.Concat(user.FirstName[0], user.LastName[0]);*/
 
             var seq = await dataContext.Studants.CountAsync() + 1;
 
             var year = DateTime.Today.Year;
 
-            return string.Concat(prefix, year, seq);
+            /*return string.Concat(prefix, year, seq);*/
+            return "";
         }
 
         private CreationResult<Studant> FailCreation()

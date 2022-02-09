@@ -94,12 +94,12 @@ namespace alumni.Services
                 Situation = Constants.SituationsObjects.NormalSituation,
                 Email = registration.Email,
                 PhoneNumber = registration.PhoneNumber,
-                FirstName = registration.FirstName,
+                /*FirstName = registration.FirstName,
                 LastName = registration.LastName,
                 UserName = registration.Email,
                 Birth = registration.Birth,
                 Genre = registration.Genre,
-                CreationAt = DateTime.UtcNow
+                CreationAt = DateTime.UtcNow*/
             };
 
             var stt = await userManager.CreateAsync(user);
@@ -239,7 +239,7 @@ namespace alumni.Services
             {
                 var sv = filter.SearchValue;
 
-                users = users.Where(u => u.FirstName.Contains(sv) || u.LastName.Contains(sv));
+                /*users = users.Where(u => u.FirstName.Contains(sv) || u.LastName.Contains(sv));*/
             }
 
             var skip = (filter.PageNumber - 1) * filter.PageSize;
@@ -262,9 +262,9 @@ namespace alumni.Services
         public async Task<Studant> GetStudantAsync(string userId)
         {
             return  await dataContext.Studants
-                           .Include(s => s.AcademicLevel)
-                           .Include(s => s.Academy)
-                           .Include(s => s.Course)
+                           /*.Include(s => s.AcademicLevel)*/
+                           /*.Include(s => s.Academy)*/
+                           /*.Include(s => s.Course)*/
                            .Include(s => s.User)
                            .SingleOrDefaultAsync(s => s.User.Situation == Constants.SituationsObjects.NormalSituation && s.UserId == userId);
         }

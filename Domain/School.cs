@@ -13,21 +13,9 @@ namespace alumni.Domain
         public string Id { get; set; }
 
         [Required]
-        public string BadgeInformationId { get; set; }
+        public string SchoolIdentityId { get; set; }
 
-        [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string ShortName { get; set; }
-        
-        public string Nif { get; set; }
-
-        public string Address { get; set; }
-
-        public bool Entrusted { get; set; }
-
-        [ForeignKey(nameof(BadgeInformationId))]
-        public BadgeInformation BadgeInformation { get; set; }
+        [ForeignKey(nameof(SchoolIdentityId))]
+        public SchoolIdentity SchoolIdentity { get; set; }
     }
 }

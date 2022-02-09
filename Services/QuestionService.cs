@@ -276,8 +276,8 @@ namespace alumni.Services
 
                 questions = questions
                     .Where(q => q.Lesson.Title.Contains(filter.SearchValue)
-                    || q.Studant.User.FirstName.Contains(filter.SearchValue)
-                    || q.Studant.User.LastName.Contains(filter.SearchValue)
+               /*     || q.Studant.User.FirstName.Contains(filter.SearchValue)
+                    || q.Studant.User.LastName.Contains(filter.SearchValue)*/
                     || q.Content.Contains(filter.SearchValue)
                     || q.Subject.Contains(filter.SearchValue));
             }

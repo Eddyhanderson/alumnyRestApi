@@ -137,8 +137,8 @@ namespace alumni.Services
             {
                 var sv = filter.SearchValue;
 
-                studants = studants.Include(s => s.User)
-                    .Where(s => s.User.FirstName.Contains(sv) || s.User.LastName.Contains(sv));
+                /*studants = studants.Include(s => s.User)
+                    .Where(s => s.User.FirstName.Contains(sv) || s.User.LastName.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 || filter.PageSize > 0)

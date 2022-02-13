@@ -9,18 +9,17 @@ namespace alumni.Contracts.V1.Responses
     {
         public string Id { get; set; }
 
-        public string BadgeInformationId { get; set; }
+        public string SchoolCode { get; set; }
 
-        public string ProfilePhotoPath { get; set; }
-
-        public string ShortName { get; set; }
-
+        public string UserId { get; set; }
         public string Name { get; set; }
+
+        public string Acronym { get; set; }
 
         public string Nif { get; set; }
 
-        public string Address { get; set; }
+        public string Adress { get; set; }
 
-        public bool Entrusted { get; set; }
+        public UserResponse User { get; set; }
     }
 }

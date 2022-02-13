@@ -12,17 +12,6 @@ namespace alumni.Contracts.V1
         public const string Root = "api";
         public const string Version = "v1";
         public const string Base = Root + "/" + Version;
-
-        public static class OrganRoutes
-        {
-            public const string OrganRoute = Base + "/organ";
-
-            public const string Create = OrganRoute + "/create";
-
-            public const string GetAll = OrganRoute + "/getAll";
-
-            public const string Get = OrganRoute + "/get/{id}";
-        }
         public static class AcademyRoutes
         {
             public const string AcademyRoute = Base + "/academy";
@@ -44,7 +33,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = AnswerRoute + "/getAll";
 
-            public const string Get = AnswerRoute + "/get/{Id}";
+            public const string Get = AnswerRoute + "/get/{id}";
         }
 
         public static class ArticleRoutes
@@ -55,7 +44,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = ArticleRoute + "/getAll";
 
-            public const string Get = ArticleRoute + "/get/{Id}";
+            public const string Get = ArticleRoute + "/get/{id}";
 
             public const string Update = ArticleRoute + "/update/{articleId}";
         }
@@ -66,7 +55,7 @@ namespace alumni.Contracts.V1
 
             public const string Create = BadgeInformationRoute + "/create";
 
-            public const string Get = BadgeInformationRoute + "/get/{Id}";
+            public const string Get = BadgeInformationRoute + "/get/{id}";
         }
 
         public static class CommentableRoutes
@@ -79,8 +68,8 @@ namespace alumni.Contracts.V1
             public const string CommentRoute = Base + "/comment";
 
             public const string Create = CommentRoute + "/create";
-            
-            public const string Get = CommentRoute + "/get/{Id}";
+
+            public const string Get = CommentRoute + "/get/{id}";
 
             public const string GetAll = CommentRoute + "/getAll";
         }
@@ -104,7 +93,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = DisciplineRoute + "/getAll";
 
-            public const string Get = DisciplineRoute + "/get/{Id}";
+            public const string Get = DisciplineRoute + "/get/{id}";
         }
 
         public static class DisciplineTopicRoutes
@@ -115,7 +104,16 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = DisciplineTopicRoute + "/getAll";
 
-            public const string Get = DisciplineTopicRoute + "/get/{Id}";
+            public const string Get = DisciplineTopicRoute + "/get/{id}";
+        }
+
+        public static class FormationRoutes
+        {
+            public const string FormationRoute = Base + "/formation";
+
+            public const string Create = FormationRoute + "/create";
+
+            public const string Get = FormationRoute + "/get";
         }
 
         public static class LessonRoutes
@@ -130,7 +128,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAllByTeacherPlace = LessonRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Get = LessonRoute + "/get/{Id}";
+            public const string Get = LessonRoute + "/get/{id}";
 
             public const string GetByPost = LessonRoute + "/get/post/{postId}";
         }
@@ -145,7 +143,16 @@ namespace alumni.Contracts.V1
 
             public const string GetByUser = ManagerRoute + "/getByUser/{userId}";
         }
+        public static class OrganRoutes
+        {
+            public const string OrganRoute = Base + "/organ";
 
+            public const string Create = OrganRoute + "/create";
+
+            public const string GetAll = OrganRoute + "/getAll";
+
+            public const string Get = OrganRoute + "/get/{id}";
+        }
         public static class PostRoutes
         {
             public const string PostRoute = Base + "/post";
@@ -154,9 +161,9 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = PostRoute + "/getAll";
 
-            public const string Update = PostRoute + "/update/{Id}";
+            public const string Update = PostRoute + "/update/{id}";
 
-            public const string Get = PostRoute + "/get/{Id}";
+            public const string Get = PostRoute + "/get/{id}";
         }
 
         public static class QuestionRoutes
@@ -166,16 +173,16 @@ namespace alumni.Contracts.V1
             public const string Create = QuestionRoute + "/create";
 
             public const string GetAll = QuestionRoute + "/getAll";
-            
-            public const string Patch = QuestionRoute + "/patch/{Id}";
+
+            public const string Patch = QuestionRoute + "/patch/{id}";
 
             public const string GetAllByStudant = QuestionRoute + "/getAll/studant/{studantId}";
-            
-            public const string GetAllByTeacherPlace= QuestionRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Update = QuestionRoute + "/update/{Id}";
+            public const string GetAllByTeacherPlace = QuestionRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Get = QuestionRoute + "/get/{Id}";
+            public const string Update = QuestionRoute + "/update/{id}";
+
+            public const string Get = QuestionRoute + "/get/{id}";
 
             public const string GetByPost = QuestionRoute + "/get/post/{postId}";
         }
@@ -187,7 +194,7 @@ namespace alumni.Contracts.V1
             public const string Create = SchoolCourseRoute + "/create";
 
             public const string Get = SchoolCourseRoute + "/get/{schoolId}/{courseId}";
-            
+
             public const string GetAll = SchoolCourseRoute + "/getAll";
         }
 
@@ -195,20 +202,9 @@ namespace alumni.Contracts.V1
         {
             public const string SchoolRoute = Base + "/school";
 
+            public const string Get = SchoolRoute + "/get/{id}";
             public const string Create = SchoolRoute + "/create";
-
-            public const string Get = SchoolRoute + "/get/{Id}";            
-
-            public const string GetAll = SchoolRoute + "/getAll";
-        }
-
-        public static class SchoolIdentityRoutes
-        {
-            public const string SchoolIdentityRoute = Base + "/schoolIdentity";
-
-            public const string Create = SchoolIdentityRoute + "/create";
-
-            public const string Get = SchoolIdentityRoute + "/get/{Id}";
+            public const string GetByUser = SchoolRoute + "/getByUser/{userId}";
         }
 
         public static class StudantRoutes
@@ -219,9 +215,9 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = StudantRoute + "/getAll";
 
-            public const string Update = StudantRoute + "/update/{Id}";
+            public const string Update = StudantRoute + "/update/{id}";
 
-            public const string Get = StudantRoute + "/get/{Id}";
+            public const string Get = StudantRoute + "/get/{id}";
         }
 
         public static class UserRoutes
@@ -251,7 +247,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = TeacherRoute + "/getAll";
 
-            public const string Get = TeacherRoute + "/get/{Id}";
+            public const string Get = TeacherRoute + "/get/{id}";
 
             public const string GetByUser = TeacherRoute + "/getByUser/{userId}";
         }
@@ -264,7 +260,7 @@ namespace alumni.Contracts.V1
 
             public const string Update = TeacherSchoolsRoute + "/update/{teacherId}/{schoolId}";
 
-            public const string GetAll = TeacherSchoolsRoute + "/getAll";           
+            public const string GetAll = TeacherSchoolsRoute + "/getAll";
 
             public const string CheckTeacherHasSchool = TeacherSchoolsRoute + "/checkTeacherHasSchool/{teacherId}";
 
@@ -278,7 +274,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = TeacherPlaceRoute + "/getAll";
 
-            public const string Get = TeacherPlaceRoute + "/get/{Id}";
+            public const string Get = TeacherPlaceRoute + "/get/{id}";
         }
 
         public static class TeacherPlaceMaterialRoutes
@@ -289,8 +285,8 @@ namespace alumni.Contracts.V1
 
             public const string GetAllByTeacherPlace = TeacherPlaceMaterialRoute + "/getAll/{teacherPlaceId}";
 
-            public const string Get = TeacherPlaceMaterialRoute + "/get/{Id}";
-            
+            public const string Get = TeacherPlaceMaterialRoute + "/get/{id}";
+
             public const string GetByPost = TeacherPlaceMaterialRoute + "/get/post/{postId}";
         }
 
@@ -302,8 +298,8 @@ namespace alumni.Contracts.V1
 
             public const string GetAllByTeacherPlace = TeacherPlaceMessageRoute + "/getAll/{teacherPlaceId}";
 
-            public const string Get = TeacherPlaceMessageRoute + "/get/{Id}";
-            
+            public const string Get = TeacherPlaceMessageRoute + "/get/{id}";
+
             public const string GetByPost = TeacherPlaceMessageRoute + "/get/post/{postId}";
         }
 
@@ -328,9 +324,9 @@ namespace alumni.Contracts.V1
 
             public const string Create = TopicRoute + "/create";
 
-            public const string Update = TopicRoute + "/update/{Id}";
+            public const string Update = TopicRoute + "/update/{id}";
 
-            public const string Get = TopicRoute + "/get/{Id}";
+            public const string Get = TopicRoute + "/get/{id}";
 
             public const string GetAll = TopicRoute + "/getAll";
         }
@@ -338,9 +334,9 @@ namespace alumni.Contracts.V1
         public static class ImagesRoutes
         {
             public const string ImageRoute = Base + "/image";
-            
-            public const string UploadLessonProfile = ImageRoute + "/upload/lesson/profile";                        
-            public const string UploadTopicImage = ImageRoute + "/upload/topic";                        
+
+            public const string UploadLessonProfile = ImageRoute + "/upload/lesson/profile";
+            public const string UploadTopicImage = ImageRoute + "/upload/topic";
         }
 
         public static class VideoRoutes
@@ -353,7 +349,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = VideoRoute + "/getAll";
 
-            public const string Get = VideoRoute + "/get/{Id}";
+            public const string Get = VideoRoute + "/get/{id}";
 
             public const string VideoWatch = VideoRoute + "/upload/watch/{connectionId}";
         }

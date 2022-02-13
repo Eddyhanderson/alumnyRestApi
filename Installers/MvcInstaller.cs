@@ -69,6 +69,8 @@ namespace alumni.Installers
 
             services.AddScoped<IDisciplineTopicService, DisciplineTopicService>();
 
+            services.AddScoped<IFormationService, FormationService>();
+
             services.AddScoped<ILessonService, LessonService>();
 
             services.AddScoped<IManagerService, ManagerService>();
@@ -81,9 +83,9 @@ namespace alumni.Installers
 
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddScoped<ISchoolService, SchoolService>();
+            services.AddScoped<ISchoolDeprecatedService, SchoolServiceDeprecated>();            
 
-            services.AddScoped<ISchoolIdentityService, SchoolIdentityService>();
+            services.AddScoped<ISchoolService, SchoolService>();  
 
             services.AddScoped<IStudantService, StudantService>();
 

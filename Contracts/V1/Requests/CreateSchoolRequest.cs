@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-public class CreateSchoolIdentity
+public class CreateSchoolRequest
 {
     [Required]
     public string Name { get; set; }

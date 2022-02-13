@@ -31,6 +31,8 @@ namespace alumni.Mapping
             CreateMap<AuthResult, AuthResultResponse>();
 
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
+
+            CreateMap<Formation, FormationCreationResponse>();
             /*
             CreateMap<BadgeInformation, BadgeInformationResponse>();
 
@@ -90,7 +92,7 @@ namespace alumni.Mapping
             CreateMap<SchoolCourses, SchoolCoursesResponse>();*/
 
 
-            CreateMap<SchoolIdentity, SchoolIdentityResponse>();
+            CreateMap<School, SchoolResponse>();
             /*
 
             CreateMap<School, SchoolResponse>()

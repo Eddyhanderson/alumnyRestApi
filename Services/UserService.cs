@@ -1,6 +1,5 @@
 ﻿using alumni.Data;
 using alumni.Domain;
-using alumni.Domain;
 using alumni.IServices;
 using alumni.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -28,13 +27,10 @@ namespace alumni.Services
 
         private readonly RoleManager<IdentityRole> roleManager;
 
-        private readonly ISchoolService schoolService;
-
         public UserService(UserManager<User> userManager,
             Options.TokenOptions tokenOptions,
             RoleManager<IdentityRole> roleManager,
-            DataContext dataContext,
-            ISchoolService schoolService)
+            DataContext dataContext)
         {
             this.userManager = userManager;
 
@@ -43,8 +39,6 @@ namespace alumni.Services
             this.tokenOptions = tokenOptions;
 
             this.dataContext = dataContext;
-
-            this.schoolService = schoolService;
         }
 
 

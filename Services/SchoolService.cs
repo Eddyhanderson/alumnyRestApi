@@ -1,4 +1,3 @@
-﻿using alumni.Contracts.V1.Requests.Queries;
 using alumni.Data;
 using alumni.Domain;
 using alumni.IServices;
@@ -7,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace alumni.Services
@@ -16,52 +14,42 @@ namespace alumni.Services
     {
         private readonly DataContext dataContext;
 
-        private readonly IBadgeInformationService badgeInformationService;
+        private readonly IUserService userService;
 
-        public SchoolService(DataContext dataContext, IBadgeInformationService badgeInformationService)
+        public SchoolService(DataContext dataContext, IUserService userService)
         {
             this.dataContext = dataContext;
-
-            this.badgeInformationService = badgeInformationService;
+            this.userService = userService;
         }
 
-        public async Task<CreationResult<School>> CreateAsync(School school)
+        public async Task<CreationResult<School>> CreateAsync(School school, User user, AuthData auth)
         {
             if (school == null) return FailCreation();
 
-            /*var exists = await dataContext.Schools
-                .AnyAsync(s => s.Nif == school.Nif);*/
+            var authResult = await this.userService.RegistrationAsync(user, auth);
 
-            /*if (exists) return FailCreation();*/
+            if (authResult is null || !authResult.Authenticated)
+                return FailCreation();
+
+            var newSchool = new School
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = authResult.User.Id,
+                Name = school.Name,
+                Acronym = school.Acronym,
+                Adress = school.Adress,
+                Nif = school.Nif,
+                SchoolCode = await GenerateCodeAsync(school.Name)
+            };
 
             try
             {
-                /*if (school.BadgeInformationId == null)
-                {
-
-                    var stt = await badgeInformationService.CreateAsync(school.BadgeInformation);
-
-                    if (!stt.Succeded) return FailCreation();
-                    school.BadgeInformationId = stt.Data.Id;
-                }
-
-
-                var newSchool = new School
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Address = school.Address,
-                    BadgeInformationId = school.BadgeInformationId,
-                    Name = school.Name,
-                    Nif = school.Nif
-                };*/
-
-                /*await dataContext.Schools.AddAsync(newSchool);*/
-
+                await dataContext.Schools.AddAsync(newSchool);
                 await dataContext.SaveChangesAsync();
 
                 return new CreationResult<School>
                 {
-                    /*Data = newSchool,*/
+                    Data = newSchool,
                     Succeded = true
                 };
             }
@@ -71,56 +59,28 @@ namespace alumni.Services
 
                 return FailCreation();
             }
+
         }
 
-        public async Task<School> GetSchoolAsync(string id)
+        public async Task<School> GetAsync(string id)
         {
             if (id == null) return null;
 
-            return await dataContext                
-                .Schools
-                /*.Include(s => s.BadgeInformation)*/
-                .SingleOrDefaultAsync(s => s.Id == id);
+            var school = await dataContext.Schools
+                  .SingleOrDefaultAsync(si => si.Id == id);
+
+            return school;
         }
 
-        public async Task<IEnumerable<School>> GetSchoolsAsync(PaginationFilter filter = null, SchoolQuery schoolQuery = null)
+        public async Task<School> GetByUserAsync(string userId)
         {
+            if (userId == null) return null;
 
-            /*var schools = dataContext.Schools
-                .Include(s => s.BadgeInformation)
-                .Where(s => s.BadgeInformation.Situation == Constants.SituationsObjects.NormalSituation);*/
+            var school = await dataContext.Schools
+            .Include(s => s.User)
+            .SingleOrDefaultAsync(s => s.UserId == userId);
 
-            if(schoolQuery?.TeacherId != null)
-            {                
-                var teacherSchoolIds = dataContext
-                    .TeacherSchools
-                    .Where(ts => ts.TeacherId == schoolQuery.TeacherId &&
-                    ts.Situation.ToUpper() == Constants.SituationsObjects.NormalSituation.ToUpper())
-                    .Select(ts => ts.SchoolId);
-
-                /*schools = schoolQuery.Subscribed ? schools.Where(s => teacherSchoolIds.Contains(s.Id)) 
-                    : schools.Where(s => !teacherSchoolIds.Contains(s.Id));*/
-            }
-
-
-            /*if (filter == null) return await schools.ToListAsync();   */         
-
-            if (filter.SearchValue != null)
-            {
-                var sv = filter.SearchValue;
-
-                /*schools = schools.Where(s => s.Name.Contains(sv));*/
-            }
-
-            if (filter.PageNumber >= 0 && filter.PageSize > 0)
-            {
-                var skip = (filter.PageNumber - 1) * filter.PageSize;
-
-                /*schools = schools.Skip(skip).Take(filter.PageSize);*/
-            }
-
-            /*return await schools.ToListAsync();*/
-            return new List<School>();
+            return school;
         }
 
         private CreationResult<School> FailCreation()
@@ -128,8 +88,18 @@ namespace alumni.Services
             return new CreationResult<School>
             {
                 Succeded = false,
-                Errors = new[] { Constants.ModelMessages.FailModelCreated }
+                Errors = new string[] { Constants.ModelMessages.FailModelCreated }
             };
+        }
+
+        private async Task<string> GenerateCodeAsync(string name)
+        {
+            var count = await dataContext.Schools.CountAsync() + 1;
+            string prefix = "";
+            if (name.Length > 1)
+                prefix = name.Substring(0, 1);
+            var code = prefix + DateTime.UtcNow.Year + count;
+            return code;
         }
     }
 }

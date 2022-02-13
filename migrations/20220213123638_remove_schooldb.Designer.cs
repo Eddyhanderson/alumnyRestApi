@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220213123638_remove_schooldb")]
+    partial class remove_schooldb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,6 +178,41 @@ namespace alumni.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Organ");
+                });
+
+            modelBuilder.Entity("SchoolIdentity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Acronym")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nif")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchoolCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SchoolIdentities");
                 });
 
             modelBuilder.Entity("alumni.Domain.AcademicLevel", b =>
@@ -445,46 +482,6 @@ namespace alumni.Migrations
                     b.ToTable("DisciplineTopics");
                 });
 
-            modelBuilder.Entity("alumni.Domain.Formation", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateSituation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("SchoolId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Situation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Theme")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SchoolId");
-
-                    b.ToTable("Formations");
-                });
-
             modelBuilder.Entity("alumni.Domain.Lesson", b =>
                 {
                     b.Property<string>("Id")
@@ -670,48 +667,35 @@ namespace alumni.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Acronym")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Adress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nif")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SchoolCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Schools");
-                });
-
-            modelBuilder.Entity("alumni.Domain.SchoolDeprecated", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SchoolIdentityId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("SchoolDeprecated");
+                    b.HasIndex("SchoolIdentityId");
+
+                    b.ToTable("School");
+                });
+
+            modelBuilder.Entity("alumni.Domain.SchoolCourses", b =>
+                {
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SchoolId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Situation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CourseId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("SchoolCourses");
                 });
 
             modelBuilder.Entity("alumni.Domain.Studant", b =>
@@ -1151,6 +1135,15 @@ namespace alumni.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("SchoolIdentity", b =>
+                {
+                    b.HasOne("alumni.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("alumni.Domain.Academy", b =>
                 {
                     b.HasOne("alumni.Domain.BadgeInformation", "BadgeInformation")
@@ -1240,15 +1233,6 @@ namespace alumni.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("alumni.Domain.Formation", b =>
-                {
-                    b.HasOne("alumni.Domain.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("alumni.Domain.Lesson", b =>
                 {
                     b.HasOne("alumni.Domain.Article", "Article")
@@ -1332,9 +1316,24 @@ namespace alumni.Migrations
 
             modelBuilder.Entity("alumni.Domain.School", b =>
                 {
-                    b.HasOne("alumni.Domain.User", "User")
+                    b.HasOne("SchoolIdentity", "SchoolIdentity")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("SchoolIdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("alumni.Domain.SchoolCourses", b =>
+                {
+                    b.HasOne("alumni.Domain.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("alumni.Domain.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1391,7 +1390,7 @@ namespace alumni.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("alumni.Domain.SchoolDeprecated", "School")
+                    b.HasOne("alumni.Domain.School", "School")
                         .WithMany()
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1445,7 +1444,7 @@ namespace alumni.Migrations
 
             modelBuilder.Entity("alumni.Domain.TeacherSchools", b =>
                 {
-                    b.HasOne("alumni.Domain.SchoolDeprecated", "School")
+                    b.HasOne("alumni.Domain.School", "School")
                         .WithMany()
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)

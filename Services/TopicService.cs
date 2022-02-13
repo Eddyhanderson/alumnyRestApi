@@ -102,8 +102,7 @@ namespace alumni.Services
 
             if (query != null && query.SchoolId != null)
                 topics = (from t in topics
-                          from tp in dataContext.TeacherPlaces
-                          from s in dataContext.Schools
+                          from tp in dataContext.TeacherPlaces                          
                           where t.TeacherPlaceId == tp.Id && t.TeacherPlaceId == query.TeacherPlaceId &&
                           tp.TeacherId == query.TeacherId && tp.SchoolId == query.SchoolId
                           select t);

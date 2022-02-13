@@ -96,10 +96,10 @@ namespace alumni.Services
 
             if(param != null && param.SchoolId != null)
             {
-                courses = dataContext.SchoolCourses
+                /*courses = dataContext.SchoolCourses
                     .Include(sc => sc.Course)
                     .Where(sc => sc.SchoolId == param.SchoolId)
-                    .Select(sc => sc.Course);
+                    .Select(sc => sc.Course);*/
             }
 
             if (filter == null) return await courses.ToListAsync();

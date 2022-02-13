@@ -1,18 +1,11 @@
-﻿using alumni.Contracts.V1.Requests.Queries;
-using alumni.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using alumni.Domain;
 
-namespace alumni.IServices
+public interface ISchoolService
 {
-    public interface ISchoolService
-    {
-        Task<CreationResult<School>> CreateAsync(School school);
+    Task<CreationResult<School>> CreateAsync(School identity, User user, AuthData auth);
 
-        Task<IEnumerable<School>> GetSchoolsAsync(PaginationFilter filter = null, SchoolQuery schoolQuery = null);
+    Task<School> GetAsync(string id);
 
-        Task<School> GetSchoolAsync(string id);
-    }
+    Task<School> GetByUserAsync(string userId);
 }

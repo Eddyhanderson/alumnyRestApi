@@ -18,6 +18,7 @@ namespace alumni.Mapping
             CreateMap<AdminRequest, Admin>();
 
             CreateMap<AnswerRequest, Answer>();*/
+            CreateMap<CreateFormationRequest, Formation>();
 
             CreateMap<LoginRequest, LoginDomain>();
         /*
@@ -57,8 +58,8 @@ namespace alumni.Mapping
 
             */
 
-            CreateMap<CreateSchoolIdentity, SchoolIdentity>();
-            CreateMap<CreateSchoolIdentity, User>();
+            CreateMap<CreateSchoolRequest, School>();
+            CreateMap<CreateSchoolRequest, User>();
 
             /*
 

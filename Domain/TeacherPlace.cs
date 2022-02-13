@@ -50,6 +50,6 @@ namespace alumni.Domain
         public Course Course { get; set; }
         
         [ForeignKey(nameof(SchoolId))]
-        public School School { get; set; }
+        public SchoolDeprecated School { get; set; }
     }
 }

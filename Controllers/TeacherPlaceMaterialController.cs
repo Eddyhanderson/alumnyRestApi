@@ -56,7 +56,7 @@ namespace alumni.Controllers
 
             var parameter = new Dictionary<string, string>
                     {
-                        {"{Id}",creationResult.Data.Id }
+                        {"{id}",creationResult.Data.Id }
                     };
 
             var creationResponse = new CreationResponse<TeacherPlaceMaterialResponse>

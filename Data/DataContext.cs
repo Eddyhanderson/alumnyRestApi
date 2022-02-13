@@ -49,19 +49,17 @@ namespace alumni.Data
 
         public DbSet<DisciplineTopic> DisciplineTopics { get; set; }
 
+        public DbSet<Formation> Formations { get; set; }
+
         public DbSet<Lesson> Lessons { get; set; }
 
         public DbSet<Manager> Managers { get; set; }
 
         public DbSet<Organ> Organ { get; set; }
 
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<SchoolCourses> SchoolCourses { get; set; }
-
-        public DbSet<SchoolIdentity> SchoolIdentities { get; set; }
-        public DbSet<Question> Questions { get; set; }
-
+        public DbSet<Post> Posts { get; set; }        
         public DbSet<School> Schools { get; set; }
+        public DbSet<Question> Questions { get; set; }
 
         public DbSet<Studant> Studants { get; set; }
 
@@ -90,11 +88,6 @@ namespace alumni.Data
             // TeacherSchools composite keys
             builder.Entity<TeacherSchools>().HasKey(ts => ts.SchoolId);
             builder.Entity<TeacherSchools>().HasKey(ts => ts.TeacherId);
-
-            // School courses composit keys
-            builder.Entity<SchoolCourses>().HasKey(sc => sc.SchoolId);
-            builder.Entity<SchoolCourses>().HasKey(sc => sc.CourseId);
-
         }
     }
 }

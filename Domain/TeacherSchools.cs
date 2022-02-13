@@ -28,6 +28,6 @@ namespace alumni.Domain
         public Teacher Teacher { get; set; }
 
         [ForeignKey(nameof(SchoolId))]
-        public School School { get; set; }
+        public SchoolDeprecated School { get; set; }
     }
 }

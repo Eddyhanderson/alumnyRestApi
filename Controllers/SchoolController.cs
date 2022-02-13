@@ -1,17 +1,11 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using alumni.Contracts.V1;
-using alumni.Contracts.V1.Requests;
-using alumni.Contracts.V1.Requests.Queries;
 using alumni.Contracts.V1.Responses;
 using alumni.Domain;
 using alumni.IServices;
 using Alumni.Helpers;
-using Alumni.Helpers.PaginationHelpers;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace alumni.Controllers
@@ -29,27 +23,35 @@ namespace alumni.Controllers
         {
             this.schoolService = schoolService;
 
-            this.mapper = mapper;
+            this.mapper = mapper;     
 
-            this.uriService = uriService;
+            this.uriService = uriService;       
         }
 
         [HttpPost(ApiRoutes.SchoolRoutes.Create)]
-        public async Task<IActionResult> Create([FromBody] SchoolRequest schoolRequest)
+        public async Task<IActionResult> Create([FromBody] CreateSchoolRequest createSchoolRequest)
         {
-            if (schoolRequest == null) return BadRequest();
+            if (createSchoolRequest == null) return BadRequest();
 
             string route = ApiRoutes.SchoolRoutes.Get;
 
-            var school = mapper.Map<School>(schoolRequest);
+            var identity = mapper.Map<School>(createSchoolRequest);
 
-            var creationResult = await schoolService.CreateAsync(school);
+            var user = mapper.Map<User>(createSchoolRequest);
+
+            var auth = new AuthData
+            {
+                Password = Constants.UserContansts.RandomPassword,
+                Role = Constants.UserContansts.SchoolRole
+            };
+
+            var creationResult = await schoolService.CreateAsync(identity, user, auth);
 
             if (!creationResult.Succeded) return Conflict();
 
             var parameter = new Dictionary<string, string>
                     {
-                        {"{Id}",creationResult.Data.Id }
+                        {"{id}",creationResult.Data.Id }
                     };
 
             var creationResponse = new CreationResponse<SchoolResponse>
@@ -64,50 +66,22 @@ namespace alumni.Controllers
             return Created(creationResponse.GetUri, creationResponse);
         }
 
-        [HttpGet(ApiRoutes.SchoolRoutes.GetAll)]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery query, [FromQuery] SchoolQuery param)
+        [HttpGet(ApiRoutes.SchoolRoutes.GetByUser)]    
+        public async Task<IActionResult> GetByUser([FromRoute] string userId)
         {
-            if (query == null) return BadRequest();
+            if (userId == null) return BadRequest();
 
-            var filter = mapper.Map<PaginationFilter>(query);
+            var school = await schoolService.GetByUserAsync(userId);
 
-            var searchMode = filter.SearchValue != null;
+            if (school == null) return BadRequest();
 
-            var schools = await schoolService.GetSchoolsAsync(filter, param);
+            var schoolResponse = mapper.Map<SchoolResponse>(school);
 
-            var schoolsResponse = mapper.Map<List<SchoolResponse>>(schools);
+            var response = new Response<SchoolResponse>(schoolResponse);
 
-            var pageResponse = new PageResponse<SchoolResponse>(schoolsResponse);
+            response.Data.User.Role= Constants.UserContansts.SchoolRole;
 
-            if (filter.PageNumber < 1 || filter.PageSize < 1)
-                return Ok(pageResponse);
-
-            var paginationResponse = PaginationHelpers.CreatePaginationResponse(paginationFilter: filter,
-                                    response: schoolsResponse,
-                                    uriService: uriService,
-                                    path: ApiRoutes.SchoolRoutes.GetAll,
-                                    searchMode: searchMode);
-
-            return Ok(paginationResponse);
+            return Ok(response);
         }
-
-        [HttpGet(ApiRoutes.SchoolRoutes.Get)]
-        public async Task<IActionResult> Get([FromRoute] string Id)
-        {
-            if (Id != null)
-            {
-                var school = await schoolService.GetSchoolAsync(Id);
-
-                if (school == null) return BadRequest();
-
-                var schoolResponse = mapper.Map<SchoolResponse>(school);
-
-                var response = new Response<SchoolResponse>(schoolResponse);
-
-                return Ok(response);
-            }
-
-            return BadRequest();
-        }               
     }
 }

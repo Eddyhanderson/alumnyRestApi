@@ -17,7 +17,7 @@ namespace alumni.Services
 
         public TeacherSchoolsService(DataContext dataContext,
             ITeacherService teacherService,
-            ISchoolService schoolService)
+            IServices.ISchoolDeprecatedService schoolService)
         {
             this.dataContext = dataContext;
         }

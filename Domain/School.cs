@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using alumni.Domain;
 
 namespace alumni.Domain
 {
@@ -13,9 +10,23 @@ namespace alumni.Domain
         public string Id { get; set; }
 
         [Required]
-        public string SchoolIdentityId { get; set; }
+        public string SchoolCode { get; set; }
 
-        [ForeignKey(nameof(SchoolIdentityId))]
-        public SchoolIdentity SchoolIdentity { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Acronym { get; set; }
+
+        [Required]
+        public string Nif { get; set; }
+
+        public string Adress { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public User User { get; set; }
     }
+
 }

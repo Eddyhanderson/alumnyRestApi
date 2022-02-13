@@ -83,7 +83,7 @@ namespace alumni.Installers
 
             services.AddScoped<ISchoolService, SchoolService>();
 
-            services.AddScoped<ISchoolCourseService, SchoolCourseService>();
+            services.AddScoped<ISchoolIdentityService, SchoolIdentityService>();
 
             services.AddScoped<IStudantService, StudantService>();
 

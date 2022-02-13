@@ -29,7 +29,7 @@ namespace alumni.Mapping
 
             */
             CreateMap<AuthResult, AuthResultResponse>();
-            
+
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
             /*
             CreateMap<BadgeInformation, BadgeInformationResponse>();
@@ -68,9 +68,9 @@ namespace alumni.Mapping
 
             /*
             CreateMap<Notification, NotificationResponse>();
-
+            */
             CreateMap<Organ, OrganResponse>();
-
+            /*
             CreateMap<Post, PostResponse>()
                 .ForMember(pr => pr.UserPictureProfilePath, m => m.MapFrom(p => p.User.PictureProfilePath));
 
@@ -87,7 +87,11 @@ namespace alumni.Mapping
 
             CreateMap<RegisterInSchoolRequest, RegisterInSchoolRequestResponse>();
 
-            CreateMap<SchoolCourses, SchoolCoursesResponse>();
+            CreateMap<SchoolCourses, SchoolCoursesResponse>();*/
+
+
+            CreateMap<SchoolIdentity, SchoolIdentityResponse>();
+            /*
 
             CreateMap<School, SchoolResponse>()
                 .ForMember(sr => sr.ProfilePhotoPath, m => { m.MapFrom(s => s.BadgeInformation.ProfilePhotoPath); });

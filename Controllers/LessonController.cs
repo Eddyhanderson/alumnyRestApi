@@ -39,7 +39,7 @@ namespace alumni.Controllers
             this.uriService = uriService;
         }
 
-        [Authorize(Roles = Constants.UserContansts.TeacherRole)]
+        [Authorize(Roles = Constants.UserContansts.SchoolRole)]
         [HttpPost(ApiRoutes.LessonRoutes.Create)]
         public async Task<IActionResult> Create([FromBody] LessonRequest lessonRequest)
         {

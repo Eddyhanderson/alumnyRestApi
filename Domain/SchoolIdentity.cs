@@ -8,13 +8,15 @@ public class SchoolIdentity
     public string Id { get; set; }
 
     [Required]
+    public string SchoolCode { get; set; }
+
+    [Required]
     public string UserId { get; set; }
     [Required]
     public string Name { get; set; }
 
     [Required]
-    public string ShortName { get; set; }
-    public string Country { get; set; }
+    public string Acronym { get; set; }    
 
     [Required]
     public string Nif { get; set; }

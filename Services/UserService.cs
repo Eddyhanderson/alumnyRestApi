@@ -88,7 +88,7 @@ namespace alumni.Services
                 Id = Guid.NewGuid().ToString(),
                 Situation = Constants.SituationsObjects.NormalSituation,
                 EmailConfirmed = true,
-                PhoneNumber = user.PhoneNumber,                
+                PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 UserName = user.Email,
                 DateSituation = DateTime.Now,
@@ -105,6 +105,12 @@ namespace alumni.Services
 
             var sttB = await userManager.AddToRoleAsync(newUser, auth.Role);
             if (!sttB.Succeeded) return AuthFail();
+
+            if (auth.Role.Equals(Constants.UserContansts.SchoolRole))
+                return new AuthResult
+                {   Authenticated= true,
+                    User = newUser
+                };
 
             return await CreateTokenAsync(newUser);
         }

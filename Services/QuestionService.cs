@@ -225,7 +225,7 @@ namespace alumni.Services
                  .Include(a => a.Post).ThenInclude(p => p.User)
                  .Where(a => a.QuestionId == questionId &&
                  a.Post.UserId == ur.UserId && ur.RoleId == r.Id &&
-                 r.NormalizedName == Constants.UserContansts.TeacherRole.ToUpper() &&
+                 r.NormalizedName == Constants.UserContansts.SchoolRole.ToUpper() &&
                  q.Id == questionId && q.LessonId == l.Id && l.TeacherPlaceId == tp.Id
                  && tp.TeacherId == t.Id && t.UserId == ur.UserId)
                  select a.Id).CountAsync();

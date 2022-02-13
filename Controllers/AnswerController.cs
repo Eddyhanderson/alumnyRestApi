@@ -71,7 +71,7 @@ namespace alumni.Controllers
 
             if (!creationResult.Succeded) return Conflict();
 
-            var isTeacher = HttpContext.GetRole().ToUpper() == Constants.UserContansts.TeacherRole.ToUpper();
+            var isTeacher = HttpContext.GetRole().ToUpper() == Constants.UserContansts.SchoolRole.ToUpper();
 
             if (isTeacher)
             {
@@ -150,7 +150,7 @@ namespace alumni.Controllers
 
                 var user = await userManager.FindByIdAsync(answer.UserId);
 
-                var isTeacher = await userManager.IsInRoleAsync(user, Constants.UserContansts.TeacherRole);
+                var isTeacher = await userManager.IsInRoleAsync(user, Constants.UserContansts.SchoolRole);
 
                 if (isTeacher)
                 {
@@ -159,7 +159,7 @@ namespace alumni.Controllers
                     answer.UserCourse = teacher.Course.Name;
                     answer.UserAcademy = teacher.Academy.Name;
                     answer.UserAcademicLevel = teacher.AcademicLevel.Name;
-                    answer.UserRole = Constants.UserContansts.TeacherRole;                    
+                    answer.UserRole = Constants.UserContansts.SchoolRole;                    
                 }
                 else
                 {

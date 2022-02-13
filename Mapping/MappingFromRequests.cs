@@ -46,12 +46,21 @@ namespace alumni.Mapping
 
             /*
             CreateMap<NotificationRequest, Notification>();
-
+            */
             CreateMap<OrganRequest, Organ>();
+
+            /*
 
             CreateMap<PostRequest, Post>();
 
             CreateMap<QuestionRequest, Question>();
+
+            */
+
+            CreateMap<CreateSchoolIdentity, SchoolIdentity>();
+            CreateMap<CreateSchoolIdentity, User>();
+
+            /*
 
             CreateMap<SchoolRequest, School>();
 

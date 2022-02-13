@@ -202,6 +202,15 @@ namespace alumni.Contracts.V1
             public const string GetAll = SchoolRoute + "/getAll";
         }
 
+        public static class SchoolIdentityRoutes
+        {
+            public const string SchoolIdentityRoute = Base + "/schoolIdentity";
+
+            public const string Create = SchoolIdentityRoute + "/create";
+
+            public const string Get = SchoolIdentityRoute + "/get/{Id}";
+        }
+
         public static class StudantRoutes
         {
             public const string StudantRoute = Base + "/studant";

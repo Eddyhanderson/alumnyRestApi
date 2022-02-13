@@ -1,9 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-public class SchoolIdentityCreation
+public class CreateSchoolIdentity
 {
+    [Required]
     public string Name { get; set; }
-    public string Country { get; set; }
+
+    [Required]
+    public string Acronym { get; set; }
 
     [Required]
     public string Nif { get; set; }
@@ -12,5 +15,7 @@ public class SchoolIdentityCreation
     public string Email { get; set; }
 
     public string Adress { get; set; }
-    public string PictureProfilePath { get; set; }
+
+    public int PhoneNumber { get; set; }
+    public string Picture { get; set; }
 }

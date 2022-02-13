@@ -11,13 +11,15 @@ namespace Alumni.Helpers
         {
             public const string StudantRole = "Studant";
 
-            public const string TeacherRole = "Teacher";
+            public const string SchoolRole = "School";
 
             public const string AdminRole = "Manager";
 
             public const string IdClaimType = "Id";
 
             public const string GrantPassword = "Password";
+
+            public const string RandomPassword = "chingunde1997";
 
             public const string GrantRefresh = "RefreshToken";
 

@@ -75,6 +75,8 @@ namespace alumni.Installers
 
             services.AddScoped<IManagerService, ManagerService>();
 
+            services.AddScoped<IModuleService, ModuleService>();
+
             services.AddScoped<IOrganService, OrganService>();
 
             services.AddScoped<IPostService, PostService>();

@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace alumni.Controllers
 {
-    public class FormationController : ControllerBase
+    public class ModuleController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IFormationService service;
+        private readonly IModuleService service;
 
         private readonly IUriService uriService;
-        public FormationController(IMapper mapper, IFormationService service, IUriService uriService)
+        public ModuleController(IMapper mapper, IModuleService service, IUriService uriService)
         {
             this.mapper = mapper;
 
@@ -25,13 +25,13 @@ namespace alumni.Controllers
             this.uriService = uriService;
         }
 
-        [HttpPost(ApiRoutes.FormationRoutes.Create)]
-        public async Task<IActionResult> Create([FromBody] CreateFormationRequest formationRequest)
+        [HttpPost(ApiRoutes.ModuleRoutes.Create)]
+        public async Task<IActionResult> Create([FromBody] CreateModuleRequest moduleRequest)
         {
-            if (formationRequest is null) return BadRequest();
-            var formation = mapper.Map<Formation>(formationRequest);
+            if (moduleRequest is null) return BadRequest();
+            var module = mapper.Map<Module>(moduleRequest);
 
-            var creationResult = await service.CreateAsync(formation);
+            var creationResult = await service.CreateAsync(module);
 
             if (!creationResult.Succeded) return Conflict(creationResult);
 
@@ -39,17 +39,15 @@ namespace alumni.Controllers
                     { "{id}", creationResult.Data.Id}
                 };
 
-            var creationResponse = new CreationResponse<FormationCreationResponse>
+            var creationResponse = new CreationResponse<ModuleCreationResponse>
             {
-                Data = mapper.Map<FormationCreationResponse>(creationResult.Data),
-                GetUri = uriService.GetModelUri(parameter, ApiRoutes.FormationRoutes.Get),
+                Data = mapper.Map<ModuleCreationResponse>(creationResult.Data),
+                GetUri = uriService.GetModelUri(parameter, ApiRoutes.ModuleRoutes.Get),
                 Succeded = true
             };
 
             return Created(creationResponse.GetUri, creationResponse);
         }
-
-        
 
     }
 }

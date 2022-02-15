@@ -44,6 +44,7 @@ namespace alumni.Mapping
 
             CreateMap<CreateManagerRequest, Manager>();
             CreateMap<CreateManagerRequest, User>();
+            CreateMap<CreateModuleRequest, Module>();
 
             /*
             CreateMap<NotificationRequest, Notification>();

@@ -55,6 +55,8 @@ namespace alumni.Data
 
         public DbSet<Manager> Managers { get; set; }
 
+        public DbSet<Module> Modules { get; set; }
+
         public DbSet<Organ> Organ { get; set; }
 
         public DbSet<Post> Posts { get; set; }        

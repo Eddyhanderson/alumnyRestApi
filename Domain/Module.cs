@@ -1,33 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace alumni.Domain
 {
-
-    public class Formation
+    public class Module
     {
         [Key]
         public string Id { get; set; }
 
         [Required]
-        public string Theme { get; set; }
-
-        [Required]
-        public int Category { get; set; }
-
-        [Required]
         public string Description { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public string SchoolId { get; set; }
+        public string FormationId { get; set; }
 
-        [ForeignKey(nameof(SchoolId))]
-        public School School { get; set; }
+        [ForeignKey(nameof(FormationId))]
+        public Formation Formation { get; set; }
+
+        public string Picture { get; set; }
 
         [Required]
         public string Situation { get; set; }
@@ -35,10 +29,7 @@ namespace alumni.Domain
         [Required]
         public DateTime DateSituation { get; set; }
 
-        [Required]
         public DateTime DateCreation { get; set; }
-
-        public List<Module> Modules { get; set; }
     }
 
 }

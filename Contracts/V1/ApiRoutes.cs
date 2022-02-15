@@ -143,6 +143,15 @@ namespace alumni.Contracts.V1
 
             public const string GetByUser = ManagerRoute + "/getByUser/{userId}";
         }
+        
+        public static class ModuleRoutes
+        {
+            public const string ModuleRoute = Base + "/module";
+
+            public const string Create = ModuleRoute + "/create";
+
+            public const string Get = ModuleRoute + "/get/{id}";
+        }
         public static class OrganRoutes
         {
             public const string OrganRoute = Base + "/organ";
@@ -337,6 +346,8 @@ namespace alumni.Contracts.V1
 
             public const string UploadLessonProfile = ImageRoute + "/upload/lesson/profile";
             public const string UploadTopicImage = ImageRoute + "/upload/topic";
+
+            public const string UploadModuleImage = ImageRoute + "/upload/module";
         }
 
         public static class VideoRoutes

@@ -33,6 +33,8 @@ namespace alumni.Mapping
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
 
             CreateMap<Formation, FormationCreationResponse>();
+
+            CreateMap<Module, ModuleCreationResponse>();
             /*
             CreateMap<BadgeInformation, BadgeInformationResponse>();
 

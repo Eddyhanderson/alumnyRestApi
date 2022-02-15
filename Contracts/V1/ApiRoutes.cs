@@ -114,6 +114,8 @@ namespace alumni.Contracts.V1
             public const string Create = FormationRoute + "/create";
 
             public const string Get = FormationRoute + "/get";
+
+            public const string GetAll = FormationRoute + "/getAll";
         }
 
         public static class LessonRoutes
@@ -151,6 +153,8 @@ namespace alumni.Contracts.V1
             public const string Create = ModuleRoute + "/create";
 
             public const string Get = ModuleRoute + "/get/{id}";
+
+            public const string GetAll = ModuleRoute + "/getAll";
         }
         public static class OrganRoutes
         {

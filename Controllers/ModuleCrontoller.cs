@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using alumni.Contracts.V1;
 using alumni.Contracts.V1.Requests;
+using alumni.Contracts.V1.Requests.Queries;
 using alumni.Contracts.V1.Responses;
 using alumni.Domain;
 using alumni.IServices;
+using Alumni.Helpers.PaginationHelpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,14 +41,43 @@ namespace alumni.Controllers
                     { "{id}", creationResult.Data.Id}
                 };
 
-            var creationResponse = new CreationResponse<ModuleCreationResponse>
+            var creationResponse = new CreationResponse<ModuleResponse>
             {
-                Data = mapper.Map<ModuleCreationResponse>(creationResult.Data),
+                Data = mapper.Map<ModuleResponse>(creationResult.Data),
                 GetUri = uriService.GetModelUri(parameter, ApiRoutes.ModuleRoutes.Get),
                 Succeded = true
             };
 
             return Created(creationResponse.GetUri, creationResponse);
+        }
+
+        [HttpGet(ApiRoutes.ModuleRoutes.GetAll)]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagQuery, [FromQuery] ModuleQuery query)
+        {
+            var filter = mapper.Map<PaginationFilter>(pagQuery);
+
+            var searchMode = filter.SearchValue != null;
+
+            var pageResult = await service.GetModulesAsync(filter, query);
+
+            var pageResponse = new PageResponse<ModuleResponse>
+            {
+                Data = mapper.Map<IEnumerable<Module>, IEnumerable<ModuleResponse>>(pageResult.Data),
+                TotalElements = pageResult.TotalElements
+            };
+
+            if (filter.PageNumber < 1 || filter.PageSize < 1)
+                return Ok(pageResponse);
+
+            var paginationResponse = PaginationHelpers.CreatePaginationResponse(paginationFilter: filter,
+                                    response: pageResponse.Data,
+                                    uriService: uriService,
+                                    path: ApiRoutes.FormationRoutes.GetAll,
+                                    searchMode: searchMode);
+
+            paginationResponse.TotalElements = pageResponse.TotalElements;
+
+            return Ok(paginationResponse);
         }
 
     }

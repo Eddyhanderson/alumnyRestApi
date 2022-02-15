@@ -1,3 +1,4 @@
+using alumni.Contracts.V1.Requests.Queries;
 using alumni.Data;
 using alumni.Domain;
 using alumni.IServices;
@@ -55,6 +56,18 @@ namespace alumni.Services
                 return FailCreation();
             }
         }
+
+        public async Task<PageResult<Formation>> GetFormationsAsync(PaginationFilter filter = null,
+            FormationQuery query = null)
+        {
+
+            var formations = from f in dataContext.Formations
+                             where f.SchoolId == query.SchoolId
+                             select f;
+
+            return await GetPaginationAsync(formations, filter);
+        }
+
         private CreationResult<Formation> FailCreation()
         {
             return new CreationResult<Formation>
@@ -62,6 +75,36 @@ namespace alumni.Services
                 Succeded = false,
                 Errors = new string[] { Constants.ModelMessages.FailModelCreated }
             };
+        }
+
+        private async Task<PageResult<Formation>> GetPaginationAsync(IQueryable<Formation> formations, PaginationFilter filter)
+        {
+            var totalElement = await formations.CountAsync();
+
+            var searchMode = filter.SearchValue != null;
+
+            if (searchMode)
+            {
+                var sv = filter.SearchValue;
+
+                formations = formations
+                    .Where(f => f.Theme.Contains(sv));
+            }
+
+            if (filter.PageNumber >= 0 && filter.PageSize > 0)
+            {
+                var skip = (filter.PageNumber - 1) * filter.PageSize;
+
+                formations = formations.Skip(skip).Take(filter.PageSize);
+            }
+
+            var page = new PageResult<Formation>
+            {
+                Data = formations,
+                TotalElements = totalElement
+            };
+
+            return page;
         }
     }
 }

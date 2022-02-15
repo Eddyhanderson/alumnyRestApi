@@ -1,3 +1,4 @@
+using alumni.Contracts.V1.Requests.Queries;
 using alumni.Data;
 using alumni.Domain;
 using alumni.IServices;
@@ -31,7 +32,7 @@ namespace alumni.Services
                 FormationId = module.FormationId,
                 Situation = Constants.SituationsObjects.NormalSituation,
                 DateCreation = DateTime.Now,
-                DateSituation= DateTime.Now,
+                DateSituation = DateTime.Now,
                 Picture = module.Picture
             };
 
@@ -54,6 +55,18 @@ namespace alumni.Services
                 return FailCreation();
             }
         }
+
+        public async Task<PageResult<Module>> GetModulesAsync(PaginationFilter filter = null,
+            ModuleQuery query = null)
+        {
+
+            var modules = from s in dataContext.Modules
+                          where s.FormationId == query.FormationId
+                          select s;
+
+            return await GetPaginationAsync(modules, filter);
+        }
+
         private CreationResult<Module> FailCreation()
         {
             return new CreationResult<Module>
@@ -61,6 +74,36 @@ namespace alumni.Services
                 Succeded = false,
                 Errors = new string[] { Constants.ModelMessages.FailModelCreated }
             };
+        }
+
+        private async Task<PageResult<Module>> GetPaginationAsync(IQueryable<Module> module, PaginationFilter filter)
+        {
+            var totalElement = await module.CountAsync();
+
+            var searchMode = filter.SearchValue != null;
+
+            if (searchMode)
+            {
+                var sv = filter.SearchValue;
+
+                module = module
+                    .Where(m => m.Name.Contains(sv) || m.Description.Contains(sv));
+            }
+
+            if (filter.PageNumber >= 0 && filter.PageSize > 0)
+            {
+                var skip = (filter.PageNumber - 1) * filter.PageSize;
+
+                module = module.Skip(skip).Take(filter.PageSize);
+            }
+
+            var page = new PageResult<Module>
+            {
+                Data = module,
+                TotalElements = totalElement
+            };
+
+            return page;
         }
     }
 }

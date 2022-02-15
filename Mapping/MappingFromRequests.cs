@@ -23,9 +23,9 @@ namespace alumni.Mapping
             CreateMap<LoginRequest, LoginDomain>();
         /*
             CreateMap<RegistrationRequest, RegistrationDomain>();
-
+        */
             CreateMap<PaginationQuery, PaginationFilter>();
-
+        /*
             CreateMap<ArticleRequest, Article>();
 
             CreateMap<BadgeInformationRequest, BadgeInformation>();

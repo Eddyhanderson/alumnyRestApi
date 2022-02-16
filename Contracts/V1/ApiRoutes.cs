@@ -113,7 +113,7 @@ namespace alumni.Contracts.V1
 
             public const string Create = FormationRoute + "/create";
 
-            public const string Get = FormationRoute + "/get";
+            public const string Get = FormationRoute + "/get/{id}";
 
             public const string GetAll = FormationRoute + "/getAll";
         }

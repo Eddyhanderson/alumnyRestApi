@@ -58,14 +58,23 @@ namespace alumni.Services
         }
 
         public async Task<PageResult<Formation>> GetFormationsAsync(PaginationFilter filter = null,
-            FormationQuery query = null)
-        {
+            FormationQuery query = null){
 
             var formations = from f in dataContext.Formations
                              where f.SchoolId == query.SchoolId
                              select f;
 
             return await GetPaginationAsync(formations, filter);
+        }
+
+        public async Task<Formation> GetFormationAsync(string id)
+        {
+            if (id == null) return null;
+
+            var formation = await dataContext.Formations                
+                .SingleOrDefaultAsync(f => f.Id == id);
+
+            return formation;
         }
 
         private CreationResult<Formation> FailCreation()

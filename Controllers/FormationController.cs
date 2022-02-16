@@ -80,7 +80,22 @@ namespace alumni.Controllers
             return Ok(paginationResponse);
         }
 
+        [HttpGet(ApiRoutes.FormationRoutes.Get)]
+        public async Task<IActionResult> Get([FromRoute] string Id)
+        {
+            if (Id != null)
+            {
+                var formation = await service.GetFormationAsync(Id);
 
+                if (formation == null) return NotFound();
+
+                var response = new Response<FormationResponse>(mapper.Map<FormationResponse>(formation));
+               
+                return Ok(response);
+            }
+
+            return BadRequest();
+        }
 
 
     }

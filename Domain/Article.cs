@@ -25,9 +25,9 @@ namespace alumni.Domain
         public DateTime LastChange { get; set; }
 
         [Required]
-        public string TeacherId { get; set; }
+        public string ModuleId { get; set; }
 
-        [ForeignKey(nameof(TeacherId))]
-        public Teacher Teacher { get; set; }
+        [ForeignKey(nameof(ModuleId))]
+        public Module Module { get; set; }
     }
 }

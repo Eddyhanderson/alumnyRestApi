@@ -18,7 +18,7 @@ namespace alumni.Contracts.V1.Responses
 
         public DateTime LastChange { get; set; }
 
-        public string TeacherId { get; set; }
+        public string ModuleId { get; set; }
 
         public string Situation { get; set; }
     }

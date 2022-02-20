@@ -130,7 +130,7 @@ namespace alumni.Services
             var teacher = await (from t in dataContext.Teachers
                                  from tp in dataContext.TeacherPlaces
                                  from l in dataContext.Lessons
-                                 where t.Id == tp.TeacherId && l.TeacherPlaceId == tp.Id && l.Id == lessonId
+                                 where t.Id == tp.TeacherId && l.ModuleId == tp.Id && l.Id == lessonId
                                  select t).SingleOrDefaultAsync();
 
             return teacher;

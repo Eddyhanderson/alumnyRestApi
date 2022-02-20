@@ -127,7 +127,7 @@ namespace alumni.Services
         {
             return await dataContext.Lessons
                 .Include(l => l.Post)
-                .Where(l => l.TeacherPlaceId == teacherPlaceId &&
+                .Where(l => l.ModuleId == teacherPlaceId &&
                 l.Post.Situation == Constants.SituationsObjects.NormalSituation).CountAsync();
         }
 
@@ -142,7 +142,7 @@ namespace alumni.Services
         {
             return await (from q in dataContext.Questions
                           from l in dataContext.Lessons
-                          where q.LessonId == l.Id && l.TeacherPlaceId == teacherPlaceId
+                          where q.LessonId == l.Id && l.ModuleId == teacherPlaceId
                           select q).CountAsync();
         }
 
@@ -151,7 +151,7 @@ namespace alumni.Services
             return await (from a in dataContext.Answers
                           from l in dataContext.Lessons
                           from q in dataContext.Questions
-                          where a.QuestionId == q.Id && q.LessonId == l.Id && l.TeacherPlaceId == teacherPlaceId
+                          where a.QuestionId == q.Id && q.LessonId == l.Id && l.ModuleId == teacherPlaceId
                           select a).CountAsync();
         }
 
@@ -161,7 +161,7 @@ namespace alumni.Services
                           from a in dataContext.Answers
                           from l in dataContext.Lessons
                           from q in dataContext.Questions
-                          where a.QuestionId == q.Id && q.LessonId == l.Id && l.TeacherPlaceId == teacherPlaceId
+                          where a.QuestionId == q.Id && q.LessonId == l.Id && l.ModuleId == teacherPlaceId
                           && a.Post.UserId == s.UserId
                           select a).CountAsync();
         }
@@ -173,7 +173,7 @@ namespace alumni.Services
                                 from a in dataContext.Answers
                                 from tp in dataContext.TeacherPlaces
                                 from t in dataContext.Teachers
-                                where q.LessonId == l.Id && l.TeacherPlaceId == teacherPlaceId && a.QuestionId == q.Id
+                                where q.LessonId == l.Id && l.ModuleId == teacherPlaceId && a.QuestionId == q.Id
                                 && a.Post.UserId == t.UserId && t.Id == tp.TeacherId && tp.Id == teacherPlaceId
                                 select a).CountAsync();
         }
@@ -182,7 +182,7 @@ namespace alumni.Services
         {
             return await (from q in dataContext.Questions
                           from l in dataContext.Lessons
-                          where q.LessonId == l.Id && l.TeacherPlaceId == teacherPlaceId && 
+                          where q.LessonId == l.Id && l.ModuleId == teacherPlaceId && 
                           q.Situation == QuestionSituations.Solved.ToString("g")
                           select q).CountAsync();
         }

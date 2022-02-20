@@ -87,7 +87,7 @@ namespace alumni.Services
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
                                  from l in dataContext.Lessons
                                  from tp in dataContext.TeacherPlaces
-                                 where q.LessonId == l.Id && l.TeacherPlaceId == tp.Id && tp.TeacherId == questionQuery.TeacherId
+                                 where q.LessonId == l.Id && l.ModuleId == tp.Id && tp.TeacherId == questionQuery.TeacherId
                                        && q.Post.Situation == normalState
                                  select q;
 
@@ -122,7 +122,7 @@ namespace alumni.Services
                                  from q in _questions
                                  .Include(q => q.Post)
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
-                                 where l.Id == q.LessonId && l.TeacherPlaceId == questionQuery.TeacherPlaceId
+                                 where l.Id == q.LessonId && l.ModuleId == questionQuery.TeacherPlaceId
                                  select q;
                 }
 
@@ -149,7 +149,7 @@ namespace alumni.Services
                                  from q in dataContext.Questions.Include(q => q.Post)
                                  .Include(q => q.Post)
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
-                                 where q.LessonId == l.Id && l.TeacherPlaceId == questionQuery.TeacherPlaceId && q.Post.Situation == normalState
+                                 where q.LessonId == l.Id && l.ModuleId == questionQuery.TeacherPlaceId && q.Post.Situation == normalState
                                  select q;
 
 
@@ -226,7 +226,7 @@ namespace alumni.Services
                  .Where(a => a.QuestionId == questionId &&
                  a.Post.UserId == ur.UserId && ur.RoleId == r.Id &&
                  r.NormalizedName == Constants.UserContansts.SchoolRole.ToUpper() &&
-                 q.Id == questionId && q.LessonId == l.Id && l.TeacherPlaceId == tp.Id
+                 q.Id == questionId && q.LessonId == l.Id && l.ModuleId == tp.Id
                  && tp.TeacherId == t.Id && t.UserId == ur.UserId)
                  select a.Id).CountAsync();
 

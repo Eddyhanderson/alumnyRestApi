@@ -21,26 +21,26 @@ namespace alumni.Mapping
             CreateMap<CreateFormationRequest, Formation>();
 
             CreateMap<LoginRequest, LoginDomain>();
-        /*
-            CreateMap<RegistrationRequest, RegistrationDomain>();
-        */
+            /*
+                CreateMap<RegistrationRequest, RegistrationDomain>();
+            */
             CreateMap<PaginationQuery, PaginationFilter>();
-        /*
+
             CreateMap<ArticleRequest, Article>();
+            /*
+                        CreateMap<BadgeInformationRequest, BadgeInformation>();
 
-            CreateMap<BadgeInformationRequest, BadgeInformation>();
+                        CreateMap<CommentRequest, Comment>();
 
-            CreateMap<CommentRequest, Comment>();
+                        CreateMap<CommentableRequest, Commentable>();
 
-            CreateMap<CommentableRequest, Commentable>();
+                        CreateMap<CourseRequest, Course>();
 
-            CreateMap<CourseRequest, Course>();
+                        CreateMap<DisciplineRequest, Discipline>();
 
-            CreateMap<DisciplineRequest, Discipline>();
+                        CreateMap<DisciplineTopicRequest, DisciplineTopic>();*/
 
-            CreateMap<DisciplineTopicRequest, DisciplineTopic>();
-
-            CreateMap<LessonRequest, Lesson>();*/
+            CreateMap<LessonRequest, Lesson>(); 
 
             CreateMap<CreateManagerRequest, Manager>();
             CreateMap<CreateManagerRequest, User>();
@@ -87,8 +87,8 @@ namespace alumni.Mapping
             CreateMap<TopicRequest, Topic>();
 
             CreateMap<UserRequest, User>();
-
-            CreateMap<VideoRequest, Video>();*/
+            */  
+            CreateMap<VideoRequest, Video>();
         }
     }
 }

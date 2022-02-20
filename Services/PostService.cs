@@ -103,7 +103,7 @@ namespace alumni.Services
                               from l in dataContext.Lessons
                               from tp in dataContext.TeacherPlaces
                               from tps in dataContext.TeacherPlaceStudants
-                              where tp.Id == l.TeacherPlaceId && l.PostId == p.Id && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
+                              where tp.Id == l.ModuleId && l.PostId == p.Id && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
                               && tps.Situation == normalState && p.Situation == normalState
                               select p;
 
@@ -131,7 +131,7 @@ namespace alumni.Services
                                  from q in dataContext.Questions
                                  from tp in dataContext.TeacherPlaces
                                  from tps in dataContext.TeacherPlaceStudants
-                                 where tp.Id == l.TeacherPlaceId && q.LessonId == l.Id && p.Id == q.PostId && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
+                                 where tp.Id == l.ModuleId && q.LessonId == l.Id && p.Id == q.PostId && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
                                       && tps.Situation == normalState && p.Situation == normalState
                                  select p;
 

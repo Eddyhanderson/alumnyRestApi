@@ -33,7 +33,7 @@ namespace alumni.Services
                 Name = article.Name,
                 Delta = article.Delta,
                 Draft = true,
-                TeacherId = article.TeacherId,
+                ModuleId = article.ModuleId,
                 LastChange = DateTime.UtcNow,
                 Situation = Constants.SituationsObjects.NormalSituation
             };
@@ -70,15 +70,24 @@ namespace alumni.Services
         {
             if (filter == null) return null;
 
-            var articles = dataContext.Articles.Where(a => a.Situation == Constants.SituationsObjects.NormalSituation);
+            var articles = dataContext.Articles.Include(a => a.Module)
+            .ThenInclude(m => m.Formation).ThenInclude(f => f.School)
+            .Where(a => a.Situation == Constants.SituationsObjects.NormalSituation);
 
             if (articleQuery != null)
             {
-                if (articleQuery.TeacherId != null)
-                    articles = articles.Where(a => a.TeacherId == articleQuery.TeacherId);
+                if(articleQuery.SchoolId != null)
+                    articles = articles.Where(a => a.Module.Formation.SchoolId == articleQuery.SchoolId);
+                
+                if(articleQuery.FormationId != null)
+                    articles = articles.Where(a => a.Module.FormationId == articleQuery.FormationId);
+
+                if (articleQuery.ModuleId != null)
+                    articles = articles.Where(a => a.ModuleId == articleQuery.ModuleId);
 
                 if (articleQuery.Draft)
                     articles = articles.Where(a => a.Draft == true);
+
             }
 
             return await GetPaginationAsync(articles, filter);
@@ -138,7 +147,7 @@ namespace alumni.Services
                         Id = Guid.NewGuid().ToString(),
                         Delta = article.Delta,
                         Draft = true,
-                        TeacherId = article.TeacherId,
+                        ModuleId = article.ModuleId,
                         LastChange = DateTime.UtcNow,
                         Situation = Constants.SituationsObjects.NormalSituation
                     };

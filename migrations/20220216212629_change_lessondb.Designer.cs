@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220216212629_change_lessondb")]
+    partial class change_lessondb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,10 +269,6 @@ namespace alumni.Migrations
                     b.Property<DateTime>("LastChange")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ModuleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -279,9 +277,13 @@ namespace alumni.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ModuleId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Articles");
                 });
@@ -1210,9 +1212,9 @@ namespace alumni.Migrations
 
             modelBuilder.Entity("alumni.Domain.Article", b =>
                 {
-                    b.HasOne("alumni.Domain.Module", "Module")
+                    b.HasOne("alumni.Domain.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("ModuleId")
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

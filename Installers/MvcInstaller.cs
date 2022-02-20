@@ -81,8 +81,6 @@ namespace alumni.Installers
 
             services.AddScoped<IPostService, PostService>();
 
-            services.AddScoped<ITopicService, TopicService>();
-
             services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddScoped<ISchoolDeprecatedService, SchoolServiceDeprecated>();            

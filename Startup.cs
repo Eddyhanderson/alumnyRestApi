@@ -40,7 +40,7 @@ namespace alumni
 
             app.UseCors((builder) =>
             {
-                builder.WithOrigins("http://localhost:4200").AllowAnyHeader();
+                builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowCredentials();                                
             });
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions

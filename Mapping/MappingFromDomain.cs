@@ -24,16 +24,15 @@ namespace alumni.Mapping
             CreateMap<AcademicLevel, AcademicLevelResponse>();
 
             CreateMap<Admin, AdminResponse>();            
-
+            */
             CreateMap<Article, ArticleResponse>();
 
-            */
             CreateMap<AuthResult, AuthResultResponse>();
 
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
 
             CreateMap<Formation, FormationCreationResponse>();
-            
+
             CreateMap<Formation, FormationResponse>();
 
             CreateMap<Module, ModuleResponse>();
@@ -52,8 +51,13 @@ namespace alumni.Mapping
             CreateMap<Discipline, DisciplineResponse>();
 
             CreateMap<DisciplineTopic, DisciplineTopicResponse>();                
-
+            */
             CreateMap<Lesson, LessonResponse>()
+            .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
+                    // For just send the duration with hour, only when grather than 0
+                    l.Video.Duration.Substring(0, 2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
+                ));
+            /*
                 .ForMember(lr => lr.DisciplineTopicName, m => m.MapFrom(l => l.Topic.DisciplineTopic.Name))
                 .ForMember(lr => lr.DiscpilineId, m => m.MapFrom(l => l.TeacherPlace.DisciplineId))
                 .ForMember(lr => lr.DisciplineName, m => m.MapFrom(l => l.TeacherPlace.Discipline.Name))
@@ -69,7 +73,7 @@ namespace alumni.Mapping
                     // For just send the duration with hour, only when grather than 0
                     l.Video.Duration.Substring(0,2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
                 ));
-        */
+            */
             CreateMap<Manager, ManagerResponse>();
 
             /*
@@ -170,9 +174,7 @@ namespace alumni.Mapping
             });
             */
             CreateMap<User, UserResponse>();
-
-            /*
-            CreateMap<Video, VideoResponse>();*/
+            CreateMap<Video, VideoResponse>();
         }
     }
 }

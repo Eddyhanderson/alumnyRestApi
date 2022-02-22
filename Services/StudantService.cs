@@ -24,24 +24,29 @@ namespace alumni.Services
             this.userService = userService;
         }
 
-        public async Task<CreationResult<Studant>> CreateAsync(Studant studant)
+        public async Task<CreationResult<Studant>> CreateAsync(Studant studant, User user, AuthData auth)
         {
-            if (studant == null) return null;
+            if (studant == null) return FailCreation();
+
+            var authResult = await this.userService.RegistrationAsync(user, auth);
+
+            if (authResult is null || !authResult.Authenticated)
+                return FailCreation();
 
             var newStudant = new Studant
             {
                 Id = Guid.NewGuid().ToString(),
-                UserId = studant.UserId,
-                /*CourseId = studant.CourseId,*/
-                StudantCode = await GenerateStudantCodeAsync(studant),
-                /*AcademyId = studant.AcademyId,
-                AcademicLevelId = studant.AcademicLevelId*/
+                UserId = authResult.User.Id,
+                FirstName = studant.FirstName,
+                LastName = studant.LastName,
+                StudantCode = studant.StudantCode,
+                OrganId = studant.OrganId,
+                Responsable = studant.Responsable
             };
-
-            await dataContext.Studants.AddAsync(newStudant);
 
             try
             {
+                await dataContext.Studants.AddAsync(newStudant);
                 await dataContext.SaveChangesAsync();
 
                 return new CreationResult<Studant>

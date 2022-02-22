@@ -58,11 +58,13 @@ namespace alumni.Services
         }
 
         public async Task<PageResult<Formation>> GetFormationsAsync(PaginationFilter filter = null,
-            FormationQuery query = null){
+            FormationQuery query = null)
+        {
 
-            var formations = from f in dataContext.Formations
-                             where f.SchoolId == query.SchoolId
-                             select f;
+            var formations = dataContext.Formations.AsQueryable();
+
+            if (query?.SchoolId != null)
+                formations = formations.Where(f => f.SchoolId == query.SchoolId);
 
             return await GetPaginationAsync(formations, filter);
         }
@@ -71,7 +73,7 @@ namespace alumni.Services
         {
             if (id == null) return null;
 
-            var formation = await dataContext.Formations                
+            var formation = await dataContext.Formations
                 .SingleOrDefaultAsync(f => f.Id == id);
 
             return formation;
@@ -86,7 +88,7 @@ namespace alumni.Services
             };
         }
 
-        private async Task<PageResult<Formation>> GetPaginationAsync(IQueryable<Formation> formations, PaginationFilter filter)
+        private async Task<PageResult<Formation>> GetPaginationAsync(IQueryable<Formation> formations, PaginationFilter filter)        
         {
             var totalElement = await formations.CountAsync();
 
@@ -114,6 +116,6 @@ namespace alumni.Services
             };
 
             return page;
-        }
+        }    
     }
 }

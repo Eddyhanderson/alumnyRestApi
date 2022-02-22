@@ -38,16 +38,25 @@ namespace alumni.Controllers
             this.uriService = uriService;
         }
 
+        [AllowAnonymous]
         [HttpPost(ApiRoutes.StudantRoutes.Create)]
-        public async Task<IActionResult> Create([FromBody] StudantRequest studantRequest)
+        public async Task<IActionResult> Create([FromBody] CreateStudantRequest request)
         {
-            if (studantRequest == null) return BadRequest();
+            if (request is null) return BadRequest();
 
             string route = ApiRoutes.StudantRoutes.Get;
 
-            var studant = mapper.Map<Studant>(studantRequest);
+            var studant = mapper.Map<Studant>(request);
 
-            var creationResult = await studantService.CreateAsync(studant);
+            var user = mapper.Map<User>(request);
+
+            var auth = new AuthData
+            {
+                Password = request.Password,
+                Role = Constants.UserContansts.StudantRole
+            };
+
+            var creationResult = await studantService.CreateAsync(studant, user, auth);
 
             if (!creationResult.Succeded) return Conflict();
 

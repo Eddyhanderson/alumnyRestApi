@@ -33,7 +33,8 @@ namespace alumni.Services
                 Situation = Constants.SituationsObjects.NormalSituation,
                 DateCreation = DateTime.Now,
                 DateSituation = DateTime.Now,
-                Picture = module.Picture
+                Picture = module.Picture,
+                Sequence = await BuildModuleSequence(module.FormationId)
             };
 
             try
@@ -60,13 +61,23 @@ namespace alumni.Services
             ModuleQuery query = null)
         {
 
-            var modules = from s in dataContext.Modules
-                          where s.FormationId == query.FormationId
-                          select s;
+            var modules = dataContext.Modules.AsQueryable();
+
+            if (query?.FormationId != null)
+                modules = modules.Where(m => m.FormationId == query.FormationId);
 
             return await GetPaginationAsync(modules, filter);
         }
 
+        public async Task<Module> GetModuleAsync(string id)
+        {
+            if (id == null) return null;
+
+            var module = await dataContext.Modules
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            return module;
+        }
         private CreationResult<Module> FailCreation()
         {
             return new CreationResult<Module>
@@ -104,6 +115,12 @@ namespace alumni.Services
             };
 
             return page;
+        }
+        private async Task<int> BuildModuleSequence(string formationId)
+        {
+            var length = await dataContext.Modules.Where(m => m.FormationId == formationId).CountAsync();
+
+            return length + 1;
         }
     }
 }

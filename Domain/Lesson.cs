@@ -22,6 +22,8 @@ namespace alumni.Domain
 
         public string ArticleId { get; set; }
 
+        public string ManifestPath {get;set;}
+
         [Required]
         public string PostId { get; set; }
 

@@ -53,10 +53,14 @@ namespace alumni.Mapping
             CreateMap<DisciplineTopic, DisciplineTopicResponse>();                
             */
             CreateMap<Lesson, LessonResponse>()
-            .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
-                    // For just send the duration with hour, only when grather than 0
-                    l.Video.Duration.Substring(0, 2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
-                ));
+            .ForMember(lr => lr.SchoolName, m => m.MapFrom(l => l.Module.Formation.School.Name))
+            .ForMember(lr => lr.SchoolAcronymName, m => m.MapFrom(l => l.Module.Formation.School.Acronym))
+            .ForMember(lr => lr.ModuleName, m => m.MapFrom(l => l.Module.Name))
+            .ForMember(lr => lr.FormationTheme, m => m.MapFrom(l => l.Module.Formation.Theme))
+            .ForMember(lr => lr.Date, m => m.MapFrom(l => l.Post.CreateAt))
+            .ForMember(lr => lr.SchoolPicture, m => m.MapFrom(l => l.Module.Formation.School.User.Picture))
+            .ForMember(lr => lr.Duration, m => m.MapFrom(l =>                    
+                    l.Video.Duration.Substring(0, 2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration));
             /*
                 .ForMember(lr => lr.DisciplineTopicName, m => m.MapFrom(l => l.Topic.DisciplineTopic.Name))
                 .ForMember(lr => lr.DiscpilineId, m => m.MapFrom(l => l.TeacherPlace.DisciplineId))
@@ -68,11 +72,7 @@ namespace alumni.Mapping
                 .ForMember(lr => lr.SchoolName, m => m.MapFrom(l => l.TeacherPlace.School.ShortName))
                 .ForMember(lr => lr.TeacherPlacePhotoPath, m => m.MapFrom(l => l.TeacherPlace.ProfilePhotoPath))
                 .ForMember(lr => lr.ManifestPath, m => m.MapFrom(l => l.Video.ManifestPath))
-                .ForMember(lr => lr.SchoolId, m => m.MapFrom(l => l.TeacherPlace.School.Id))
-                .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
-                    // For just send the duration with hour, only when grather than 0
-                    l.Video.Duration.Substring(0,2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration
-                ));
+                .ForMember(lr => lr.SchoolId, m => m.MapFrom(l => l.TeacherPlace.School.Id))                
             */
             CreateMap<Manager, ManagerResponse>();
 
@@ -105,14 +105,10 @@ namespace alumni.Mapping
 
             CreateMap<School, SchoolResponse>()
                 .ForMember(sr => sr.ProfilePhotoPath, m => { m.MapFrom(s => s.BadgeInformation.ProfilePhotoPath); });
+            */
+            CreateMap<Studant, StudantResponse>();
 
-            CreateMap<Studant, StudantResponse>()
-                .ForMember(sr => sr.PictureProfilePath, m =>
-                {
-                    m.MapFrom(vr => vr.User.PictureProfilePath);
-                });
-
-
+            /*
             CreateMap<TeacherSchools, TeacherSchoolsResponse>();
 
             CreateMap<TeacherPlace, TeacherPlaceResponse>()

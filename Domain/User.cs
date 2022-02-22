@@ -13,6 +13,10 @@ namespace alumni.Domain
     {
         public string Picture { get; set; }
 
+        public string Genre { get; set; }
+
+        public string Birth { get; set; }
+
         [Required]
         public string Situation { get; set; }
 

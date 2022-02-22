@@ -78,26 +78,7 @@ namespace alumni.Controllers
 
             return BadRequest();
         }
-
-        [AllowAnonymous]
-        [HttpPost(ApiRoutes.UserRoutes.Registration)]
-        public async Task<IActionResult> Registration([FromBody] CreateUserRequest registrationRequest)
-        {
-            if (registrationRequest == null) return BadRequest();
-
-            var registration = mapper.Map<AuthData>(registrationRequest);
-
-            /*var auth = await userService.RegistrationAsync(registration);
-
-            var authResponse = mapper.Map<AuthResultResponse>(auth);
-
-            authResponse.User.Role = registration.Role;
-
-            return Ok(authResponse);*/
-
-            return Ok();
-        }
-
+        
         [HttpGet(ApiRoutes.UserRoutes.Get)]
         public async Task<IActionResult> GetUser([FromRoute] string Id)
         {

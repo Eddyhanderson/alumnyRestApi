@@ -11,5 +11,7 @@ namespace alumni.Contracts.V1.Responses
         public string Picture { get; set; }
 
         public string FormationId { get; set; }
+
+        public int Sequence { get; set; }
     }
 }

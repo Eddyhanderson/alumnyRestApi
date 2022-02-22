@@ -12,9 +12,11 @@ namespace alumni.Contracts.V1.Requests
 
         public string VideoId { get; set; }
 
-        public string ArticleId { get; set; }        
+        public string ArticleId { get; set; }
 
         public string Picture { get; set; }
+
+        public string ManifestPath { get; set; }
 
         [Required]
         public string Description { get; set; }

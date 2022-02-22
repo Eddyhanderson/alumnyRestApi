@@ -22,6 +22,9 @@ namespace alumni.Domain
         public string FirstName { get; set; }
 
         [Required]
+        public bool Responsable { get; set; }
+
+        [Required]
         public string LastName { get; set; }
 
         [Required]

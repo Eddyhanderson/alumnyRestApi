@@ -67,8 +67,11 @@ namespace alumni.Mapping
             CreateMap<SchoolRequest, School>();
 
             CreateMap<SchoolCoursesRequest, SchoolCourses>();
+            */
+            CreateMap<CreateStudantRequest, Studant>();
+            CreateMap<CreateStudantRequest, User>();
 
-            CreateMap<StudantRequest, Studant>();
+            /*
 
             CreateMap<SchoolIdentityCreation, SchoolIdentity>();            
 

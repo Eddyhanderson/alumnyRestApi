@@ -9,7 +9,7 @@ namespace alumni.IServices
 {
     public interface IStudantService
     {
-        public Task<CreationResult<Studant>> CreateAsync(Studant studant);
+        public Task<CreationResult<Studant>> CreateAsync(Studant studant, User user, AuthData auth);
 
         public Task<Studant> GetStudantAsync(string id);
 

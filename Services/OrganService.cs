@@ -1,3 +1,4 @@
+using alumni.Contracts.V1.Requests.Queries;
 using alumni.Data;
 using alumni.Domain;
 using alumni.IServices;
@@ -72,5 +73,41 @@ namespace alumni.Services
             return count + 1;
         }
 
+        public async Task<PageResult<Organ>> GetOrgansAsync(PaginationFilter filter = null, OrganQuery query = null)
+        {
+            var organs = dataContext.Organ.AsQueryable();
+
+            return await GetPaginationAsync(organs, filter);
+        }
+
+         private async Task<PageResult<Organ>> GetPaginationAsync(IQueryable<Organ> organ, PaginationFilter filter)
+        {
+            var totalElement = await organ.CountAsync();
+
+            var searchMode = filter.SearchValue != null;
+
+            if (searchMode)
+            {
+                var sv = filter.SearchValue;
+
+                organ = organ
+                    .Where(o => o.Name.Contains(sv));
+            }
+
+            if (filter.PageNumber >= 0 && filter.PageSize > 0)
+            {
+                var skip = (filter.PageNumber - 1) * filter.PageSize;
+
+                organ = organ.Skip(skip).Take(filter.PageSize);
+            }
+
+            var page = new PageResult<Organ>
+            {
+                Data = organ,
+                TotalElements = totalElement
+            };
+
+            return page;
+        }
     }
 }

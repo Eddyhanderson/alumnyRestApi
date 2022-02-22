@@ -36,7 +36,7 @@ namespace alumni.Services
         public async Task<CreationResult<Lesson>> CreateAsync(Lesson lesson)
         {
             if (lesson == null) return FailCreation();
-            if(lesson.ModuleId is null) return FailCreation();
+            if (lesson.ModuleId is null) return FailCreation();
 
             try
             {
@@ -67,7 +67,7 @@ namespace alumni.Services
                     if (article == null) return FailCreation();
 
                     article.Draft = false;
-                    
+
 
                     var artStt = await articleService.UpdateAsync(lesson.ArticleId, article);
 
@@ -79,14 +79,15 @@ namespace alumni.Services
                     Id = Guid.NewGuid().ToString(),
                     PostId = lesson.PostId,
                     Picture = lesson.Picture,
-                    Description = lesson.Description,                    
+                    Description = lesson.Description,
                     Sequence = await BuildLessonSequence(lesson.ModuleId),
-                    Views = 0,                    
+                    Views = 0,
                     ModuleId = lesson.ModuleId,
                     Title = lesson.Title,
                     ArticleId = lesson.ArticleId,
                     VideoId = lesson.VideoId,
-                    LessonType = lesson.LessonType
+                    LessonType = lesson.LessonType,
+                    ManifestPath = lesson.ManifestPath
                 };
 
                 await dataContext.Lessons.AddAsync(newLesson);
@@ -112,7 +113,7 @@ namespace alumni.Services
             if (id == null) return null;
 
             var lesson = await dataContext.Lessons.Include(l => l.Post)
-                .Include(l => l.Module).ThenInclude(m => m.Formation).ThenInclude(f => f.School)
+                .Include(l => l.Module).ThenInclude(m => m.Formation).ThenInclude(f => f.School).ThenInclude(s => s.User)
                 .Include(l => l.Video)
                 .Include(l => l.Article)
                 .SingleOrDefaultAsync(l => l.Id == id
@@ -139,17 +140,19 @@ namespace alumni.Services
                 .Include(l => l.Post)
                 .Include(l => l.Module).ThenInclude(m => m.Formation).ThenInclude(f => f.School)
                 .Include(l => l.Video)
-                .Include(l => l.Article)                
-                .Where(l => l.Post.Situation == Constants.SituationsObjects.NormalSituation && 
-                l.Module.Formation.SchoolId == query.SchoolId).AsQueryable();
+                .Include(l => l.Article)
+                .Where(l => l.Post.Situation == Constants.SituationsObjects.NormalSituation).AsQueryable();
 
             if (query != null)
             {
+                if (query?.SchoolId != null)
+                    lessons = lessons.Where(l => l.Module.Formation.SchoolId == query.SchoolId);
+
                 if (query?.ModuleId != null)
                     lessons = lessons.Where(l => l.ModuleId == query.ModuleId);
 
-                if(query.FormationId != null)
-                    lessons = lessons.Where(l => l.Module.FormationId != query.FormationId);
+                if (query.FormationId != null)
+                    lessons = lessons.Where(l => l.Module.FormationId == query.FormationId);
             }
 
             return await GetPaginationAsync(lessons, filter);
@@ -177,8 +180,8 @@ namespace alumni.Services
                           from tp in dataContext.TeacherPlaces
                           from t in dataContext.Teachers
                           from q in dataContext.Questions
-                          where l.Id == id && l.ModuleId == tp.Id && 
-                          tp.TeacherId == t.Id && t.UserId == a.Post.UserId && 
+                          where l.Id == id && l.ModuleId == tp.Id &&
+                          tp.TeacherId == t.Id && t.UserId == a.Post.UserId &&
                           q.Id == a.QuestionId && q.LessonId == id
                           select l).CountAsync();
         }
@@ -233,11 +236,7 @@ namespace alumni.Services
 
         private async Task<int> BuildLessonSequence(string moduleId)
         {
-            var length = await (from t in dataContext.Topics.Include(t => t.Post)
-                                from l in dataContext.Lessons
-                                where l.ModuleId == moduleId && t.Id == moduleId &&
-                                t.Post.Situation == Constants.SituationsObjects.NormalSituation
-                                select l).CountAsync();
+            var length = await dataContext.Lessons.Where(l => l.ModuleId == moduleId).CountAsync();
 
             return length + 1;
         }

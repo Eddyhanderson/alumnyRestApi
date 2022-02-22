@@ -60,5 +60,36 @@ namespace alumni.Controllers
 
             return Created(creationResponse.GetUri, creationResponse);
         }               
+
+
+        [AllowAnonymous]
+        [HttpGet(ApiRoutes.OrganRoutes.GetAll)]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery pagQuery, [FromQuery] OrganQuery query)
+        {
+            var filter = mapper.Map<PaginationFilter>(pagQuery);
+
+            var searchMode = filter.SearchValue != null;
+
+            var pageResult = await organService.GetOrgansAsync(filter, query);
+
+            var pageResponse = new PageResponse<OrganResponse>
+            {
+                Data = mapper.Map<IEnumerable<Organ>, IEnumerable<OrganResponse>>(pageResult.Data),
+                TotalElements = pageResult.TotalElements
+            };
+
+            if (filter.PageNumber < 1 || filter.PageSize < 1)
+                return Ok(pageResponse);
+
+            var paginationResponse = PaginationHelpers.CreatePaginationResponse(paginationFilter: filter,
+                                    response: pageResponse.Data,
+                                    uriService: uriService,
+                                    path: ApiRoutes.OrganRoutes.GetAll,
+                                    searchMode: searchMode);
+
+            paginationResponse.TotalElements = pageResponse.TotalElements;
+
+            return Ok(paginationResponse);
+        }
     }
 }

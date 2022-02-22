@@ -80,5 +80,22 @@ namespace alumni.Controllers
             return Ok(paginationResponse);
         }
 
+
+        [HttpGet(ApiRoutes.ModuleRoutes.Get)]
+        public async Task<IActionResult> Get([FromRoute] string id)
+        {
+            if (id is null) return BadRequest();
+
+            var module = await service.GetModuleAsync(id);
+
+            if (module == null) return NotFound();
+
+            var response = new Response<ModuleResponse>(mapper.Map<ModuleResponse>(module));
+
+            return Ok(response);
+        }
+
+
     }
+
 }

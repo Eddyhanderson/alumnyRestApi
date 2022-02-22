@@ -24,6 +24,9 @@ namespace alumni.Domain
         public string Picture { get; set; }
 
         [Required]
+        public int Sequence { get; set; }
+
+        [Required]
         public string Situation { get; set; }
 
         [Required]

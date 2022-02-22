@@ -86,10 +86,10 @@ namespace alumni.Controllers
                 TotalElements = pageResult.TotalElements
             }; 
 
-            /*for(int i = 0; i < pageResponse.Data.Count(); i++)
+            for(int i = 0; i < pageResponse.Data.Count(); i++)
             {
                 await SetAnalytics(pageResponse.Data.ElementAt(i));
-            }*/
+            }
 
             if (filter.PageNumber < 1 || filter.PageSize < 1)
                 return Ok(pageResponse);
@@ -117,6 +117,10 @@ namespace alumni.Controllers
             var response = new Response<LessonResponse>(mapper.Map<LessonResponse>(lesson));
 
             return Ok(response);
+        }
+
+        private async Task SetAnalytics(LessonResponse lesson){
+            lesson.QuestionCount = await lessonService.QuestionCountAsync(lesson.Id);;
         }
     }
 }

@@ -61,7 +61,8 @@ namespace alumni.Services
             FormationQuery query = null)
         {
 
-            var formations = dataContext.Formations.AsQueryable();
+            var formations = dataContext.Formations.Include(f => f.School).ThenInclude(s => s.User)
+            .Include(f => f.FormationEvents).AsQueryable();
 
             if (query?.SchoolId != null)
                 formations = formations.Where(f => f.SchoolId == query.SchoolId);

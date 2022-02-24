@@ -33,7 +33,10 @@ namespace alumni.Mapping
 
             CreateMap<Formation, FormationCreationResponse>();
 
-            CreateMap<Formation, FormationResponse>();
+            CreateMap<FormationEvent, FormationEventResponse>();
+
+            CreateMap<Formation, FormationResponse>()
+            .ForMember(fr => fr.SchoolPicture, m => m.MapFrom(f => f.School.User.Picture));
 
             CreateMap<Module, ModuleResponse>();
             /*
@@ -59,7 +62,7 @@ namespace alumni.Mapping
             .ForMember(lr => lr.FormationTheme, m => m.MapFrom(l => l.Module.Formation.Theme))
             .ForMember(lr => lr.Date, m => m.MapFrom(l => l.Post.CreateAt))
             .ForMember(lr => lr.SchoolPicture, m => m.MapFrom(l => l.Module.Formation.School.User.Picture))
-            .ForMember(lr => lr.Duration, m => m.MapFrom(l =>                    
+            .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
                     l.Video.Duration.Substring(0, 2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration));
             /*
                 .ForMember(lr => lr.DisciplineTopicName, m => m.MapFrom(l => l.Topic.DisciplineTopic.Name))

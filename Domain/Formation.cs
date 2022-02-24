@@ -20,6 +20,10 @@ namespace alumni.Domain
         [Required]
         public string Description { get; set; }
 
+        public string Picture { get; set; }
+
+        public bool Published { get; set; }
+
         [Required]
         public decimal Price { get; set; }
 
@@ -39,6 +43,8 @@ namespace alumni.Domain
         public DateTime DateCreation { get; set; }
 
         public List<Module> Modules { get; set; }
+
+        public List<FormationEvent> FormationEvents { get; set; }
     }
 
 }

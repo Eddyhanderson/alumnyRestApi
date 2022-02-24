@@ -118,6 +118,17 @@ namespace alumni.Contracts.V1
             public const string GetAll = FormationRoute + "/getAll";
         }
 
+        public static class FormationEventRoutes
+        {
+            public const string FormationEventRoute = Base + "/formationEvent";
+
+            public const string Create = FormationEventRoute + "/create";
+
+            public const string Get = FormationEventRoute + "/get/{id}";
+
+            public const string GetAll = FormationEventRoute + "/getAll";
+        }
+
         public static class LessonRoutes
         {
             public const string LessonRoute = Base + "/lesson";

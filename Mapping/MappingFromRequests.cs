@@ -20,6 +20,8 @@ namespace alumni.Mapping
             CreateMap<AnswerRequest, Answer>();*/
             CreateMap<CreateFormationRequest, Formation>();
 
+            CreateMap<FormationEventRequest, FormationEvent>();
+
             CreateMap<LoginRequest, LoginDomain>();
             /*
                 CreateMap<RegistrationRequest, RegistrationDomain>();

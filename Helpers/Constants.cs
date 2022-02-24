@@ -36,6 +36,8 @@ namespace Alumni.Helpers
             public const string PendingSituation = "Pending";
 
             public const string Unsubscribed= "Unsubscribed";
+
+            public const string History= "History";
         }
 
         public static class RegexExpressions
@@ -128,5 +130,10 @@ namespace Alumni.Helpers
     {
         Registered,
         UnRegistered
+    }
+
+    public enum FormationEventStates{
+        Started,
+        Waiting        
     }
 }

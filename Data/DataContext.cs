@@ -51,6 +51,8 @@ namespace alumni.Data
 
         public DbSet<Formation> Formations { get; set; }
 
+        public DbSet<FormationEvent> FormationEvents { get; set; }
+
         public DbSet<Lesson> Lessons { get; set; }
 
         public DbSet<Manager> Managers { get; set; }

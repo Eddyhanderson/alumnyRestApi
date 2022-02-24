@@ -71,6 +71,8 @@ namespace alumni.Installers
 
             services.AddScoped<IFormationService, FormationService>();
 
+            services.AddScoped<IFormationEventService, FormationEventService>();
+
             services.AddScoped<ILessonService, LessonService>();
 
             services.AddScoped<IManagerService, ManagerService>();

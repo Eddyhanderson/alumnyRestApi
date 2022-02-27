@@ -116,6 +116,26 @@ namespace alumni.Services
             return studant;
         }
 
+        public async Task<bool> ObjectExists(string id)
+        {
+            return await dataContext.Studants.AnyAsync(s => s.Id == id);
+        }
+
+        public async Task<Studant> GetStudantResponsableAsync(string id)
+        {
+            var studant = await dataContext.Studants.SingleOrDefaultAsync(s => s.Id == id);
+
+            if(studant is null) return null;
+
+            var responsable = from s in dataContext.Studants
+            .Include(s => s.User)
+            .Include(s => s.Organ)
+            from o in dataContext.Organ
+            where s.Responsable && s.OrganId == studant.OrganId
+            select s;
+
+            return await responsable.FirstOrDefaultAsync();
+        }
         private async Task<string> GenerateStudantCodeAsync(Studant studant)
         {
             var user = await userService.GetUserAsync(studant.UserId);
@@ -139,9 +159,6 @@ namespace alumni.Services
             };
         }
 
-        public async Task<bool> ObjectExists(string id)
-        {
-            return await dataContext.Studants.AnyAsync(s => s.Id == id);
-        }
+        
     }
 }

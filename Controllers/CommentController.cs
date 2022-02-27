@@ -67,7 +67,7 @@ namespace alumni.Controllers
             return Created(creationResponse.GetUri, creationResponse);
         }
 
-        [HttpGet(ApiRoutes.CommentRoutes.GetAll)]
+       /* [HttpGet(ApiRoutes.CommentRoutes.GetAll)]
         public async Task<IActionResult> GetAll([FromQuery] CommentQuery commentQuery, [FromQuery] PaginationQuery query)
         {
             if (query == null) return BadRequest();
@@ -96,7 +96,7 @@ namespace alumni.Controllers
             paginationResponse.TotalElements = commentsResult.TotalElements;
 
             return Ok(paginationResponse);
-        }
+        }*/
 
         [HttpGet(ApiRoutes.CommentRoutes.Get)]
         public async Task<IActionResult> Get([FromRoute] string Id)

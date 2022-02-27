@@ -40,6 +40,16 @@ namespace alumni.Mapping
             .ForMember(fr => fr.SchoolAcronym, m => m.MapFrom(f => f.School.Acronym))
             .ForMember(fr => fr.SchoolName, m => m.MapFrom(f => f.School.Name));
 
+            CreateMap<FormationRequest, FormationRequestResponse>()
+            .ForMember(frr => frr.StudantLastName, m => m.MapFrom(fr => fr.Studant.FirstName))
+            .ForMember(frr => frr.StudantFisrtName, m => m.MapFrom(fr => fr.Studant.LastName))
+            .ForMember(frr => frr.StudantPicture, m => m.MapFrom(fr => fr.Studant.User.Picture))
+            .ForMember(frr => frr.FormationPrice, m => m.MapFrom(fr => fr.Formation.Price))
+            .ForMember(frr => frr.FormationSchoolPicture, m => m.MapFrom(fr => fr.Formation.School.User.Picture))
+            .ForMember(frr => frr.FormationSchoolName, m => m.MapFrom(fr => fr.Formation.School.Name))
+            .ForMember(frr => frr.FormationSchoolAcronym, m => m.MapFrom(fr => fr.Formation.School.Acronym))
+            .ForMember(frr => frr.FormationTheme, m => m.MapFrom(fr => fr.Formation.Theme));            
+
             CreateMap<Module, ModuleResponse>();
             /*
             CreateMap<BadgeInformation, BadgeInformationResponse>();
@@ -106,12 +116,15 @@ namespace alumni.Mapping
 
 
             CreateMap<School, SchoolResponse>();
+
             /*
 
             CreateMap<School, SchoolResponse>()
                 .ForMember(sr => sr.ProfilePhotoPath, m => { m.MapFrom(s => s.BadgeInformation.ProfilePhotoPath); });
             */
-            CreateMap<Studant, StudantResponse>();
+            CreateMap<Studant, StudantResponse>()
+            .ForMember(sr => sr.OrganName, m => m.MapFrom(s => s.Organ.Name))
+            .ForMember(sr => sr.Picture, m => m.MapFrom(s => s.User.Picture));
 
             /*
             CreateMap<TeacherSchools, TeacherSchoolsResponse>();

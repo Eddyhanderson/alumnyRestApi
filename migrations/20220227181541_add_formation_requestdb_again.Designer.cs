@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220227181541_add_formation_requestdb_again")]
+    partial class add_formation_requestdb_again
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,8 +331,8 @@ namespace alumni.Migrations
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Published")
                         .HasColumnType("bit");
@@ -403,10 +405,6 @@ namespace alumni.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("StateDate")
                         .HasColumnType("datetime2");
 
@@ -418,7 +416,10 @@ namespace alumni.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeacherMessage")
-                        .HasColumnType("nvarchar(max)");
+                    .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                    .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

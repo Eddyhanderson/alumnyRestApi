@@ -35,9 +35,9 @@ namespace Alumni.Helpers
 
             public const string PendingSituation = "Pending";
 
-            public const string Unsubscribed= "Unsubscribed";
+            public const string Unsubscribed = "Unsubscribed";
 
-            public const string History= "History";
+            public const string History = "History";
         }
 
         public static class RegexExpressions
@@ -73,7 +73,7 @@ namespace Alumni.Helpers
 
             public const string DisciplineBadge = "Discipline";
         }
-        
+
         public static class PathFiles
         {
             public const string MediaPath = "Media";
@@ -96,14 +96,14 @@ namespace Alumni.Helpers
 
             public const string FailModelPersist = "The system cannot save this model";
         }
-    }     
+    }
 
     public enum LessonTypes
     {
         Video,
         Article
     }
-  
+
     public enum PostsTypes
     {
         Question,
@@ -132,8 +132,19 @@ namespace Alumni.Helpers
         UnRegistered
     }
 
-    public enum FormationEventStates{
-        Started,
-        Waiting        
+    public enum FormationEventStates
+    {
+        Started = 1,
+        Waiting = 2
+    }
+
+    public enum FormationRequestStates
+    {
+        WatingResponsableAction = 1,
+        WaitingManagerAction = 2,
+
+        Aproved = 3,
+
+        Rejected = 4
     }
 }

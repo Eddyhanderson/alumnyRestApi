@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220227183911_delete_formation_request_again")]
+    partial class delete_formation_request_again
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,8 +331,8 @@ namespace alumni.Migrations
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Published")
                         .HasColumnType("bit");
@@ -385,48 +387,6 @@ namespace alumni.Migrations
                     b.HasIndex("FormationId");
 
                     b.ToTable("FormationEvents");
-                });
-
-            modelBuilder.Entity("alumni.Domain.FormationRequest", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FormationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Situation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StudantId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudantMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TeacherMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormationId");
-
-                    b.HasIndex("StudantId");
-
-                    b.ToTable("FormationRequests");
                 });
 
             modelBuilder.Entity("alumni.Domain.Lesson", b =>
@@ -964,21 +924,6 @@ namespace alumni.Migrations
                     b.HasOne("alumni.Domain.Formation", "Formation")
                         .WithMany("FormationEvents")
                         .HasForeignKey("FormationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("alumni.Domain.FormationRequest", b =>
-                {
-                    b.HasOne("alumni.Domain.Formation", "Formation")
-                        .WithMany()
-                        .HasForeignKey("FormationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("alumni.Domain.Studant", "Studant")
-                        .WithMany()
-                        .HasForeignKey("StudantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

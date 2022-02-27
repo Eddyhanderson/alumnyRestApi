@@ -51,27 +51,17 @@ namespace alumni.Installers
 
             services.AddScoped<IArticleService, ArticleService>();
 
-            services.AddScoped<IAcademyService, AcademyService>();
-
-            services.AddScoped<IAcademicLevelService, AcademicLevelService>();
-
             services.AddScoped<IAnswerService, AnswerService>();
-
-            services.AddScoped<IBadgeInformationService, BadgeInformationService>();
-
-            services.AddScoped<ICourseService, CourseService>();
 
             services.AddScoped<ICommentableService, CommentableService>();
 
             services.AddScoped<ICommentService, CommentService>();
 
-            services.AddScoped<IDisciplineService, DisciplineService>();
-
-            services.AddScoped<IDisciplineTopicService, DisciplineTopicService>();
-
             services.AddScoped<IFormationService, FormationService>();
 
             services.AddScoped<IFormationEventService, FormationEventService>();
+
+            services.AddScoped<IFormationRequestService, FormationRequestService>();
 
             services.AddScoped<ILessonService, LessonService>();
 
@@ -85,23 +75,9 @@ namespace alumni.Installers
 
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddScoped<ISchoolDeprecatedService, SchoolServiceDeprecated>();            
-
             services.AddScoped<ISchoolService, SchoolService>();  
 
             services.AddScoped<IStudantService, StudantService>();
-
-            services.AddScoped<ITeacherPlaceStudantService, TeacherPlaceStudantService>();
-
-            services.AddScoped<ITeacherPlaceMaterialService, TeacherPlaceMaterialService>();
-
-            services.AddScoped<ITeacherPlaceMessageService, TeacherPlaceMessageService>();
-
-            services.AddScoped<ITeacherPlaceService, TeacherPlaceService>();
-
-            services.AddScoped<ITeacherSchoolsService, TeacherSchoolsService>();
-
-            services.AddScoped<ITeacherService, TeacherService>();
 
             services.AddScoped<IUserService, UserService>();
 

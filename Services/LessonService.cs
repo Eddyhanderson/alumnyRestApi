@@ -173,19 +173,6 @@ namespace alumni.Services
             return await dataContext.Questions.Where(q => q.LessonId == id && q.Situation == QuestionSituations.Solved.ToString("g")).CountAsync();
         }
 
-        public async Task<int> TeacherAnswerCountAsync(string id)
-        {
-            return await (from l in dataContext.Lessons
-                          from a in dataContext.Answers.Include(a => a.Post)
-                          from tp in dataContext.TeacherPlaces
-                          from t in dataContext.Teachers
-                          from q in dataContext.Questions
-                          where l.Id == id && l.ModuleId == tp.Id &&
-                          tp.TeacherId == t.Id && t.UserId == a.Post.UserId &&
-                          q.Id == a.QuestionId && q.LessonId == id
-                          select l).CountAsync();
-        }
-
         public async Task<int> AnswerCountAsync(string id)
         {
             return await (from q in dataContext.Questions

@@ -25,7 +25,7 @@ namespace alumni.Domain
         public bool Published { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public float Price { get; set; }
 
         [Required]
         public string SchoolId { get; set; }

@@ -15,6 +15,8 @@ namespace alumni.IServices
 
         Task<PageResult<Studant>> GetStudantsAsync(PaginationFilter filter = null);
 
+        Task<Studant> GetStudantResponsableAsync(string id);
+
         Task<bool> ObjectExists(string id);
     }
 }

@@ -21,5 +21,7 @@ namespace alumni.Contracts.V1.Responses
         public string StudantCode { get; set; }
 
          public string OrganId { get; set; }
+
+         public string OrganName {get;set;}
     }
 }

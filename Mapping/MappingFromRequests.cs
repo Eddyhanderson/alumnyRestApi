@@ -20,6 +20,8 @@ namespace alumni.Mapping
             CreateMap<AnswerRequest, Answer>();*/
             CreateMap<CreateFormationRequest, Formation>();
 
+            CreateMap<FormationRequestRequest, FormationRequest>();
+
             CreateMap<FormationEventRequest, FormationEvent>();
 
             CreateMap<LoginRequest, LoginDomain>();
@@ -42,7 +44,7 @@ namespace alumni.Mapping
 
                         CreateMap<DisciplineTopicRequest, DisciplineTopic>();*/
 
-            CreateMap<LessonRequest, Lesson>(); 
+            CreateMap<LessonRequest, Lesson>();
 
             CreateMap<CreateManagerRequest, Manager>();
             CreateMap<CreateManagerRequest, User>();
@@ -92,7 +94,7 @@ namespace alumni.Mapping
             CreateMap<TopicRequest, Topic>();
 
             CreateMap<UserRequest, User>();
-            */  
+            */
             CreateMap<VideoRequest, Video>();
         }
     }

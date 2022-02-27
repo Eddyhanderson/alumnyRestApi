@@ -124,5 +124,19 @@ namespace alumni.Controllers
             return Ok(response);
         }
 
+        
+        [HttpGet(ApiRoutes.StudantRoutes.GetResponsable)]
+        public async Task<IActionResult> GetStudantResponsable([FromRoute] string id)
+        {
+            var studant = await studantService.GetStudantResponsableAsync(id);
+
+            if (studant is null) return NoContent();
+
+            var studantResponse = mapper.Map<StudantResponse>(studant);
+
+            var response = new Response<StudantResponse>(studantResponse);
+
+            return Ok(response);
+        }
     }
 }

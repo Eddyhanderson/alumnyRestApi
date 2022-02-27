@@ -119,19 +119,7 @@ namespace alumni.Controllers
                                                                             searchMode: searchMode);
 
             return Ok(paginationResponse);
-        }
-
-        [HttpGet(ApiRoutes.UserRoutes.GetTeacher)]
-        public async Task<IActionResult> GetTeacher([FromRoute] string Id)
-        {
-            if (Id == null) return BadRequest();
-
-            var teacher = await userService.GetTeacherAsync(Id);
-
-            var teacherResponse = mapper.Map<TeacherResponse>(teacher);
-
-            return Ok(new Response<TeacherResponse>(teacherResponse));
-        }
+        }  
 
         [HttpGet(ApiRoutes.UserRoutes.GetStudant)]
         public async Task<IActionResult> GetStudant([FromRoute] string Id)

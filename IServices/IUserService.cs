@@ -24,8 +24,6 @@ namespace alumni.IServices
 
         Task<IEnumerable<User>> GetUsersAsync(PaginationFilter filter = null);
 
-        Task<Teacher> GetTeacherAsync(string userId);
-
         Task<Studant> GetStudantAsync(string userId);
     }
 }

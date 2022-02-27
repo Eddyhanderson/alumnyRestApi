@@ -242,16 +242,6 @@ namespace alumni.Services
             return await users.ToListAsync();
         }
 
-        public async Task<Teacher> GetTeacherAsync(string userId)
-        {
-            return await dataContext.Teachers
-                    .Include(t => t.AcademicLevel)
-                    .Include(t => t.Academy)
-                    .Include(t => t.Course)
-                    .Include(t => t.User)
-                    .SingleOrDefaultAsync(t => t.User.Id == userId && t.User.Situation == Constants.SituationsObjects.NormalSituation);
-        }
-
         public async Task<Studant> GetStudantAsync(string userId)
         {
             return await dataContext.Studants

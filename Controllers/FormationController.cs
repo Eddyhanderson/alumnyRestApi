@@ -69,6 +69,12 @@ namespace alumni.Controllers
                 TotalElements = pageResult.TotalElements
             };
 
+            pageResponse.Data.ToList().ForEach(fr =>
+            {
+                var formation = pageResult.Data.FirstOrDefault(f => f.Id == fr.Id);
+                SetResponseData(formation, fr);
+            });
+
             if (filter.PageNumber < 1 || filter.PageSize < 1)
                 return Ok(pageResponse);
 
@@ -99,11 +105,12 @@ namespace alumni.Controllers
                 TotalElements = pageResult.TotalElements
             };
 
-            pageResponse.Data.ToList().ForEach(fr => {
+            pageResponse.Data.ToList().ForEach(fr =>
+            {
                 var formation = pageResult.Data.FirstOrDefault(f => f.Id == fr.Id);
                 SetResponseData(formation, fr);
             });
-            
+
             if (filter.PageNumber < 1 || filter.PageSize < 1)
                 return Ok(pageResponse);
 
@@ -125,7 +132,7 @@ namespace alumni.Controllers
             {
                 var formation = await service.GetFormationAsync(id);
 
-                if (formation == null) return NotFound();                
+                if (formation == null) return NotFound();
 
                 var response = new Response<FormationResponse>(mapper.Map<FormationResponse>(formation));
 
@@ -142,11 +149,15 @@ namespace alumni.Controllers
             formation.Modules.ForEach(m => lessonCount += m.Lessons.Count);
             response.ModulesCount = formation.Modules.Count;
             response.LessonCount = lessonCount;
-            response.SubscriptionCount = formation.FormationEvents[0].Subscriptions.Count;
-            response.State = formation.FormationEvents[0].State;
-            response.Start = formation.FormationEvents[0].Start;
-            response.End = formation.FormationEvents[0].End;
-            response.StudantLimit = formation.FormationEvents[0].StudantLimit;
+
+            if (response.Published)
+            {
+                response.SubscriptionCount = formation.FormationEvents[0].Subscriptions.Count;
+                response.State = formation.FormationEvents[0].State;
+                response.Start = formation.FormationEvents[0].Start;
+                response.End = formation.FormationEvents[0].End;
+                response.StudantLimit = formation.FormationEvents[0].StudantLimit;
+            }
 
             return response;
         }

@@ -62,7 +62,8 @@ namespace alumni.Services
         {
 
             var formations = dataContext.Formations.Include(f => f.School).ThenInclude(s => s.User)
-            .Include(f => f.FormationEvents).AsQueryable();
+            .Include(f => f.Modules).ThenInclude(m => m.Lessons)
+            .Include(f => f.FormationEvents).ThenInclude(fe => fe.Subscriptions).AsQueryable();
 
             if (query?.SchoolId != null)
                 formations = formations.Where(f => f.SchoolId == query.SchoolId);

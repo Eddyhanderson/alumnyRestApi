@@ -25,8 +25,6 @@ namespace alumni.Controllers
 
         private readonly IQuestionService questionService;
 
-        private readonly ITeacherService teacherService;
-
         private readonly ICommentService commentService;
 
         private readonly UserManager<User> userManager;
@@ -38,7 +36,6 @@ namespace alumni.Controllers
         public AnswerController(IAnswerService answerService,
             IMapper mapper, IUriService uriService,
             IUserService userService, UserManager<User> userManager,
-            IQuestionService questionService, ITeacherService teacherService,
             ICommentService commentService)
         {
             this.answerService = answerService;
@@ -53,7 +50,6 @@ namespace alumni.Controllers
 
             this.questionService = questionService;
 
-            this.teacherService = teacherService;
 
             this.commentService = commentService;
         }
@@ -77,10 +73,10 @@ namespace alumni.Controllers
             {
                 var question = await questionService.GetQuestionAsync(creationResult.Data.QuestionId);
 
-                var teacher = await teacherService.GetTeacherByLessonAsync(question.LessonId);
+                //var teacher = await teacherService.GetTeacherByLessonAsync(question.LessonId);
 
                 // If the answer is from the teacher who created the lesson
-                if (teacher.UserId == HttpContext.GetUser())
+                /*if (teacher.UserId == HttpContext.GetUser())
                 {
                     if (QuestionSituations.Analyzing.ToString("g") == question.Situation)
                     {
@@ -90,7 +86,7 @@ namespace alumni.Controllers
 
                         await questionService.PatchQuestionAsync(question);
                     }
-                }
+                }*/
             }
 
             var parameter = new Dictionary<string, string>
@@ -152,7 +148,7 @@ namespace alumni.Controllers
 
                 var isTeacher = await userManager.IsInRoleAsync(user, Constants.UserContansts.SchoolRole);
 
-                if (isTeacher)
+                /*if (isTeacher)
                 {
                     var teacher = await userService.GetTeacherAsync(user.Id);
 
@@ -168,8 +164,8 @@ namespace alumni.Controllers
                     /*answer.UserCourse = studant.Course.Name;
                     answer.UserAcademy = studant.Academy.Name;
                     answer.UserAcademicLevel = studant.AcademicLevel.Name;*/
-                    answer.UserRole = Constants.UserContansts.StudantRole;                    
-                }
+             /*       answer.UserRole = Constants.UserContansts.StudantRole;                    
+                }*/
             }
 
             if (filter.PageNumber < 1 || filter.PageSize < 1)

@@ -36,7 +36,7 @@ namespace alumni.Services
                 FormationId = formationEvent.FormationId,
                 StudantLimit = formationEvent.StudantLimit,
                 Situation = Constants.SituationsObjects.NormalSituation,
-                State = FormationEventStates.Waiting.ToString("g")
+                State = FormationEventStates.Waiting.ToString()
             };
 
             try

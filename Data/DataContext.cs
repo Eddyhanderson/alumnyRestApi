@@ -67,6 +67,8 @@ namespace alumni.Data
 
         public DbSet<Studant> Studants { get; set; }
 
+        public DbSet<Subscription> Subscriptions { get; set; }
+
         public DbSet<TeacherSchools> TeacherSchools { get; set; }
 
         public DbSet<Teacher> Teachers { get; set; }

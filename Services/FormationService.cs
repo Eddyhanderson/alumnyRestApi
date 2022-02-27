@@ -74,10 +74,34 @@ namespace alumni.Services
         {
             if (id == null) return null;
 
-            var formation = await dataContext.Formations
-                .SingleOrDefaultAsync(f => f.Id == id);
+            var formation = await dataContext.Formations.Include(f => f.School).ThenInclude(s => s.User)
+            .Include(f => f.Modules).ThenInclude(m => m.Lessons)
+            .Include(f => f.FormationEvents).ThenInclude(fe => fe.Subscriptions)
+            .SingleOrDefaultAsync(f => f.Id == id);
+
+            formation.FormationEvents = formation.FormationEvents.Where(f => f.State == FormationEventStates.Waiting.ToString("g")
+            && f.Situation == Constants.SituationsObjects.NormalSituation).ToList();
 
             return formation;
+        }
+
+        public async Task<PageResult<Formation>> GetPublishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null)
+        {
+            var formations = dataContext.Formations.Include(f => f.School).ThenInclude(s => s.User)
+            .Include(f => f.Modules).ThenInclude(m => m.Lessons)
+            .Include(f => f.FormationEvents).ThenInclude(fe => fe.Subscriptions)
+            .Where(f => f.Published);
+
+            await formations.ForEachAsync(f =>
+            {
+                f.FormationEvents = f.FormationEvents.Where(fe => fe.State == FormationEventStates.Waiting.ToString("g") && fe.Situation == Constants.SituationsObjects.NormalSituation).ToList();
+                f.FormationEvents.ForEach(fe =>
+                {
+                    fe.Subscriptions = fe.Subscriptions.Where(s => s.Situation == Constants.SituationsObjects.NormalSituation).ToList();
+                });
+            });
+
+            return await GetPaginationAsync(formations, filter);
         }
 
         private CreationResult<Formation> FailCreation()
@@ -89,7 +113,7 @@ namespace alumni.Services
             };
         }
 
-        private async Task<PageResult<Formation>> GetPaginationAsync(IQueryable<Formation> formations, PaginationFilter filter)        
+        private async Task<PageResult<Formation>> GetPaginationAsync(IQueryable<Formation> formations, PaginationFilter filter)
         {
             var totalElement = await formations.CountAsync();
 
@@ -117,6 +141,8 @@ namespace alumni.Services
             };
 
             return page;
-        }    
+        }
+
+
     }
 }

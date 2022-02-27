@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,5 +30,7 @@ namespace alumni.Domain
 
         [ForeignKey(nameof(FormationId))]
         public Formation Formation { get; set; }
+        
+        public List<Subscription> Subscriptions { get; set; }
     }
 }

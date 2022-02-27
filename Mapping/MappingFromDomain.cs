@@ -36,7 +36,9 @@ namespace alumni.Mapping
             CreateMap<FormationEvent, FormationEventResponse>();
 
             CreateMap<Formation, FormationResponse>()
-            .ForMember(fr => fr.SchoolPicture, m => m.MapFrom(f => f.School.User.Picture));
+            .ForMember(fr => fr.SchoolPicture, m => m.MapFrom(f => f.School.User.Picture))
+            .ForMember(fr => fr.SchoolAcronym, m => m.MapFrom(f => f.School.Acronym))
+            .ForMember(fr => fr.SchoolName, m => m.MapFrom(f => f.School.Name));
 
             CreateMap<Module, ModuleResponse>();
             /*

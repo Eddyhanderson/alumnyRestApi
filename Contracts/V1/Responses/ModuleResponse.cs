@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace alumni.Contracts.V1.Responses
 {
@@ -13,5 +14,7 @@ namespace alumni.Contracts.V1.Responses
         public string FormationId { get; set; }
 
         public int Sequence { get; set; }
+
+        public List<LessonResponse> Lessons { get; set; }
     }
 }

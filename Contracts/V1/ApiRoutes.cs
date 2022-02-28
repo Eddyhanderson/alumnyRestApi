@@ -70,8 +70,14 @@ namespace alumni.Contracts.V1
             public const string FormationRequestRoute = Base + "/formationRequest";
 
             public const string Create = FormationRequestRoute + "/create";
-
+            public const string Aprove = FormationRequestRoute + "/aprove/{id}";
+            public const string Pay = FormationRequestRoute + "/pay/{id}";
+            public const string Confirm = FormationRequestRoute + "/confirm/{id}";
             public const string Get = FormationRequestRoute + "/get/{studantId}/{formationId}";
+
+            public const string GetAll = FormationRequestRoute + "/getAll";
+
+            public const string Patch = FormationRequestRoute + "/patch/{id}";
         }
 
         public static class FormationEventRoutes
@@ -84,7 +90,6 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = FormationEventRoute + "/getAll";
         }
-
         public static class LessonRoutes
         {
             public const string LessonRoute = Base + "/lesson";

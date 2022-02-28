@@ -77,6 +77,8 @@ namespace alumni.Installers
 
             services.AddScoped<ISchoolService, SchoolService>();  
 
+            services.AddScoped<ISubscriptionService, SubscriptionService>();  
+
             services.AddScoped<IStudantService, StudantService>();
 
             services.AddScoped<IUserService, UserService>();

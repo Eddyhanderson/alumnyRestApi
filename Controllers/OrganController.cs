@@ -91,5 +91,19 @@ namespace alumni.Controllers
 
             return Ok(paginationResponse);
         }
+    
+        [HttpGet(ApiRoutes.OrganRoutes.Get)]
+        public async Task<IActionResult> Get([FromRoute] string id)
+        {
+            if (id is null) return BadRequest();
+
+            var organ = await organService.GetOrganAsync(id);
+
+            if (organ == null) return NotFound();
+
+            var response = new Response<OrganResponse>(mapper.Map<OrganResponse>(organ));
+
+            return Ok(response);
+        }
     }
 }

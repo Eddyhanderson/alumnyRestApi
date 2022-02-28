@@ -11,7 +11,7 @@ namespace alumni.Contracts.V1.Responses
         public string Id { get; set; }
 
         public string FirstName { get; set; }
-        
+
         public string LastName { get; set; }
 
         public string UserId { get; set; }
@@ -20,8 +20,10 @@ namespace alumni.Contracts.V1.Responses
 
         public string StudantCode { get; set; }
 
-         public string OrganId { get; set; }
+        public bool Responsable { get; set; }
 
-         public string OrganName {get;set;}
+        public string OrganId { get; set; }
+
+        public string OrganName { get; set; }
     }
 }

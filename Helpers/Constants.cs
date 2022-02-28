@@ -140,11 +140,11 @@ namespace Alumni.Helpers
 
     public enum FormationRequestStates
     {
-        WatingResponsableAction = 1,
-        WaitingManagerAction = 2,
+        WatingResponsableAction,
+        Aproved, 
+        Payed,
+        Confirmed,
+        Rejected,
 
-        Aproved = 3,
-
-        Rejected = 4
     }
 }

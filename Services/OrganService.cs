@@ -30,7 +30,7 @@ namespace alumni.Services
             var newOrgan = new Organ
             {
                 Badget = organ.Badget,
-                Code =  await GenerateCodeAsync(),
+                Code = await GenerateCodeAsync(),
                 Id = Guid.NewGuid().ToString(),
                 Name = organ.Name
             };
@@ -68,7 +68,8 @@ namespace alumni.Services
             return await dataContext.Organ.AnyAsync(o => o.Name.ToUpper() == name);
         }
 
-        private async Task<int> GenerateCodeAsync(){
+        private async Task<int> GenerateCodeAsync()
+        {
             var count = await dataContext.Organ.CountAsync();
             return count + 1;
         }
@@ -80,7 +81,7 @@ namespace alumni.Services
             return await GetPaginationAsync(organs, filter);
         }
 
-         private async Task<PageResult<Organ>> GetPaginationAsync(IQueryable<Organ> organ, PaginationFilter filter)
+        private async Task<PageResult<Organ>> GetPaginationAsync(IQueryable<Organ> organ, PaginationFilter filter)
         {
             var totalElement = await organ.CountAsync();
 
@@ -108,6 +109,11 @@ namespace alumni.Services
             };
 
             return page;
+        }
+
+        public async Task<Organ> GetOrganAsync(string id)
+        {
+            return await dataContext.Organ.SingleOrDefaultAsync(o => o.Id == id);
         }
     }
 }

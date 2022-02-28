@@ -41,14 +41,18 @@ namespace alumni.Mapping
             .ForMember(fr => fr.SchoolName, m => m.MapFrom(f => f.School.Name));
 
             CreateMap<FormationRequest, FormationRequestResponse>()
-            .ForMember(frr => frr.StudantLastName, m => m.MapFrom(fr => fr.Studant.FirstName))
-            .ForMember(frr => frr.StudantFisrtName, m => m.MapFrom(fr => fr.Studant.LastName))
+            .ForMember(frr => frr.StudantLastName, m => m.MapFrom(fr => fr.Studant.LastName))
+            .ForMember(frr => frr.StudantFisrtName, m => m.MapFrom(fr => fr.Studant.FirstName))
             .ForMember(frr => frr.StudantPicture, m => m.MapFrom(fr => fr.Studant.User.Picture))
+            .ForMember(frr => frr.StudantOrganId, m => m.MapFrom(fr => fr.Studant.OrganId))
+            .ForMember(frr => frr.StudantOrganName, m => m.MapFrom(fr => fr.Studant.Organ.Name))
+            .ForMember(frr => frr.StudantOrganBadget, m => m.MapFrom(fr => fr.Studant.Organ.Badget))
             .ForMember(frr => frr.FormationPrice, m => m.MapFrom(fr => fr.Formation.Price))
             .ForMember(frr => frr.FormationSchoolPicture, m => m.MapFrom(fr => fr.Formation.School.User.Picture))
             .ForMember(frr => frr.FormationSchoolName, m => m.MapFrom(fr => fr.Formation.School.Name))
             .ForMember(frr => frr.FormationSchoolAcronym, m => m.MapFrom(fr => fr.Formation.School.Acronym))
-            .ForMember(frr => frr.FormationTheme, m => m.MapFrom(fr => fr.Formation.Theme));            
+            .ForMember(frr => frr.FormationTheme, m => m.MapFrom(fr => fr.Formation.Theme))
+            .ForMember(frr => frr.FormationId, m => m.MapFrom(fr => fr.Formation.Id));            
 
             CreateMap<Module, ModuleResponse>();
             /*

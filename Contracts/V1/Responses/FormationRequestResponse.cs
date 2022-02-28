@@ -22,5 +22,10 @@ namespace alumni.Contracts.V1.Responses
         public string StudantFisrtName { get; set; }
         public string StudantLastName { get; set; }
         public string StudantPicture { get; set; }
+        public string StudantOrganId { get; set; }
+
+        public string StudantOrganName { get; set; }
+
+        public string StudantOrganBadget { get; set; }
     }
 }

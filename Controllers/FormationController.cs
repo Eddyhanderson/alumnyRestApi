@@ -125,6 +125,43 @@ namespace alumni.Controllers
             return Ok(paginationResponse);
         }
 
+        [Authorize(Roles = Constants.UserContansts.StudantRole)]
+        [Route(ApiRoutes.FormationRoutes.GetAllSubscribed)]
+        public async Task<IActionResult> GetAllSubscribed([FromQuery] PaginationQuery page, [FromQuery] FormationQuery query)
+        {
+            var filter = mapper.Map<PaginationFilter>(page);
+
+            var searchMode = filter.SearchValue != null;
+
+            var pageResult = await service.GetSubscribedFormationsAsync(filter, query);
+
+            var pageResponse = new PageResponse<FormationResponse>
+            {
+                Data = mapper.Map<IEnumerable<Formation>, IEnumerable<FormationResponse>>(pageResult.Data),
+                TotalElements = pageResult.TotalElements
+            };
+
+            pageResponse.Data.ToList().ForEach(fr =>
+            {
+                var formation = pageResult.Data.FirstOrDefault(f => f.Id == fr.Id);
+                SetResponseData(formation, fr);
+            });
+
+            if (filter.PageNumber < 1 || filter.PageSize < 1)
+                return Ok(pageResponse);
+
+            var paginationResponse = PaginationHelpers.CreatePaginationResponse(paginationFilter: filter,
+                                    response: pageResponse.Data,
+                                    uriService: uriService,
+                                    path: ApiRoutes.FormationRoutes.GetAll,
+                                    searchMode: searchMode);
+
+            paginationResponse.TotalElements = pageResponse.TotalElements;
+
+            return Ok(paginationResponse);
+        }
+
+
         [HttpGet(ApiRoutes.FormationRoutes.Get)]
         public async Task<IActionResult> Get([FromRoute] string id)
         {
@@ -152,11 +189,18 @@ namespace alumni.Controllers
 
             if (response.Published)
             {
-                response.SubscriptionCount = formation.FormationEvents[0].Subscriptions.Count;
-                response.State = formation.FormationEvents[0].State;
-                response.Start = formation.FormationEvents[0].Start;
-                response.End = formation.FormationEvents[0].End;
-                response.StudantLimit = formation.FormationEvents[0].StudantLimit;
+                if (formation.FormationEvents.Count > 0)
+                {
+                    response.SubscriptionCount = formation.FormationEvents[0].Subscriptions.Count;
+                }
+                if (formation.FormationEvents?.Count > 0)
+                {
+                    response.State = formation.FormationEvents[0].State;
+                    response.Start = formation.FormationEvents[0].Start;
+                    response.End = formation.FormationEvents[0].End;
+                    response.StudantLimit = formation.FormationEvents[0].StudantLimit;
+
+                }
             }
 
             return response;

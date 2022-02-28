@@ -56,6 +56,16 @@ namespace alumni.Services
             }
         }
 
+        public async Task<Subscription> GetAsync(string studantId, string formationId)
+        {
+            var subscription = await dataContext.Subscriptions
+            .Include(s => s.FormationEvent)
+            .SingleOrDefaultAsync(s => s.FormationEvent.FormationId == formationId && studantId == s.StudantId
+            && s.Situation == Constants.SituationsObjects.NormalSituation);
+
+            return subscription;
+        }
+
         private CreationResult<Subscription> FailCreation()
         {
             return new CreationResult<Subscription>

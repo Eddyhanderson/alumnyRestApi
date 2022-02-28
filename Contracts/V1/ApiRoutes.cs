@@ -63,6 +63,8 @@ namespace alumni.Contracts.V1
             public const string GetAll = FormationRoute + "/getAll";
 
             public const string GetAllPublished = FormationRoute + "/getAll/published";
+
+            public const string GetAllSubscribed = FormationRoute + "/getAll/subscribed";
         }
 
         public static class FormationRequestRoutes
@@ -192,6 +194,13 @@ namespace alumni.Contracts.V1
             public const string Get = StudantRoute + "/get/{id}";
 
             public const string GetResponsable = StudantRoute + "/get/responsable/{id}";
+        }
+
+        public static class SubscriptionRoutes
+        {
+            public const string SubscriptionRoute = Base + "/subscription";
+            public const string Get = SubscriptionRoute + "/get/{studantId}/{formationId}";
+
         }
 
         public static class UserRoutes

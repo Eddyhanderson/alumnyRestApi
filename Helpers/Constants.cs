@@ -134,8 +134,9 @@ namespace Alumni.Helpers
 
     public enum FormationEventStates
     {
-        Started = 1,
-        Waiting = 2
+        Waiting,
+        Started,
+        Fhinished
     }
 
     public enum FormationRequestStates

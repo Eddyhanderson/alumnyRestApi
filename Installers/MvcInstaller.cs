@@ -119,6 +119,8 @@ namespace alumni.Installers
 
             services.AddHostedService<QueueTaskExecutionBackgroundService>();            
 
+            services.AddHostedService<FormationEventStateMonitorService>();            
+    
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>

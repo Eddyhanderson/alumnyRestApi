@@ -130,6 +130,8 @@ namespace alumni.Mapping
             .ForMember(sr => sr.OrganName, m => m.MapFrom(s => s.Organ.Name))
             .ForMember(sr => sr.Picture, m => m.MapFrom(s => s.User.Picture));
 
+            CreateMap<Subscription, SubscriptionResponse>();
+
             /*
             CreateMap<TeacherSchools, TeacherSchoolsResponse>();
 

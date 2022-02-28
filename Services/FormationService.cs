@@ -88,19 +88,63 @@ namespace alumni.Services
 
         public async Task<PageResult<Formation>> GetPublishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null)
         {
-            var formations = dataContext.Formations.Include(f => f.School).ThenInclude(s => s.User)
-            .Include(f => f.Modules).ThenInclude(m => m.Lessons)
-            .Include(f => f.FormationEvents).ThenInclude(fe => fe.Subscriptions)
-            .Where(f => f.Published);
+           
+            var formations = from fe in dataContext.FormationEvents
+            .Include(fe => fe.Subscriptions)
+            .Include(fe => fe.Formation).ThenInclude(f => f.School).ThenInclude(s => s.User)
+            .Include(fe => fe.Formation.Modules).ThenInclude(m => m.Lessons)
+                             where fe.State == FormationEventStates.Waiting.ToString("g")
+                             && fe.Situation == Constants.SituationsObjects.NormalSituation
+                             select new Formation
+                             {
+                                 Category = fe.Formation.Category,
+                                 DateCreation = fe.Formation.DateCreation,
+                                 DateSituation = fe.Formation.DateSituation,
+                                 Description = fe.Formation.Description,
+                                 Situation = fe.Formation.Situation,
+                                 Id = fe.Formation.Id,
+                                 Modules = fe.Formation.Modules,
+                                 FormationEvents = new List<FormationEvent> { fe },
+                                 Picture = fe.Formation.Picture,
+                                 Price = fe.Formation.Price,
+                                 Published = fe.Formation.Published,
+                                 School = fe.Formation.School,
+                                 Theme = fe.Formation.Theme
+                             };    
 
-            await formations.ForEachAsync(f =>
-            {
-                f.FormationEvents = f.FormationEvents.Where(fe => fe.State == FormationEventStates.Waiting.ToString("g") && fe.Situation == Constants.SituationsObjects.NormalSituation).ToList();
-                f.FormationEvents.ForEach(fe =>
-                {
-                    fe.Subscriptions = fe.Subscriptions.Where(s => s.Situation == Constants.SituationsObjects.NormalSituation).ToList();
-                });
-            });
+            return await GetPaginationAsync(formations, filter);
+        }
+
+        public async Task<PageResult<Formation>> GetSubscribedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null)
+        {
+            if (query.StudantId is null) return null;
+
+            var formations = from s in dataContext.Subscriptions
+             .Include(s => s.FormationEvent)
+             .Include(s => s.FormationEvent.Formation)
+             .Include(s => s.FormationEvent.Subscriptions)
+             .Include(s => s.FormationEvent.Formation.School).ThenInclude(s => s.User)
+             .Include(s => s.FormationEvent.Formation.Modules).ThenInclude(m => m.Lessons)
+                             where s.StudantId == query.StudantId && s.Situation == Constants.SituationsObjects.NormalSituation
+                                 && s.FormationEvent.Situation == Constants.SituationsObjects.NormalSituation
+                             select new Formation
+                             {
+                                 Category = s.FormationEvent.Formation.Category,
+                                 DateCreation = s.FormationEvent.Formation.DateCreation,
+                                 DateSituation = s.FormationEvent.Formation.DateSituation,
+                                 Description = s.FormationEvent.Formation.Description,
+                                 Situation = s.FormationEvent.Formation.Situation,
+                                 Id = s.FormationEvent.Formation.Id,
+                                 Modules = s.FormationEvent.Formation.Modules,
+                                 FormationEvents = new List<FormationEvent> { s.FormationEvent },
+                                 Picture = s.FormationEvent.Formation.Picture,
+                                 Price = s.FormationEvent.Formation.Price,
+                                 Published = s.FormationEvent.Formation.Published,
+                                 School = s.FormationEvent.Formation.School,
+                                 Theme = s.FormationEvent.Formation.Theme
+                             };
+
+             await formations.ToListAsync();
 
             return await GetPaginationAsync(formations, filter);
         }
@@ -143,7 +187,6 @@ namespace alumni.Services
 
             return page;
         }
-
 
     }
 }

@@ -5,4 +5,6 @@ public interface ISubscriptionService
 {
     Task<CreationResult<Subscription>> CreateAsync(Subscription subscription);
 
+    Task<Subscription> GetAsync(string studantId, string formationId);
+
 }

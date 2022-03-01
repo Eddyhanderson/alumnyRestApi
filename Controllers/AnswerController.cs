@@ -25,8 +25,6 @@ namespace alumni.Controllers
 
         private readonly IQuestionService questionService;
 
-        private readonly ITeacherService teacherService;
-
         private readonly ICommentService commentService;
 
         private readonly UserManager<User> userManager;
@@ -38,7 +36,6 @@ namespace alumni.Controllers
         public AnswerController(IAnswerService answerService,
             IMapper mapper, IUriService uriService,
             IUserService userService, UserManager<User> userManager,
-            IQuestionService questionService, ITeacherService teacherService,
             ICommentService commentService)
         {
             this.answerService = answerService;
@@ -53,7 +50,6 @@ namespace alumni.Controllers
 
             this.questionService = questionService;
 
-            this.teacherService = teacherService;
 
             this.commentService = commentService;
         }
@@ -71,16 +67,16 @@ namespace alumni.Controllers
 
             if (!creationResult.Succeded) return Conflict();
 
-            var isTeacher = HttpContext.GetRole().ToUpper() == Constants.UserContansts.TeacherRole.ToUpper();
+            var isTeacher = HttpContext.GetRole().ToUpper() == Constants.UserContansts.SchoolRole.ToUpper();
 
             if (isTeacher)
             {
                 var question = await questionService.GetQuestionAsync(creationResult.Data.QuestionId);
 
-                var teacher = await teacherService.GetTeacherByLessonAsync(question.LessonId);
+                //var teacher = await teacherService.GetTeacherByLessonAsync(question.LessonId);
 
                 // If the answer is from the teacher who created the lesson
-                if (teacher.UserId == HttpContext.GetUser())
+                /*if (teacher.UserId == HttpContext.GetUser())
                 {
                     if (QuestionSituations.Analyzing.ToString("g") == question.Situation)
                     {
@@ -90,12 +86,12 @@ namespace alumni.Controllers
 
                         await questionService.PatchQuestionAsync(question);
                     }
-                }
+                }*/
             }
 
             var parameter = new Dictionary<string, string>
             {
-                {"{Id}",creationResult.Data.Id }
+                {"{id}",creationResult.Data.Id }
             };
 
             var creationResponse = new CreationResponse<AnswerResponse>
@@ -150,26 +146,26 @@ namespace alumni.Controllers
 
                 var user = await userManager.FindByIdAsync(answer.UserId);
 
-                var isTeacher = await userManager.IsInRoleAsync(user, Constants.UserContansts.TeacherRole);
+                var isTeacher = await userManager.IsInRoleAsync(user, Constants.UserContansts.SchoolRole);
 
-                if (isTeacher)
+                /*if (isTeacher)
                 {
                     var teacher = await userService.GetTeacherAsync(user.Id);
 
                     answer.UserCourse = teacher.Course.Name;
                     answer.UserAcademy = teacher.Academy.Name;
                     answer.UserAcademicLevel = teacher.AcademicLevel.Name;
-                    answer.UserRole = Constants.UserContansts.TeacherRole;                    
+                    answer.UserRole = Constants.UserContansts.SchoolRole;                    
                 }
                 else
                 {
                     var studant = await userService.GetStudantAsync(user.Id);
 
-                    answer.UserCourse = studant.Course.Name;
+                    /*answer.UserCourse = studant.Course.Name;
                     answer.UserAcademy = studant.Academy.Name;
-                    answer.UserAcademicLevel = studant.AcademicLevel.Name;
-                    answer.UserRole = Constants.UserContansts.StudantRole;                    
-                }
+                    answer.UserAcademicLevel = studant.AcademicLevel.Name;*/
+             /*       answer.UserRole = Constants.UserContansts.StudantRole;                    
+                }*/
             }
 
             if (filter.PageNumber < 1 || filter.PageSize < 1)

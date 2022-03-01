@@ -11,26 +11,16 @@ namespace alumni.Domain
 {
     public class User : IdentityUser
     {
-        public string PictureProfilePath { get; set; }
+        public string Picture { get; set; }
+
+        public string Genre { get; set; }
+
+        public string Birth { get; set; }
 
         [Required]
         public string Situation { get; set; }
 
-        public string AboutUser { get; set; }
-
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        public string Genre { get; set; }
-
-        [Required]
-        public DateTime Birth { get; set; }
-
-        [Required]
-        public DateTime CreationAt { get; set; }
+        public DateTime DateSituation { get; set; }
     }
 }

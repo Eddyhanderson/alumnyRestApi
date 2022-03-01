@@ -5,10 +5,8 @@ namespace alumni.Contracts.V1.Responses
 {
     public class ManagerResponse
     {
-        public string Id { get; set; }
-
-        public UserResponse User { get; set; }
-
-        public SchoolResponse School { get; set; }
+        public string Id { get; set; }        
+        public string FirstName { get; set; }        
+        public string LastName { get; set; }
     }
 }

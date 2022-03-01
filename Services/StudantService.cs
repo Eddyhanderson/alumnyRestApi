@@ -24,24 +24,29 @@ namespace alumni.Services
             this.userService = userService;
         }
 
-        public async Task<CreationResult<Studant>> CreateAsync(Studant studant)
+        public async Task<CreationResult<Studant>> CreateAsync(Studant studant, User user, AuthData auth)
         {
-            if (studant == null) return null;
+            if (studant == null) return FailCreation();
+
+            var authResult = await this.userService.RegistrationAsync(user, auth);
+
+            if (authResult is null || !authResult.Authenticated)
+                return FailCreation();
 
             var newStudant = new Studant
             {
                 Id = Guid.NewGuid().ToString(),
-                UserId = studant.UserId,
-                CourseId = studant.CourseId,
-                StudantCode = await GenerateStudantCodeAsync(studant),
-                AcademyId = studant.AcademyId,
-                AcademicLevelId = studant.AcademicLevelId
+                UserId = authResult.User.Id,
+                FirstName = studant.FirstName,
+                LastName = studant.LastName,
+                StudantCode = studant.StudantCode,
+                OrganId = studant.OrganId,
+                Responsable = studant.Responsable
             };
-
-            await dataContext.Studants.AddAsync(newStudant);
 
             try
             {
+                await dataContext.Studants.AddAsync(newStudant);
                 await dataContext.SaveChangesAsync();
 
                 return new CreationResult<Studant>
@@ -61,9 +66,9 @@ namespace alumni.Services
         public async Task<PageResult<Studant>> GetStudantsAsync(PaginationFilter filter = null)
         {
             var studants = dataContext.Studants
-                           .Include(s => s.AcademicLevel)
-                           .Include(s => s.Academy)
-                           .Include(s => s.Course)
+                           /*.Include(s => s.AcademicLevel)*/
+                           /*.Include(s => s.Academy)*/
+                           /*.Include(s => s.Course)*/
                            .Include(s => s.User)
                            .Where(s => s.User.Situation == Constants.SituationsObjects.NormalSituation);
 
@@ -77,8 +82,8 @@ namespace alumni.Services
 
                 studants = studants.Include(s => s.User);
 
-                studants = studants.Where(s => s.User.FirstName.Contains(sv)
-                || s.User.LastName.Contains(sv) || s.StudantCode.Contains(sv));
+                /*studants = studants.Where(s => s.User.FirstName.Contains(sv)
+                || s.User.LastName.Contains(sv) || s.StudantCode.Contains(sv));*/
             }
 
             if (filter.PageNumber >= 0 || filter.PageSize > 0)
@@ -103,25 +108,46 @@ namespace alumni.Services
 
             var studant = await dataContext.Studants
                     .Include(s => s.User)
-                    .Include(s => s.AcademicLevel)
-                    .Include(s => s.Academy)
-                    .Include(s => s.Course)
+                    /*.Include(s => s.AcademicLevel)*/
+                    /*.Include(s => s.Academy)*/
+                    /*.Include(s => s.Course)*/
                     .SingleOrDefaultAsync(s => s.Id == id);
 
             return studant;
         }
 
+        public async Task<bool> ObjectExists(string id)
+        {
+            return await dataContext.Studants.AnyAsync(s => s.Id == id);
+        }
+
+        public async Task<Studant> GetStudantResponsableAsync(string id)
+        {
+            var studant = await dataContext.Studants.SingleOrDefaultAsync(s => s.Id == id);
+
+            if(studant is null) return null;
+
+            var responsable = from s in dataContext.Studants
+            .Include(s => s.User)
+            .Include(s => s.Organ)
+            from o in dataContext.Organ
+            where s.Responsable && s.OrganId == studant.OrganId
+            select s;
+
+            return await responsable.FirstOrDefaultAsync();
+        }
         private async Task<string> GenerateStudantCodeAsync(Studant studant)
         {
             var user = await userService.GetUserAsync(studant.UserId);
 
-            var prefix = string.Concat(user.FirstName[0], user.LastName[0]);
+            /*var prefix = string.Concat(user.FirstName[0], user.LastName[0]);*/
 
             var seq = await dataContext.Studants.CountAsync() + 1;
 
             var year = DateTime.Today.Year;
 
-            return string.Concat(prefix, year, seq);
+            /*return string.Concat(prefix, year, seq);*/
+            return "";
         }
 
         private CreationResult<Studant> FailCreation()
@@ -133,9 +159,6 @@ namespace alumni.Services
             };
         }
 
-        public async Task<bool> ObjectExists(string id)
-        {
-            return await dataContext.Studants.AnyAsync(s => s.Id == id);
-        }
+        
     }
 }

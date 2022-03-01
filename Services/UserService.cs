@@ -27,13 +27,10 @@ namespace alumni.Services
 
         private readonly RoleManager<IdentityRole> roleManager;
 
-        private readonly ISchoolService schoolService;
-
         public UserService(UserManager<User> userManager,
             Options.TokenOptions tokenOptions,
             RoleManager<IdentityRole> roleManager,
-            DataContext dataContext,
-            ISchoolService schoolService)
+            DataContext dataContext)
         {
             this.userManager = userManager;
 
@@ -42,8 +39,6 @@ namespace alumni.Services
             this.tokenOptions = tokenOptions;
 
             this.dataContext = dataContext;
-
-            this.schoolService = schoolService;
         }
 
 
@@ -73,47 +68,45 @@ namespace alumni.Services
             return await CreateTokenAsync(user);
         }
 
-        public async Task<AuthResult> RegistrationAsync(RegistrationDomain registration)
+        public async Task<AuthResult> RegistrationAsync(User user, AuthData auth)
         {
-            if (registration == null) return null;
+            if (user == null) return null;
 
-            var userVerify = await userManager.FindByEmailAsync(registration.Email);
+            var userExists = await userManager.FindByEmailAsync(user.Email) != null;
 
-            if (userVerify != null)
-            {
-                var roles = await userManager.GetRolesAsync(userVerify);
+            if (userExists)
+                return new AuthResult { Authenticated = false, Errors = new[] { Constants.ServerMessages.EmailAlreadyExists } };
 
-                var sameRole = roles.Where(r => r.ToUpper() == registration.Role.ToUpper());
-
-                if(sameRole != null) return new AuthResult { Authenticated = false, Errors = new[] { Constants.ServerMessages.EmailAlreadyExists } };
-            }
-            
-            var user = new User
+            var newUser = new User
             {
                 Id = Guid.NewGuid().ToString(),
                 Situation = Constants.SituationsObjects.NormalSituation,
-                Email = registration.Email,
-                PhoneNumber = registration.PhoneNumber,
-                FirstName = registration.FirstName,
-                LastName = registration.LastName,
-                UserName = registration.Email,
-                Birth = registration.Birth,
-                Genre = registration.Genre,
-                CreationAt = DateTime.UtcNow
+                EmailConfirmed = true,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                UserName = user.Email,
+                DateSituation = DateTime.Now,
+                Picture = user.Picture
             };
 
-            var stt = await userManager.CreateAsync(user);
+            var stt = await userManager.CreateAsync(newUser);
 
             if (!stt.Succeeded)
                 return new AuthResult { Errors = stt.Errors.Select(e => e.Description) };
 
-            var sttA = await userManager.AddPasswordAsync(user, registration.Password);
+            var sttA = await userManager.AddPasswordAsync(newUser, auth.Password);
             if (!sttA.Succeeded) return AuthFail();
 
-            var sttB = await userManager.AddToRoleAsync(user, registration.Role);
+            var sttB = await userManager.AddToRoleAsync(newUser, auth.Role);
             if (!sttB.Succeeded) return AuthFail();
 
-            return await CreateTokenAsync(user);
+            if (auth.Role.Equals(Constants.UserContansts.SchoolRole))
+                return new AuthResult
+                {   Authenticated= true,
+                    User = newUser
+                };
+
+            return await CreateTokenAsync(newUser);
         }
 
         public async Task<string> GetRoleAsync(string id)
@@ -239,7 +232,7 @@ namespace alumni.Services
             {
                 var sv = filter.SearchValue;
 
-                users = users.Where(u => u.FirstName.Contains(sv) || u.LastName.Contains(sv));
+                /*users = users.Where(u => u.FirstName.Contains(sv) || u.LastName.Contains(sv));*/
             }
 
             var skip = (filter.PageNumber - 1) * filter.PageSize;
@@ -249,22 +242,12 @@ namespace alumni.Services
             return await users.ToListAsync();
         }
 
-        public async Task<Teacher> GetTeacherAsync(string userId)
-        {
-            return await dataContext.Teachers
-                    .Include(t => t.AcademicLevel)
-                    .Include(t => t.Academy)
-                    .Include(t => t.Course)
-                    .Include(t => t.User)
-                    .SingleOrDefaultAsync(t => t.User.Id == userId && t.User.Situation == Constants.SituationsObjects.NormalSituation);
-        }
-
         public async Task<Studant> GetStudantAsync(string userId)
         {
-            return  await dataContext.Studants
-                           .Include(s => s.AcademicLevel)
-                           .Include(s => s.Academy)
-                           .Include(s => s.Course)
+            return await dataContext.Studants
+                           /*.Include(s => s.AcademicLevel)*/
+                           /*.Include(s => s.Academy)*/
+                           /*.Include(s => s.Course)*/
                            .Include(s => s.User)
                            .SingleOrDefaultAsync(s => s.User.Situation == Constants.SituationsObjects.NormalSituation && s.UserId == userId);
         }

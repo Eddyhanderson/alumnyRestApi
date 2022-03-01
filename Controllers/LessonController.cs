@@ -39,7 +39,7 @@ namespace alumni.Controllers
             this.uriService = uriService;
         }
 
-        [Authorize(Roles = Constants.UserContansts.TeacherRole)]
+        [Authorize(Roles = Constants.UserContansts.SchoolRole)]
         [HttpPost(ApiRoutes.LessonRoutes.Create)]
         public async Task<IActionResult> Create([FromBody] LessonRequest lessonRequest)
         {
@@ -55,7 +55,7 @@ namespace alumni.Controllers
 
             var parameter = new Dictionary<string, string>
                     {
-                        {"{Id}",creationResult.Data.Id }
+                        {"{id}",creationResult.Data.Id }
                     };
 
             var creationResponse = new CreationResponse<LessonResponse>
@@ -116,17 +116,11 @@ namespace alumni.Controllers
 
             var response = new Response<LessonResponse>(mapper.Map<LessonResponse>(lesson));
 
-            await SetAnalytics(response.Data);
-
             return Ok(response);
         }
 
-        private async Task SetAnalytics(LessonResponse lesson)
-        {
-            lesson.TeacherAnswerCount = await lessonService.TeacherAnswerCountAsync(lesson.Id);
-            lesson.QuestionCount = await lessonService.QuestionCountAsync(lesson.Id);
-            lesson.SolvedQuestionCount = await lessonService.SolvedQuestionCountAsync(lesson.Id);
-            lesson.AnswerCount = await lessonService.AnswerCountAsync(lesson.Id);
+        private async Task SetAnalytics(LessonResponse lesson){
+            lesson.QuestionCount = await lessonService.QuestionCountAsync(lesson.Id);;
         }
     }
 }

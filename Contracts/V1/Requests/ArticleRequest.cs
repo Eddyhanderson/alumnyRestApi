@@ -20,7 +20,7 @@ namespace alumni.Contracts.V1.Requests
         public bool Draft { get; set; }                
 
         [Required]
-        public string TeacherId { get; set; }
+        public string ModuleId { get; set; }
 
         public DateTime LastChange { get; set; }
 

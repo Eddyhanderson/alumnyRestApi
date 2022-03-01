@@ -22,8 +22,6 @@ namespace alumni.IServices
 
         Task<int> SolvedQuestionCountAsync(string id);
 
-        Task<int> TeacherAnswerCountAsync(string id);
-
         Task<int> AnswerCountAsync(string id);
     }
 }

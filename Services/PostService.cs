@@ -97,56 +97,7 @@ namespace alumni.Services
 
             List<Post> posts = new List<Post>();
 
-            // Query biger than all project queries :)
-            // To get only post lessons of your own teacher places
-            var lessonPosts = from p in dataContext.Posts
-                              from l in dataContext.Lessons
-                              from tp in dataContext.TeacherPlaces
-                              from tps in dataContext.TeacherPlaceStudants
-                              where tp.Id == l.TeacherPlaceId && l.PostId == p.Id && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
-                              && tps.Situation == normalState && p.Situation == normalState
-                              select p;
-
-            // To get only teacher place messages of her own teacher places
-            var messagesPosts = from p in dataContext.Posts
-                                from tpm in dataContext.TeacherPlaceMessages
-                                from tp in dataContext.TeacherPlaces
-                                from tps in dataContext.TeacherPlaceStudants
-                                where tpm.TeacherPlaceId == tp.Id && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
-                                && tps.Situation == normalState && p.Id == tpm.PostId && p.Situation == normalState
-                                select p;
-
-            // To get only teacher place material of her own teacher places
-            var materialPosts = from p in dataContext.Posts
-                                from tpt in dataContext.TeacherPlaceMaterials
-                                from tp in dataContext.TeacherPlaces
-                                from tps in dataContext.TeacherPlaceStudants
-                                where tpt.TeacherPlaceId == tp.Id && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
-                                && tps.Situation == normalState && p.Id == tpt.PostId && p.Situation == normalState
-                                select p;
-
-            // To get only question of your own class mates
-            var questionsPosts = from p in dataContext.Posts
-                                 from l in dataContext.Lessons
-                                 from q in dataContext.Questions
-                                 from tp in dataContext.TeacherPlaces
-                                 from tps in dataContext.TeacherPlaceStudants
-                                 where tp.Id == l.TeacherPlaceId && q.LessonId == l.Id && p.Id == q.PostId && tps.TeacherPlaceId == tp.Id && tps.StudantId == studant.Id
-                                      && tps.Situation == normalState && p.Situation == normalState
-                                 select p;
-
-
-            if (lessonPosts != null)
-                posts.AddRange(lessonPosts);
-
-            if (messagesPosts != null)
-                posts.AddRange(messagesPosts);
-
-            if (materialPosts != null)
-                posts.AddRange(materialPosts);
-
-            if (questionsPosts != null)
-                posts.AddRange(questionsPosts);
+        
 
             if (filter == null)
                 return posts.OrderByDescending(p => p.CreateAt).ToList();

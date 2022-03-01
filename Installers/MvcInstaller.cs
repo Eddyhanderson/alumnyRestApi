@@ -51,51 +51,35 @@ namespace alumni.Installers
 
             services.AddScoped<IArticleService, ArticleService>();
 
-            services.AddScoped<IAcademyService, AcademyService>();
-
-            services.AddScoped<IAcademicLevelService, AcademicLevelService>();
-
             services.AddScoped<IAnswerService, AnswerService>();
-
-            services.AddScoped<IBadgeInformationService, BadgeInformationService>();
-
-            services.AddScoped<ICourseService, CourseService>();
 
             services.AddScoped<ICommentableService, CommentableService>();
 
             services.AddScoped<ICommentService, CommentService>();
 
-            services.AddScoped<IDisciplineService, DisciplineService>();
+            services.AddScoped<IFormationService, FormationService>();
 
-            services.AddScoped<IDisciplineTopicService, DisciplineTopicService>();
+            services.AddScoped<IFormationEventService, FormationEventService>();
+
+            services.AddScoped<IFormationRequestService, FormationRequestService>();
 
             services.AddScoped<ILessonService, LessonService>();
 
             services.AddScoped<IManagerService, ManagerService>();
 
-            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IModuleService, ModuleService>();
 
-            services.AddScoped<ITopicService, TopicService>();
+            services.AddScoped<IOrganService, OrganService>();
+
+            services.AddScoped<IPostService, PostService>();
 
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddScoped<ISchoolService, SchoolService>();
+            services.AddScoped<ISchoolService, SchoolService>();  
 
-            services.AddScoped<ISchoolCourseService, SchoolCourseService>();
+            services.AddScoped<ISubscriptionService, SubscriptionService>();  
 
             services.AddScoped<IStudantService, StudantService>();
-
-            services.AddScoped<ITeacherPlaceStudantService, TeacherPlaceStudantService>();
-
-            services.AddScoped<ITeacherPlaceMaterialService, TeacherPlaceMaterialService>();
-
-            services.AddScoped<ITeacherPlaceMessageService, TeacherPlaceMessageService>();
-
-            services.AddScoped<ITeacherPlaceService, TeacherPlaceService>();
-
-            services.AddScoped<ITeacherSchoolsService, TeacherSchoolsService>();
-
-            services.AddScoped<ITeacherService, TeacherService>();
 
             services.AddScoped<IUserService, UserService>();
 
@@ -135,6 +119,8 @@ namespace alumni.Installers
 
             services.AddHostedService<QueueTaskExecutionBackgroundService>();            
 
+            services.AddHostedService<FormationEventStateMonitorService>();            
+    
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>

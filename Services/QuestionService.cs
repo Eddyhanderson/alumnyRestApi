@@ -81,25 +81,25 @@ namespace alumni.Services
             // if are researching for questions aimed at the teacher, specifying or not any studant
             if (questionQuery.TeacherId != null)
             {
-                var _questions = from q in dataContext.Questions
+                var _questions = dataContext.Questions;  /*from q in dataContext.Questions
                                  .Include(q => q.Post)
                                  .Include(q => q.Lesson)
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
                                  from l in dataContext.Lessons
                                  from tp in dataContext.TeacherPlaces
-                                 where q.LessonId == l.Id && l.TeacherPlaceId == tp.Id && tp.TeacherId == questionQuery.TeacherId
+                                 where q.LessonId == l.Id && l.ModuleId == tp.Id && tp.TeacherId == questionQuery.TeacherId
                                        && q.Post.Situation == normalState
-                                 select q;
+                                 select q;*/
 
                 // if only studant question are requested
-                if (questionQuery.StudantId != null)
+                /*if (questionQuery.StudantId != null)
                 {
                     _questions = _questions.Where(q => q.StudantId == questionQuery.StudantId);
                 }
 
                 // if only specific question situation are requested
                 if (situationFiltered)
-                    _questions = _questions.Where(q => q.Situation == questionQuery.Situation.ToString("g"));
+                    _questions = _questions.Where(q => q.Situation == questionQuery.Situation.ToString("g"));*/
 
                 return await GetPaginationAsync(_questions, filter);
             }
@@ -122,7 +122,7 @@ namespace alumni.Services
                                  from q in _questions
                                  .Include(q => q.Post)
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
-                                 where l.Id == q.LessonId && l.TeacherPlaceId == questionQuery.TeacherPlaceId
+                                 where l.Id == q.LessonId && l.ModuleId == questionQuery.TeacherPlaceId
                                  select q;
                 }
 
@@ -149,7 +149,7 @@ namespace alumni.Services
                                  from q in dataContext.Questions.Include(q => q.Post)
                                  .Include(q => q.Post)
                                  .Include(q => q.Studant).ThenInclude(s => s.User)
-                                 where q.LessonId == l.Id && l.TeacherPlaceId == questionQuery.TeacherPlaceId && q.Post.Situation == normalState
+                                 where q.LessonId == l.Id && l.ModuleId == questionQuery.TeacherPlaceId && q.Post.Situation == normalState
                                  select q;
 
 
@@ -214,7 +214,7 @@ namespace alumni.Services
 
         public async Task<int> GetTeacherAnswerQntAsync(string questionId)
         {
-            var qnt = await
+            /*var qnt = await
                 (from ur in dataContext.UserRoles
                  from r in dataContext.Roles
                  from l in dataContext.Lessons
@@ -225,12 +225,13 @@ namespace alumni.Services
                  .Include(a => a.Post).ThenInclude(p => p.User)
                  .Where(a => a.QuestionId == questionId &&
                  a.Post.UserId == ur.UserId && ur.RoleId == r.Id &&
-                 r.NormalizedName == Constants.UserContansts.TeacherRole.ToUpper() &&
-                 q.Id == questionId && q.LessonId == l.Id && l.TeacherPlaceId == tp.Id
+                 r.NormalizedName == Constants.UserContansts.SchoolRole.ToUpper() &&
+                 q.Id == questionId && q.LessonId == l.Id && l.ModuleId == tp.Id
                  && tp.TeacherId == t.Id && t.UserId == ur.UserId)
                  select a.Id).CountAsync();
 
-            return qnt;
+            return qnt;*/
+            return 1;
         }
 
         public async Task<int> GetCommentsQntAsync(string questionId)
@@ -276,8 +277,8 @@ namespace alumni.Services
 
                 questions = questions
                     .Where(q => q.Lesson.Title.Contains(filter.SearchValue)
-                    || q.Studant.User.FirstName.Contains(filter.SearchValue)
-                    || q.Studant.User.LastName.Contains(filter.SearchValue)
+               /*     || q.Studant.User.FirstName.Contains(filter.SearchValue)
+                    || q.Studant.User.LastName.Contains(filter.SearchValue)*/
                     || q.Content.Contains(filter.SearchValue)
                     || q.Subject.Contains(filter.SearchValue));
             }

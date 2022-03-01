@@ -13,20 +13,19 @@ namespace alumni.Domain
         [Required]
         public string Id { get; set; }
 
-        public string BackgroundPhotoPath { get; set; }
+        public string Picture { get; set; }
 
         [Required]
-        public string TeacherPlaceId { get; set; }
+        public string ModuleId { get; set; }
 
         public string VideoId { get; set; }
 
         public string ArticleId { get; set; }
 
-        [Required]
-        public string PostId { get; set; }
+        public string ManifestPath {get;set;}
 
         [Required]
-        public string TopicId { get; set; }        
+        public string PostId { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -40,9 +39,6 @@ namespace alumni.Domain
         public int Views { get; set; }    
         
         [Required]
-        public bool Public { get; set; }
-        
-        [Required]
         public string LessonType { get; set; }
 
         [ForeignKey(nameof(VideoId))]
@@ -54,10 +50,7 @@ namespace alumni.Domain
         [ForeignKey(nameof(PostId))]
         public Post Post { get; set; }
 
-        [ForeignKey(nameof(TeacherPlaceId))]
-        public TeacherPlace TeacherPlace { get; set; }
-
-        [ForeignKey(nameof(TopicId))]
-        public Topic Topic { get; set; }
+        [ForeignKey(nameof(ModuleId))]
+        public Module Module { get; set; }
     }
 }

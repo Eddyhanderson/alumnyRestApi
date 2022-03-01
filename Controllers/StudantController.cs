@@ -38,22 +38,31 @@ namespace alumni.Controllers
             this.uriService = uriService;
         }
 
+        [AllowAnonymous]
         [HttpPost(ApiRoutes.StudantRoutes.Create)]
-        public async Task<IActionResult> Create([FromBody] StudantRequest studantRequest)
+        public async Task<IActionResult> Create([FromBody] CreateStudantRequest request)
         {
-            if (studantRequest == null) return BadRequest();
+            if (request is null) return BadRequest();
 
             string route = ApiRoutes.StudantRoutes.Get;
 
-            var studant = mapper.Map<Studant>(studantRequest);
+            var studant = mapper.Map<Studant>(request);
 
-            var creationResult = await studantService.CreateAsync(studant);
+            var user = mapper.Map<User>(request);
+
+            var auth = new AuthData
+            {
+                Password = request.Password,
+                Role = Constants.UserContansts.StudantRole
+            };
+
+            var creationResult = await studantService.CreateAsync(studant, user, auth);
 
             if (!creationResult.Succeded) return Conflict();
 
             var parameter = new Dictionary<string, string>
                     {
-                        {"{Id}",creationResult.Data.Id }
+                        {"{id}",creationResult.Data.Id }
                     };
 
             var creationResponse = new CreationResponse<StudantResponse>
@@ -115,5 +124,19 @@ namespace alumni.Controllers
             return Ok(response);
         }
 
+        
+        [HttpGet(ApiRoutes.StudantRoutes.GetResponsable)]
+        public async Task<IActionResult> GetStudantResponsable([FromRoute] string id)
+        {
+            var studant = await studantService.GetStudantResponsableAsync(id);
+
+            if (studant is null) return NoContent();
+
+            var studantResponse = mapper.Map<StudantResponse>(studant);
+
+            var response = new Response<StudantResponse>(studantResponse);
+
+            return Ok(response);
+        }
     }
 }

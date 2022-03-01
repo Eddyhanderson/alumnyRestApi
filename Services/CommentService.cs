@@ -94,7 +94,7 @@ namespace alumni.Services
             return dataContext.Comments.AnyAsync(c => c.Id == id);
         } 
 
-        public async Task<PageResult<Comment>> GetCommentsAsync(CommentQuery query, PaginationFilter filter = null)
+        /*public async Task<PageResult<Comment>> GetCommentsAsync(CommentQuery query, PaginationFilter filter = null)
         {
             var normalState = Constants.SituationsObjects.NormalSituation;
 
@@ -110,7 +110,7 @@ namespace alumni.Services
             }                            
 
             return await GetPaginationAsync(comments, filter);
-        }
+        }*/
 
         private async Task<PageResult<Comment>> GetPaginationAsync(IQueryable<Comment> comments, PaginationFilter filter)
         {

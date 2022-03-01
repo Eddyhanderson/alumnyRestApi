@@ -9,6 +9,10 @@ namespace alumni.Contracts.V1.Requests.Queries
     {
         public bool Draft { get; set; }
 
-        public string TeacherId { get; set; }
+        public string ModuleId { get; set; }
+
+        public string FormationId { get; set; }
+
+        public string SchoolId { get; set; }
     }
 }

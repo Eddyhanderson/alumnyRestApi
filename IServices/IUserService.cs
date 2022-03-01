@@ -8,7 +8,7 @@ namespace alumni.IServices
 {
     public interface IUserService
     {
-        Task<AuthResult> RegistrationAsync(RegistrationDomain registration);
+        Task<AuthResult> RegistrationAsync(User user,  AuthData auth);
 
         Task<AuthResult> LoginAsync(LoginDomain login);
 
@@ -23,8 +23,6 @@ namespace alumni.IServices
         Task<bool> UpdateAsync(string id, User user);        
 
         Task<IEnumerable<User>> GetUsersAsync(PaginationFilter filter = null);
-
-        Task<Teacher> GetTeacherAsync(string userId);
 
         Task<Studant> GetStudantAsync(string userId);
     }

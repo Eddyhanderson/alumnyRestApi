@@ -48,7 +48,7 @@ namespace alumni.Controllers
 
             Dictionary<string, string> parameter = new Dictionary<string, string>
             {
-                { "{Id}", createResult.Data.Id },
+                { "{id}", createResult.Data.Id },
             };
 
             var creationResponse = new CreationResponse<ArticleResponse>

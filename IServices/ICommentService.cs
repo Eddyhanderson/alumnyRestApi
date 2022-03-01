@@ -11,7 +11,7 @@ namespace alumni.IServices
     {
         Task<CreationResult<Comment>> CreateAsync(Comment article);
 
-        Task<PageResult<Comment>> GetCommentsAsync(CommentQuery query, PaginationFilter filter = null);
+       // Task<PageResult<Comment>> GetCommentsAsync(CommentQuery query, PaginationFilter filter = null);
 
         Task<Comment> GetCommentAsync(string id);
     }

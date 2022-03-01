@@ -11,13 +11,15 @@ namespace Alumni.Helpers
         {
             public const string StudantRole = "Studant";
 
-            public const string TeacherRole = "Teacher";
+            public const string SchoolRole = "School";
 
-            public const string AdminRole = "Admin";
+            public const string AdminRole = "Manager";
 
             public const string IdClaimType = "Id";
 
             public const string GrantPassword = "Password";
+
+            public const string RandomPassword = "chingunde1997";
 
             public const string GrantRefresh = "RefreshToken";
 
@@ -33,7 +35,9 @@ namespace Alumni.Helpers
 
             public const string PendingSituation = "Pending";
 
-            public const string Unsubscribed= "Unsubscribed";
+            public const string Unsubscribed = "Unsubscribed";
+
+            public const string History = "History";
         }
 
         public static class RegexExpressions
@@ -69,7 +73,7 @@ namespace Alumni.Helpers
 
             public const string DisciplineBadge = "Discipline";
         }
-        
+
         public static class PathFiles
         {
             public const string MediaPath = "Media";
@@ -92,14 +96,14 @@ namespace Alumni.Helpers
 
             public const string FailModelPersist = "The system cannot save this model";
         }
-    }     
+    }
 
     public enum LessonTypes
     {
         Video,
         Article
     }
-  
+
     public enum PostsTypes
     {
         Question,
@@ -126,5 +130,22 @@ namespace Alumni.Helpers
     {
         Registered,
         UnRegistered
+    }
+
+    public enum FormationEventStates
+    {
+        Waiting,
+        Started,
+        Fhinished
+    }
+
+    public enum FormationRequestStates
+    {
+        WatingResponsableAction,
+        Aproved, 
+        Payed,
+        Confirmed,
+        Rejected,
+
     }
 }

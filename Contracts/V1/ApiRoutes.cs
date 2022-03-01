@@ -13,19 +13,6 @@ namespace alumni.Contracts.V1
         public const string Version = "v1";
         public const string Base = Root + "/" + Version;
 
-        public static class AcademyRoutes
-        {
-            public const string AcademyRoute = Base + "/academy";
-
-            public const string Create = AcademyRoute + "/create";
-
-            public const string GetAll = AcademyRoute + "/getAll";
-
-            public const string Get = AcademyRoute + "/get";
-
-            public const string GetByName = AcademyRoute + "/getByName/{name}";
-        }
-
         public static class AnswerRoutes
         {
             public const string AnswerRoute = Base + "/answer";
@@ -34,7 +21,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = AnswerRoute + "/getAll";
 
-            public const string Get = AnswerRoute + "/get/{Id}";
+            public const string Get = AnswerRoute + "/get/{id}";
         }
 
         public static class ArticleRoutes
@@ -45,18 +32,9 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = ArticleRoute + "/getAll";
 
-            public const string Get = ArticleRoute + "/get/{Id}";
+            public const string Get = ArticleRoute + "/get/{id}";
 
             public const string Update = ArticleRoute + "/update/{articleId}";
-        }
-
-        public static class BadgeInformationRoutes
-        {
-            public const string BadgeInformationRoute = Base + "/badgeInformation";
-
-            public const string Create = BadgeInformationRoute + "/create";
-
-            public const string Get = BadgeInformationRoute + "/get/{Id}";
         }
 
         public static class CommentableRoutes
@@ -69,45 +47,51 @@ namespace alumni.Contracts.V1
             public const string CommentRoute = Base + "/comment";
 
             public const string Create = CommentRoute + "/create";
-            
-            public const string Get = CommentRoute + "/get/{Id}";
+
+            public const string Get = CommentRoute + "/get/{id}";
 
             public const string GetAll = CommentRoute + "/getAll";
         }
-
-        public static class CourseRoutes
+        public static class FormationRoutes
         {
-            public const string CourseRoute = Base + "/course";
+            public const string FormationRoute = Base + "/formation";
 
-            public const string Create = CourseRoute + "/create";
+            public const string Create = FormationRoute + "/create";
 
-            public const string GetAll = CourseRoute + "/getAll";
+            public const string Get = FormationRoute + "/get/{id}";
 
-            public const string Get = CourseRoute + "/get";
+            public const string GetAll = FormationRoute + "/getAll";
+
+            public const string GetAllPublished = FormationRoute + "/getAll/published";
+
+            public const string GetAllSubscribed = FormationRoute + "/getAll/subscribed";
         }
 
-        public static class DisciplineRoutes
+        public static class FormationRequestRoutes
         {
-            public const string DisciplineRoute = Base + "/discipline";
+            public const string FormationRequestRoute = Base + "/formationRequest";
 
-            public const string Create = DisciplineRoute + "/create";
+            public const string Create = FormationRequestRoute + "/create";
+            public const string Aprove = FormationRequestRoute + "/aprove/{id}";
+            public const string Pay = FormationRequestRoute + "/pay/{id}";
+            public const string Confirm = FormationRequestRoute + "/confirm/{id}";
+            public const string Get = FormationRequestRoute + "/get/{studantId}/{formationId}";
 
-            public const string GetAll = DisciplineRoute + "/getAll";
+            public const string GetAll = FormationRequestRoute + "/getAll";
 
-            public const string Get = DisciplineRoute + "/get/{Id}";
+            public const string Patch = FormationRequestRoute + "/patch/{id}";
         }
 
-        public static class DisciplineTopicRoutes
+        public static class FormationEventRoutes
         {
-            public const string DisciplineTopicRoute = Base + "/disciplineTopic";
+            public const string FormationEventRoute = Base + "/formationEvent";
 
-            public const string Create = DisciplineTopicRoute + "/create";
+            public const string Create = FormationEventRoute + "/create";
 
-            public const string GetAll = DisciplineTopicRoute + "/getAll";
+            public const string Get = FormationEventRoute + "/get/{id}";
 
-            public const string Get = DisciplineTopicRoute + "/get/{Id}";
+            public const string GetAll = FormationEventRoute + "/getAll";
         }
-
         public static class LessonRoutes
         {
             public const string LessonRoute = Base + "/lesson";
@@ -120,7 +104,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAllByTeacherPlace = LessonRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Get = LessonRoute + "/get/{Id}";
+            public const string Get = LessonRoute + "/get/{id}";
 
             public const string GetByPost = LessonRoute + "/get/post/{postId}";
         }
@@ -134,8 +118,27 @@ namespace alumni.Contracts.V1
             public const string Get = ManagerRoute + "/get/{id}";
 
             public const string GetByUser = ManagerRoute + "/getByUser/{userId}";
-        }
+        }        
+        public static class ModuleRoutes
+        {
+            public const string ModuleRoute = Base + "/module";
 
+            public const string Create = ModuleRoute + "/create";
+
+            public const string Get = ModuleRoute + "/get/{id}";
+
+            public const string GetAll = ModuleRoute + "/getAll";
+        }
+        public static class OrganRoutes
+        {
+            public const string OrganRoute = Base + "/organ";
+
+            public const string Create = OrganRoute + "/create";
+
+            public const string GetAll = OrganRoute + "/getAll";
+
+            public const string Get = OrganRoute + "/get/{id}";
+        }
         public static class PostRoutes
         {
             public const string PostRoute = Base + "/post";
@@ -144,11 +147,10 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = PostRoute + "/getAll";
 
-            public const string Update = PostRoute + "/update/{Id}";
+            public const string Update = PostRoute + "/update/{id}";
 
-            public const string Get = PostRoute + "/get/{Id}";
+            public const string Get = PostRoute + "/get/{id}";
         }
-
         public static class QuestionRoutes
         {
             public const string QuestionRoute = Base + "/question";
@@ -156,40 +158,27 @@ namespace alumni.Contracts.V1
             public const string Create = QuestionRoute + "/create";
 
             public const string GetAll = QuestionRoute + "/getAll";
-            
-            public const string Patch = QuestionRoute + "/patch/{Id}";
+
+            public const string Patch = QuestionRoute + "/patch/{id}";
 
             public const string GetAllByStudant = QuestionRoute + "/getAll/studant/{studantId}";
-            
-            public const string GetAllByTeacherPlace= QuestionRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Update = QuestionRoute + "/update/{Id}";
+            public const string GetAllByTeacherPlace = QuestionRoute + "/getAll/teacherPlace/{teacherPlaceId}";
 
-            public const string Get = QuestionRoute + "/get/{Id}";
+            public const string Update = QuestionRoute + "/update/{id}";
+
+            public const string Get = QuestionRoute + "/get/{id}";
 
             public const string GetByPost = QuestionRoute + "/get/post/{postId}";
-        }
-
-        public static class SchoolCourseRoutes
-        {
-            public const string SchoolCourseRoute = Base + "/schoolCourse";
-
-            public const string Create = SchoolCourseRoute + "/create";
-
-            public const string Get = SchoolCourseRoute + "/get/{schoolId}/{courseId}";
-            
-            public const string GetAll = SchoolCourseRoute + "/getAll";
         }
 
         public static class SchoolRoutes
         {
             public const string SchoolRoute = Base + "/school";
 
+            public const string Get = SchoolRoute + "/get/{id}";
             public const string Create = SchoolRoute + "/create";
-
-            public const string Get = SchoolRoute + "/get/{Id}";            
-
-            public const string GetAll = SchoolRoute + "/getAll";
+            public const string GetByUser = SchoolRoute + "/getByUser/{userId}";
         }
 
         public static class StudantRoutes
@@ -200,9 +189,18 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = StudantRoute + "/getAll";
 
-            public const string Update = StudantRoute + "/update/{Id}";
+            public const string Update = StudantRoute + "/update/{id}";
 
-            public const string Get = StudantRoute + "/get/{Id}";
+            public const string Get = StudantRoute + "/get/{id}";
+
+            public const string GetResponsable = StudantRoute + "/get/responsable/{id}";
+        }
+
+        public static class SubscriptionRoutes
+        {
+            public const string SubscriptionRoute = Base + "/subscription";
+            public const string Get = SubscriptionRoute + "/get/{studantId}/{formationId}";
+
         }
 
         public static class UserRoutes
@@ -223,105 +221,14 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = UserRoute + "/getAll";
         }
-
-        public static class TeacherRoutes
-        {
-            public const string TeacherRoute = Base + "/teacher";
-
-            public const string Create = TeacherRoute + "/create";
-
-            public const string GetAll = TeacherRoute + "/getAll";
-
-            public const string Get = TeacherRoute + "/get/{Id}";
-
-            public const string GetByUser = TeacherRoute + "/getByUser/{userId}";
-        }
-
-        public static class TeacherSchoolsRoutes
-        {
-            public const string TeacherSchoolsRoute = Base + "/teacherSchools";
-
-            public const string Create = TeacherSchoolsRoute + "/create";
-
-            public const string Update = TeacherSchoolsRoute + "/update/{teacherId}/{schoolId}";
-
-            public const string GetAll = TeacherSchoolsRoute + "/getAll";           
-
-            public const string CheckTeacherHasSchool = TeacherSchoolsRoute + "/checkTeacherHasSchool/{teacherId}";
-
-        }
-
-        public static class TeacherPlaceRoutes
-        {
-            public const string TeacherPlaceRoute = Base + "/teacherPlace";
-
-            public const string Create = TeacherPlaceRoute + "/create";
-
-            public const string GetAll = TeacherPlaceRoute + "/getAll";
-
-            public const string Get = TeacherPlaceRoute + "/get/{Id}";
-        }
-
-        public static class TeacherPlaceMaterialRoutes
-        {
-            public const string TeacherPlaceMaterialRoute = Base + "/teacherPlaceMaterial";
-
-            public const string Create = TeacherPlaceMaterialRoute + "/create";
-
-            public const string GetAllByTeacherPlace = TeacherPlaceMaterialRoute + "/getAll/{teacherPlaceId}";
-
-            public const string Get = TeacherPlaceMaterialRoute + "/get/{Id}";
-            
-            public const string GetByPost = TeacherPlaceMaterialRoute + "/get/post/{postId}";
-        }
-
-        public static class TeacherPlaceMessageRoutes
-        {
-            public const string TeacherPlaceMessageRoute = Base + "/teacherPlaceMessage";
-
-            public const string Create = TeacherPlaceMessageRoute + "/create";
-
-            public const string GetAllByTeacherPlace = TeacherPlaceMessageRoute + "/getAll/{teacherPlaceId}";
-
-            public const string Get = TeacherPlaceMessageRoute + "/get/{Id}";
-            
-            public const string GetByPost = TeacherPlaceMessageRoute + "/get/post/{postId}";
-        }
-
-        public static class TeacherPlaceStudantsRoutes
-        {
-            public const string TeacherPlaceStudantsRoute = Base + "/teacherPlaceStudants";
-
-            public const string Create = TeacherPlaceStudantsRoute + "/create";
-
-            public const string Update = TeacherPlaceStudantsRoute + "/update/{teacherPlaceId}/{studantId}";
-
-            public const string Get = TeacherPlaceStudantsRoute + "/get/{teacherPlaceId}/{studantId}";
-
-            public const string GetAllTeacherPlaceByStudant = TeacherPlaceStudantsRoute + "/getAll/teacherPlace/{studantId}";
-
-            public const string GetAllStudantsByTeacherPlace = TeacherPlaceStudantsRoute + "/getAll/studants/{teacherPlaceId}";
-        }
-
-        public static class TopicRoutes
-        {
-            public const string TopicRoute = Base + "/topic";
-
-            public const string Create = TopicRoute + "/create";
-
-            public const string Update = TopicRoute + "/update/{Id}";
-
-            public const string Get = TopicRoute + "/get/{Id}";
-
-            public const string GetAll = TopicRoute + "/getAll";
-        }
-
         public static class ImagesRoutes
         {
             public const string ImageRoute = Base + "/image";
-            
-            public const string UploadLessonProfile = ImageRoute + "/upload/lesson/profile";                        
-            public const string UploadTopicImage = ImageRoute + "/upload/topic";                        
+
+            public const string UploadLessonProfile = ImageRoute + "/upload/lesson/profile";
+            public const string UploadTopicImage = ImageRoute + "/upload/topic";
+
+            public const string UploadModuleImage = ImageRoute + "/upload/module";
         }
 
         public static class VideoRoutes
@@ -334,7 +241,7 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = VideoRoute + "/getAll";
 
-            public const string Get = VideoRoute + "/get/{Id}";
+            public const string Get = VideoRoute + "/get/{id}";
 
             public const string VideoWatch = VideoRoute + "/upload/watch/{connectionId}";
         }

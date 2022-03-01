@@ -78,24 +78,7 @@ namespace alumni.Controllers
 
             return BadRequest();
         }
-
-        [AllowAnonymous]
-        [HttpPost(ApiRoutes.UserRoutes.Registration)]
-        public async Task<IActionResult> Registration([FromBody] RegistrationRequest registrationRequest)
-        {
-            if (registrationRequest == null) return BadRequest();
-
-            var registration = mapper.Map<RegistrationDomain>(registrationRequest);
-
-            var auth = await userService.RegistrationAsync(registration);
-
-            var authResponse = mapper.Map<AuthResultResponse>(auth);
-
-            authResponse.User.Role = registration.Role;
-
-            return Ok(authResponse);
-        }
-
+        
         [HttpGet(ApiRoutes.UserRoutes.Get)]
         public async Task<IActionResult> GetUser([FromRoute] string Id)
         {
@@ -136,19 +119,7 @@ namespace alumni.Controllers
                                                                             searchMode: searchMode);
 
             return Ok(paginationResponse);
-        }
-
-        [HttpGet(ApiRoutes.UserRoutes.GetTeacher)]
-        public async Task<IActionResult> GetTeacher([FromRoute] string Id)
-        {
-            if (Id == null) return BadRequest();
-
-            var teacher = await userService.GetTeacherAsync(Id);
-
-            var teacherResponse = mapper.Map<TeacherResponse>(teacher);
-
-            return Ok(new Response<TeacherResponse>(teacherResponse));
-        }
+        }  
 
         [HttpGet(ApiRoutes.UserRoutes.GetStudant)]
         public async Task<IActionResult> GetStudant([FromRoute] string Id)

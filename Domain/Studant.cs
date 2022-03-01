@@ -16,25 +16,25 @@ namespace alumni.Domain
         public string UserId { get; set; }
 
         [Required]
-        public string StudantCode { get; set; }
-        
-        public string AcademyId { get; set; }
+        public string OrganId { get; set; }
 
         [Required]
-        public string AcademicLevelId { get; set; }
+        public string FirstName { get; set; }
 
-        public string CourseId { get; set; }
+        [Required]
+        public bool Responsable { get; set; }
 
-        [ForeignKey(nameof(AcademyId))]
-        public Academy Academy { get; set; }
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public string StudantCode { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
-        [ForeignKey(nameof(CourseId))]
-        public Course Course { get; set; }
+        [ForeignKey(nameof(OrganId))]
+        public Organ Organ { get; set; }
 
-        [ForeignKey(nameof(AcademicLevelId))]
-        public AcademicLevel AcademicLevel { get; set; }
     }
 }

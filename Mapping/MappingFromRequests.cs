@@ -13,47 +13,71 @@ namespace alumni.Mapping
     {
         public MappingFromRequests()
         {
-            CreateMap<AcademyRequest, Academy>();
+            /*CreateMap<AcademyRequest, Academy>();
 
             CreateMap<AdminRequest, Admin>();
 
-            CreateMap<AnswerRequest, Answer>();
+            CreateMap<AnswerRequest, Answer>();*/
+            CreateMap<CreateFormationRequest, Formation>();
+
+            CreateMap<FormationRequestRequest, FormationRequest>();
+
+            CreateMap<FormationEventRequest, FormationEvent>();
 
             CreateMap<LoginRequest, LoginDomain>();
-
-            CreateMap<RegistrationRequest, RegistrationDomain>();
-
+            /*
+                CreateMap<RegistrationRequest, RegistrationDomain>();
+            */
             CreateMap<PaginationQuery, PaginationFilter>();
 
             CreateMap<ArticleRequest, Article>();
+            /*
+                        CreateMap<BadgeInformationRequest, BadgeInformation>();
 
-            CreateMap<BadgeInformationRequest, BadgeInformation>();
+                        CreateMap<CommentRequest, Comment>();
 
-            CreateMap<CommentRequest, Comment>();
+                        CreateMap<CommentableRequest, Commentable>();
 
-            CreateMap<CommentableRequest, Commentable>();
+                        CreateMap<CourseRequest, Course>();
 
-            CreateMap<CourseRequest, Course>();
+                        CreateMap<DisciplineRequest, Discipline>();
 
-            CreateMap<DisciplineRequest, Discipline>();
-
-            CreateMap<DisciplineTopicRequest, DisciplineTopic>();
+                        CreateMap<DisciplineTopicRequest, DisciplineTopic>();*/
 
             CreateMap<LessonRequest, Lesson>();
 
-            CreateMap<ManagerRequest, Manager>();
+            CreateMap<CreateManagerRequest, Manager>();
+            CreateMap<CreateManagerRequest, User>();
+            CreateMap<CreateModuleRequest, Module>();
 
+            /*
             CreateMap<NotificationRequest, Notification>();
+            */
+            CreateMap<OrganRequest, Organ>();
+
+            /*
 
             CreateMap<PostRequest, Post>();
 
             CreateMap<QuestionRequest, Question>();
 
+            */
+
+            CreateMap<CreateSchoolRequest, School>();
+            CreateMap<CreateSchoolRequest, User>();
+
+            /*
+
             CreateMap<SchoolRequest, School>();
 
             CreateMap<SchoolCoursesRequest, SchoolCourses>();
+            */
+            CreateMap<CreateStudantRequest, Studant>();
+            CreateMap<CreateStudantRequest, User>();
 
-            CreateMap<StudantRequest, Studant>();
+            /*
+
+            CreateMap<SchoolIdentityCreation, SchoolIdentity>();            
 
             CreateMap<TeacherRequest, Teacher>();
 
@@ -70,7 +94,7 @@ namespace alumni.Mapping
             CreateMap<TopicRequest, Topic>();
 
             CreateMap<UserRequest, User>();
-
+            */
             CreateMap<VideoRequest, Video>();
         }
     }

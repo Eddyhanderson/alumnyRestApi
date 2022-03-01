@@ -60,7 +60,12 @@ namespace alumni.Services
         public async Task<PageResult<Module>> GetModulesAsync(PaginationFilter filter = null,
             ModuleQuery query = null)
         {
-            var modules = dataContext.Modules.Include(s => s.Lessons).AsQueryable();
+            var modules = dataContext.Modules
+            .Include(s => s.Lessons).ThenInclude(l => l.Module)
+            .ThenInclude(m=> m.Formation)
+            .ThenInclude(f => f.School)
+            .ThenInclude(s => s.User)            
+            .AsQueryable();
 
             if (query?.FormationId != null)
                 modules = modules.Where(m => m.FormationId == query.FormationId);

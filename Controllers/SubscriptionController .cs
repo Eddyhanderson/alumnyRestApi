@@ -22,7 +22,7 @@ namespace alumni.Controllers
     [ApiController]
     public class SubscriptionController  : ControllerBase
     {
-        private readonly ISubscriptionService serice;
+        private readonly ISubscriptionService service;
 
         private readonly IMapper mapper;
 
@@ -31,7 +31,7 @@ namespace alumni.Controllers
 
         public SubscriptionController (ISubscriptionService studantService, IMapper mapper, IUriService uriService)
         {
-            this.serice = studantService;
+            this.service = studantService;
 
             this.mapper = mapper;
 
@@ -43,13 +43,43 @@ namespace alumni.Controllers
         {
             if (studantId is null || formationId is null) return BadRequest();
 
-            var subscription = await serice.GetAsync(studantId, formationId);
+            var subscription = await service.GetAsync(studantId, formationId);
 
             if (subscription == null) return BadRequest();
 
             var response = new Response<SubscriptionResponse>(mapper.Map<SubscriptionResponse>(subscription));
 
             return Ok(response);
-        }               
+        }      
+
+        [HttpGet(ApiRoutes.SubscriptionRoutes.GetAll)]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationQuery page, [FromQuery] SubscriptionQuery query)
+        {
+            if (query == null) return BadRequest();
+
+            var filter = mapper.Map<PaginationFilter>(page);
+
+            var searchMode = filter.SearchValue != null;
+
+            var pageResult = await service.GetSubscriptionsAsync(filter, query);            
+
+            var pageResponse = new PageResponse<SubscriptionResponse> { 
+                Data = mapper.Map<IEnumerable<Subscription>, IEnumerable<SubscriptionResponse>>(pageResult.Data),
+                TotalElements = pageResult.TotalElements
+            }; 
+
+            if (filter.PageNumber < 1 || filter.PageSize < 1)
+                return Ok(pageResponse);
+
+            var paginationResponse = PaginationHelpers.CreatePaginationResponse(paginationFilter: filter,
+                                    response: pageResponse.Data,
+                                    uriService: uriService,
+                                    path: ApiRoutes.SubscriptionRoutes.GetAll,
+                                    searchMode: searchMode);
+
+            paginationResponse.TotalElements = pageResult.TotalElements;
+
+            return Ok(paginationResponse);
+        }          
     }
 }

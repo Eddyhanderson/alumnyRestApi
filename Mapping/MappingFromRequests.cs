@@ -45,7 +45,7 @@ namespace alumni.Mapping
                         CreateMap<DisciplineTopicRequest, DisciplineTopic>();*/
 
             CreateMap<LessonRequest, Lesson>();
-
+            CreateMap<CertificateRequest, Certificate>();
             CreateMap<CreateManagerRequest, Manager>();
             CreateMap<CreateManagerRequest, User>();
             CreateMap<CreateModuleRequest, Module>();

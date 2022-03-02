@@ -136,7 +136,18 @@ namespace Alumni.Helpers
     {
         Waiting,
         Started,
-        Fhinished
+        Finished,
+        Closed
+    }
+
+    public enum SubscriptionStates
+    {
+        Learning,
+        Assessment,
+
+        Closed,
+
+        Rejected
     }
 
     public enum FormationRequestStates
@@ -146,6 +157,5 @@ namespace Alumni.Helpers
         Payed,
         Confirmed,
         Rejected,
-
     }
 }

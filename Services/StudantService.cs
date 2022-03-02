@@ -108,9 +108,6 @@ namespace alumni.Services
 
             var studant = await dataContext.Studants
                     .Include(s => s.User)
-                    /*.Include(s => s.AcademicLevel)*/
-                    /*.Include(s => s.Academy)*/
-                    /*.Include(s => s.Course)*/
                     .SingleOrDefaultAsync(s => s.Id == id);
 
             return studant;

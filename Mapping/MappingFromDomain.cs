@@ -18,6 +18,8 @@ namespace alumni.Mapping
 
             CreateMap<AuthConfigTokens, AuthConfigTokensResponse>();
 
+            CreateMap<Certificate, CertificateResponse>();
+
             CreateMap<Formation, FormationCreationResponse>();
 
             CreateMap<FormationEvent, FormationEventResponse>();
@@ -39,10 +41,10 @@ namespace alumni.Mapping
             .ForMember(frr => frr.FormationSchoolName, m => m.MapFrom(fr => fr.Formation.School.Name))
             .ForMember(frr => frr.FormationSchoolAcronym, m => m.MapFrom(fr => fr.Formation.School.Acronym))
             .ForMember(frr => frr.FormationTheme, m => m.MapFrom(fr => fr.Formation.Theme))
-            .ForMember(frr => frr.FormationId, m => m.MapFrom(fr => fr.Formation.Id));            
+            .ForMember(frr => frr.FormationId, m => m.MapFrom(fr => fr.Formation.Id));
 
             CreateMap<Module, ModuleResponse>();
- 
+
             CreateMap<Lesson, LessonResponse>()
             .ForMember(lr => lr.SchoolName, m => m.MapFrom(l => l.Module.Formation.School.Name))
             .ForMember(lr => lr.SchoolAcronymName, m => m.MapFrom(l => l.Module.Formation.School.Acronym))
@@ -52,23 +54,27 @@ namespace alumni.Mapping
             .ForMember(lr => lr.SchoolPicture, m => m.MapFrom(l => l.Module.Formation.School.User.Picture))
             .ForMember(lr => lr.Duration, m => m.MapFrom(l =>
                     l.Video.Duration.Substring(0, 2) == "00" ? l.Video.Duration.Substring(3) : l.Video.Duration));
-          
+
             CreateMap<Manager, ManagerResponse>();
 
-           
+
             CreateMap<Organ, OrganResponse>();
             /*
             CreateMap<Post, PostResponse>()
                 .ForMember(pr => pr.UserPictureProfilePath, m => m.MapFrom(p => p.User.PictureProfilePath));
+            */
+            CreateMap<Subscription, SubscriptionResponse>()
+                .ForMember(sr => sr.FormationEnd, m => m.MapFrom(s => s.FormationEvent.End))
+                .ForMember(sr => sr.FormationStart, m => m.MapFrom(s => s.FormationEvent.Start))
+                .ForMember(sr => sr.FormationId, m => m.MapFrom(s => s.FormationEvent.FormationId))
+                .ForMember(sr => sr.FormationTheme, m => m.MapFrom(s => s.FormationEvent.Formation.Theme))
+                .ForMember(sr => sr.FormationSchoolName, m => m.MapFrom(s => s.FormationEvent.Formation.School.Name))
+                .ForMember(sr => sr.FormationSchoolPicture, m => m.MapFrom(s => s.FormationEvent.Formation.School.User.Picture))
+                .ForMember(sr => sr.StudantName, m => m.MapFrom(s => $"{s.Studant.FirstName} {s.Studant.LastName}"))
+                .ForMember(sr => sr.StudantPicture, m => m.MapFrom(s => s.Studant.User.Picture))
+                .ForMember(sr => sr.StudantId, m => m.MapFrom(s => s.Studant.Id));
 
-            CreateMap<Question, QuestionResponse>()
-                .ForMember(qr => qr.LessonBackgroundPhotoPath, m => m.MapFrom(q => q.Lesson.BackgroundPhotoPath))
-                .ForMember(qr => qr.LessonSequence, m => m.MapFrom(q => q.Lesson.Sequence))
-                .ForMember(qr => qr.LessonTitle, m => m.MapFrom(q => q.Lesson.Title))
-                .ForMember(qr => qr.LessonType, m => m.MapFrom(q => q.Lesson.LessonType))
-                .ForMember(qr => qr.StudantPhoto, m => m.MapFrom(q => q.Studant.User.PictureProfilePath))
-                .ForMember(qr => qr.CreateAt, m => m.MapFrom(q => q.Post.CreateAt))
-                .ForMember(qr => qr.CommentableId, m => m.MapFrom(q => q.Post.CommentableId));                
+            /*
 
             CreateMap<RegisterInCourseRequest, RegisterInCourseRequestResponse>();
 
@@ -82,8 +88,6 @@ namespace alumni.Mapping
             CreateMap<Studant, StudantResponse>()
             .ForMember(sr => sr.OrganName, m => m.MapFrom(s => s.Organ.Name))
             .ForMember(sr => sr.Picture, m => m.MapFrom(s => s.User.Picture));
-
-            CreateMap<Subscription, SubscriptionResponse>();
 
             CreateMap<User, UserResponse>();
             CreateMap<Video, VideoResponse>();

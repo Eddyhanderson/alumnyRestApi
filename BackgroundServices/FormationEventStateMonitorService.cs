@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace alumni.BackgroundServices
 {
-    public class FormationEventStateMonitorService : BackgroundService
+    public class FormationEventStateMonitorService : BackgroundService, IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<FormationEventStateMonitorService> _logger;
@@ -42,20 +42,33 @@ namespace alumni.BackgroundServices
             using (var scope = _serviceProvider.CreateScope())
             {
                 var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-                
-                dataContext.Database.ExecuteSqlRaw($"UPDATE [Alumni].[dbo].[FormationEvents] SET [Alumni].[dbo].[FormationEvents].[State] = 'Started' WHERE ([Start] < GETDATE()) AND [State] = 'Waiting' AND [Situation] = 'Normal'");             
+
+                dataContext.Database.ExecuteSqlRaw($"UPDATE [Alumni].[dbo].[FormationEvents] SET [Alumni].[dbo].[FormationEvents].[State] = 'Started' WHERE ([Start] < GETDATE()) AND [State] = 'Waiting' AND [Situation] = 'Normal'");
             }
 
         }
 
-        private void SetFinishedState(object state)
+        private async void SetFinishedState(object state)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
-                dataContext.Database.ExecuteSqlRaw($"UPDATE [Alumni].[dbo].[FormationEvents] SET [Alumni].[dbo].[FormationEvents].[State] = 'Finished' WHERE ([End] < GETDATE()) AND [State] = 'Waiting' AND [Situation] = 'Normal'");             
+                var events = dataContext.FormationEvents.Where(fe => fe.End < DateTime.Now && fe.State == "Started" && fe.Situation == "Normal");
+
+                await events.ForEachAsync(fe =>
+                {
+                    dataContext.Database.ExecuteSqlRaw($"UPDATE [Alumni].[dbo].[Subscriptions] SET [Alumni].[dbo].[Subscriptions].[State] = 'Assessment' WHERE [FormationEventId] = '{fe.Id}' AND [Situation] = 'Normal'");
+                });
+
+
+                dataContext.Database.ExecuteSqlRaw($"UPDATE [Alumni].[dbo].[FormationEvents] SET [Alumni].[dbo].[FormationEvents].[State] = 'Finished' WHERE ([End] < GETDATE()) AND [State] = 'Started' AND [Situation] = 'Normal'");
             }
+        }
+
+        public override void Dispose()
+        {
+            _timer?.Dispose();            
         }
     }
 }

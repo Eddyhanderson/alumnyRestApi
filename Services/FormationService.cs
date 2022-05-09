@@ -111,6 +111,8 @@ namespace alumni.Services
                                  School = fe.Formation.School,
                                  Theme = fe.Formation.Theme
                              };
+            
+            await formations.ToListAsync();
 
             return await GetPaginationAsync(formations, filter);
         }

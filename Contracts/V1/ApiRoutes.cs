@@ -240,6 +240,8 @@ namespace alumni.Contracts.V1
             public const string UploadTopicImage = ImageRoute + "/upload/topic";
 
             public const string UploadModuleImage = ImageRoute + "/upload/module";
+
+            public const string UploadFormationImage = ImageRoute + "/upload/formation";
         }
 
         public static class VideoRoutes

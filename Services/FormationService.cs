@@ -34,7 +34,8 @@ namespace alumni.Services
                 Theme = formation.Theme,
                 Situation = Constants.SituationsObjects.NormalSituation,
                 DateSituation = DateTime.Now,
-                DateCreation = DateTime.Now
+                DateCreation = DateTime.Now,
+                Picture = formation.Picture
             };
 
             try

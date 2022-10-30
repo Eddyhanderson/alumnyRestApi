@@ -135,6 +135,41 @@ namespace alumni.Controllers
             }
         }
 
+        [HttpPost(ApiRoutes.ImagesRoutes.UploadFormationImage)]
+        public async Task<IActionResult> UploadFormationImage(IFormFile file)
+        {
+            if (file == null) return BadRequest();
+
+            var root = "formation";
+
+            var name = Path.GetRandomFileName();
+
+            var ext = Path.GetFileName(file.FileName).Split('.').Last();
+
+            var pathDir = Path.Combine(env.WebRootPath, DEFAULT_DIR, root, name);
+
+            var fileName = $"{name}.{ext}";
+
+            try
+            {
+                Directory.CreateDirectory(pathDir);
+
+                using (var stream = new FileStream(Path.Combine(pathDir, fileName), FileMode.Create, FileAccess.Write))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var result = new Response<string>(Path.Combine(DEFAULT_DIR, root, name, fileName));
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+
+                return BadRequest();
+            }
+        }
 
     }
 }

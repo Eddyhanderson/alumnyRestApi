@@ -414,7 +414,7 @@ namespace alumni.Services
 
                     using (var process = new Process { StartInfo = info })
                     {
-                        logger.LogInformation("Video convertion background starting");
+                        logger.LogInformation("Video convertion background started");
 
                         try
                         {
@@ -452,7 +452,7 @@ namespace alumni.Services
                                 }
                                 catch
                                 {
-                                    //TODO: Handler some convertion problem
+                                    //TODO: Handle some convertion problem
                                 }
 
                             }

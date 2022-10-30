@@ -57,6 +57,8 @@ namespace alumni.Installers
 
             services.AddScoped<ICommentService, CommentService>();
 
+            services.AddScoped<ICertificateService, CertificateService>();
+
             services.AddScoped<IFormationService, FormationService>();
 
             services.AddScoped<IFormationEventService, FormationEventService>();

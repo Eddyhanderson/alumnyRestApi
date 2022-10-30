@@ -3,21 +3,45 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220301135033_change_subscriptiondb")]
+    partial class change_subscriptiondb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Certificate", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssessmentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AssessmentScore")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathCertificate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Certificate");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -270,47 +294,6 @@ namespace alumni.Migrations
                     b.HasKey("RefreshToken");
 
                     b.ToTable("AuthConfigTokens");
-                });
-
-            modelBuilder.Entity("alumni.Domain.Certificate", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AssessmentMethod")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AssessmentScore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AssignmentSchool")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EmitedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MaxScore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Observation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PathCertificate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QualitativeResult")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubscriptionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubscriptionId");
-
-                    b.ToTable("Certificates");
                 });
 
             modelBuilder.Entity("alumni.Domain.Comment", b =>
@@ -761,6 +744,9 @@ namespace alumni.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CertificateId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FormationEventId")
                         .HasColumnType("nvarchar(450)");
 
@@ -774,6 +760,8 @@ namespace alumni.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
 
                     b.HasIndex("FormationEventId");
 
@@ -979,15 +967,6 @@ namespace alumni.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("alumni.Domain.Certificate", b =>
-                {
-                    b.HasOne("alumni.Domain.Subscription", "Subscription")
-                        .WithMany()
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("alumni.Domain.Comment", b =>
                 {
                     b.HasOne("alumni.Domain.Commentable", "Commentable")
@@ -1146,6 +1125,10 @@ namespace alumni.Migrations
 
             modelBuilder.Entity("alumni.Domain.Subscription", b =>
                 {
+                    b.HasOne("Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId");
+
                     b.HasOne("alumni.Domain.FormationEvent", "FormationEvent")
                         .WithMany("Subscriptions")
                         .HasForeignKey("FormationEventId");

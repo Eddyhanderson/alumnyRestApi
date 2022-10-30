@@ -52,6 +52,15 @@ namespace alumni.Contracts.V1
 
             public const string GetAll = CommentRoute + "/getAll";
         }
+        
+        public static class CertificateRoutes{
+            public const string CertificateRoute = Base + "/certificate";
+
+            public const string Create = CertificateRoute + "/create";
+
+            public const string GetBySubscription = CertificateRoute + "/getBySubscription/{subscriptionId}";
+        }
+        
         public static class FormationRoutes
         {
             public const string FormationRoute = Base + "/formation";
@@ -65,6 +74,8 @@ namespace alumni.Contracts.V1
             public const string GetAllPublished = FormationRoute + "/getAll/published";
 
             public const string GetAllSubscribed = FormationRoute + "/getAll/subscribed";
+
+            public const string GetAllFinished = FormationRoute + "/getAll/finished";
         }
 
         public static class FormationRequestRoutes
@@ -200,7 +211,7 @@ namespace alumni.Contracts.V1
         {
             public const string SubscriptionRoute = Base + "/subscription";
             public const string Get = SubscriptionRoute + "/get/{studantId}/{formationId}";
-
+            public const string GetAll = SubscriptionRoute + "/getAll";
         }
 
         public static class UserRoutes
@@ -229,6 +240,8 @@ namespace alumni.Contracts.V1
             public const string UploadTopicImage = ImageRoute + "/upload/topic";
 
             public const string UploadModuleImage = ImageRoute + "/upload/module";
+
+            public const string UploadFormationImage = ImageRoute + "/upload/formation";
         }
 
         public static class VideoRoutes

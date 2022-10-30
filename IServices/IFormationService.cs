@@ -13,6 +13,8 @@ namespace alumni.IServices
         Task<PageResult<Formation>> GetPublishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null);
 
         Task<PageResult<Formation>> GetSubscribedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null);
+
+        Task<PageResult<Formation>> GetFinishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null);
         Task<Formation> GetFormationAsync(string id);
     }
 }

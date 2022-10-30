@@ -61,9 +61,6 @@ namespace alumni.Services
                 Errors = new[] { Constants.ServerMessages.LoginAuthFail }
             };
 
-            //var userLoginInfo = new UserLoginInfo(login.LoginProvider, login.LoginKey, login.LoginProvider);
-
-            //await userManager.AddLoginAsync(user, userLoginInfo);
 
             return await CreateTokenAsync(user);
         }

@@ -12,11 +12,14 @@ namespace alumni.Domain
 
         public string Situation { get; set; }
 
+        public string State { get; set; }
+
         [ForeignKey(nameof(StudantId))]
         public Studant Studant { get; set; }
 
         [ForeignKey(nameof(FormationEventId))]
         public FormationEvent FormationEvent { get; set; }
+
     }
 
 }

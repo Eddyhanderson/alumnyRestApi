@@ -34,7 +34,8 @@ namespace alumni.Services
                 Theme = formation.Theme,
                 Situation = Constants.SituationsObjects.NormalSituation,
                 DateSituation = DateTime.Now,
-                DateCreation = DateTime.Now
+                DateCreation = DateTime.Now,
+                Picture = formation.Picture
             };
 
             try
@@ -80,7 +81,7 @@ namespace alumni.Services
             .Include(f => f.FormationEvents).ThenInclude(fe => fe.Subscriptions)
             .SingleOrDefaultAsync(f => f.Id == id);
 
-            formation.FormationEvents = formation.FormationEvents.Where(f => f.State == FormationEventStates.Waiting.ToString("g")
+            formation.FormationEvents = formation.FormationEvents.Where(f => f.State != FormationEventStates.Closed.ToString("g")
             && f.Situation == Constants.SituationsObjects.NormalSituation).ToList();
 
             return formation;
@@ -88,7 +89,7 @@ namespace alumni.Services
 
         public async Task<PageResult<Formation>> GetPublishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null)
         {
-           
+
             var formations = from fe in dataContext.FormationEvents
             .Include(fe => fe.Subscriptions)
             .Include(fe => fe.Formation).ThenInclude(f => f.School).ThenInclude(s => s.User)
@@ -110,7 +111,9 @@ namespace alumni.Services
                                  Published = fe.Formation.Published,
                                  School = fe.Formation.School,
                                  Theme = fe.Formation.Theme
-                             };    
+                             };
+            
+            await formations.ToListAsync();
 
             return await GetPaginationAsync(formations, filter);
         }
@@ -144,7 +147,53 @@ namespace alumni.Services
                                  Theme = s.FormationEvent.Formation.Theme
                              };
 
-             await formations.ToListAsync();
+            await formations.ToListAsync();
+
+            return await GetPaginationAsync(formations, filter);
+        }
+
+        public async Task<PageResult<Formation>> GetFinishedFormationsAsync(PaginationFilter filter = null, FormationQuery query = null)
+        {
+            if (query.SchoolId is null) return null;
+
+            var formations =
+
+            from fe in dataContext.FormationEvents
+            .Include(fe => fe.Formation)
+            .ThenInclude(m => m.Modules)
+            .ThenInclude(m => m.Lessons)
+            .Include(f => f.Formation.School).ThenInclude(s => s.User)
+            .Where(fek => fek.Formation.SchoolId == query.SchoolId
+            && fek.Situation == Constants.SituationsObjects.NormalSituation
+            && fek.State == FormationEventStates.Finished.ToString())
+            select new Formation
+            {
+                Category = fe.Formation.Category,
+                DateCreation = fe.Formation.DateCreation,
+                DateSituation = fe.Formation.DateSituation,
+                Description = fe.Formation.Description,
+                Situation = fe.Formation.Situation,
+                Id = fe.Formation.Id,
+                Modules = fe.Formation.Modules,
+                FormationEvents = new List<FormationEvent> { fe },
+                Picture = fe.Formation.Picture,
+                Price = fe.Formation.Price,
+                Published = fe.Formation.Published,
+                School = fe.Formation.School,
+                Theme = fe.Formation.Theme
+            };
+
+
+            await formations
+            .ForEachAsync(fe =>
+            {
+                fe.FormationEvents.ForEach(fe => {
+                    fe.Subscriptions = dataContext.Subscriptions
+                    .Where(s => s.FormationEventId == fe.Id 
+                    && s.Situation == Constants.SituationsObjects.NormalSituation
+                    && s.State == SubscriptionStates.Assessment.ToString()).ToList();
+                }); 
+            });
 
             return await GetPaginationAsync(formations, filter);
         }

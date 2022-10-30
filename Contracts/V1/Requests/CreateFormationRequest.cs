@@ -15,6 +15,8 @@ namespace alumni.Contracts.V1.Requests
         [Required]
         public int Category { get; set; }
 
+        public string Picture { get; set; }
+
         [Required]
         public string Description { get; set; }
 

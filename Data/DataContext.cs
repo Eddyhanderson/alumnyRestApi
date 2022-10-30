@@ -28,6 +28,8 @@ namespace alumni.Data
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Commentable> Commentables { get; set; }
+
+        public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Formation> Formations { get; set; }
         public DbSet<FormationEvent> FormationEvents { get; set; }
         public DbSet<FormationRequest> FormationRequests { get; set; }

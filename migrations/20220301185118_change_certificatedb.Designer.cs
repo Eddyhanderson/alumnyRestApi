@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alumni.Data;
 
 namespace alumni.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220301185118_change_certificatedb")]
+    partial class change_certificatedb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,15 +285,8 @@ namespace alumni.Migrations
                     b.Property<string>("AssessmentScore")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AssignmentSchool")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EmitedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("MaxScore")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observation")
                         .HasColumnType("nvarchar(max)");
@@ -299,18 +294,9 @@ namespace alumni.Migrations
                     b.Property<string>("PathCertificate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QualitativeResult")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubscriptionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("SubscriptionId");
-
-                    b.ToTable("Certificates");
+                    b.ToTable("Certificate");
                 });
 
             modelBuilder.Entity("alumni.Domain.Comment", b =>
@@ -761,6 +747,9 @@ namespace alumni.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CertificateId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FormationEventId")
                         .HasColumnType("nvarchar(450)");
 
@@ -774,6 +763,8 @@ namespace alumni.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
 
                     b.HasIndex("FormationEventId");
 
@@ -979,15 +970,6 @@ namespace alumni.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("alumni.Domain.Certificate", b =>
-                {
-                    b.HasOne("alumni.Domain.Subscription", "Subscription")
-                        .WithMany()
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("alumni.Domain.Comment", b =>
                 {
                     b.HasOne("alumni.Domain.Commentable", "Commentable")
@@ -1146,6 +1128,10 @@ namespace alumni.Migrations
 
             modelBuilder.Entity("alumni.Domain.Subscription", b =>
                 {
+                    b.HasOne("alumni.Domain.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId");
+
                     b.HasOne("alumni.Domain.FormationEvent", "FormationEvent")
                         .WithMany("Subscriptions")
                         .HasForeignKey("FormationEventId");

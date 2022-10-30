@@ -29,6 +29,7 @@ namespace alumni.Services
                 Id = Guid.NewGuid().ToString(),
                 FormationEventId = subscription.FormationEventId,
                 StudantId = subscription.StudantId,
+                State = SubscriptionStates.Learning.ToString(),
                 Situation = Constants.SituationsObjects.NormalSituation
             };
 
@@ -66,6 +67,28 @@ namespace alumni.Services
             return subscription;
         }
 
+
+        public async Task<PageResult<Subscription>> GetSubscriptionsAsync(PaginationFilter filter, SubscriptionQuery query)
+        {
+            var subscription = dataContext.Subscriptions
+            .Include(s => s.FormationEvent)
+                .ThenInclude(fe => fe.Formation)
+                    .ThenInclude(f => f.School)
+                        .ThenInclude(s => s.User)
+            .Include(s => s.Studant).ThenInclude(s => s.User)
+            .Where(s => s.Situation == Constants.SituationsObjects.NormalSituation);
+
+            if (query?.State != null)
+                subscription = subscription.Where(s => query.State.Contains(s.State));
+
+            if (query?.StudantId != null)
+                subscription = subscription.Where(s => s.StudantId == query.StudantId);
+            else if (query?.SchoolId != null)
+                subscription = subscription.Where(s => s.FormationEvent.Formation.SchoolId == query.SchoolId);
+
+            return await GetPaginationAsync(subscription, filter);
+        }
+
         private CreationResult<Subscription> FailCreation()
         {
             return new CreationResult<Subscription>
@@ -74,6 +97,37 @@ namespace alumni.Services
                 Errors = new string[] { Constants.ModelMessages.FailModelCreated }
             };
         }
+
+        private async Task<PageResult<Subscription>> GetPaginationAsync(IQueryable<Subscription> subscription, PaginationFilter filter)
+        {
+            var totalElement = await subscription.CountAsync();
+
+            var searchMode = filter.SearchValue != null;
+
+            if (searchMode)
+            {
+                var sv = filter.SearchValue;
+
+                subscription = subscription
+                    .Where(s => s.Studant.FirstName.Contains(sv) || s.Studant.LastName.Contains(sv));
+            }
+
+            if (filter.PageNumber >= 0 && filter.PageSize > 0)
+            {
+                var skip = (filter.PageNumber - 1) * filter.PageSize;
+
+                subscription = subscription.Skip(skip).Take(filter.PageSize);
+            }
+
+            var page = new PageResult<Subscription>
+            {
+                Data = subscription,
+                TotalElements = totalElement
+            };
+
+            return page;
+        }
+
 
 
     }
